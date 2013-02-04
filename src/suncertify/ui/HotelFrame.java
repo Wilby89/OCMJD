@@ -13,10 +13,18 @@ public class HotelFrame extends JFrame{
     
     public HotelFrame() {
         setTitle("URLyBird Hotel User Interface");
-        setSize(600,600);
+        setSize(1000,800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //pack();
         //setVisible(true);
+        hotelTable = loadTable();
+        hotelTable.setVisible(true);
+        add(hotelTable);
+    }
+    
+    private JTable loadTable() {
+        JTable table = new HotelTable();
+        return table;
     }
 }
