@@ -18,7 +18,8 @@ public class LoadDatabase {
     
     public static void main(String [ ] args) {
         try {
-            loadDataBase();
+            //loadDataBase();
+            loadDatabase2();
         } catch (Exception e) {}
     }
     
@@ -50,5 +51,38 @@ public class LoadDatabase {
         fileObject.close();
         
     }
+    
+    public static void loadDatabase2() throws FileNotFoundException, IOException {  
+          
+        RandomAccessFile raf = new RandomAccessFile(new File("db-1x3.db"),"r");  
+        int Cookie = raf.readInt();  
+        int fields = raf.readShort();  
+        System.out.println("Cookie:"+Cookie);  
+        System.out.println("Num of Fields:"+fields);  
+        for(int i=0; i<fields;i++)  
+        {  
+            System.out.println("---- Column Description ----");  
+            int nameSize = raf.readUnsignedByte();  
+            System.out.println("Desc Size:"+nameSize);  
+            byte[] buff=new byte[nameSize];  
+            raf.read(buff);  
+            System.out.println(new String(buff,"US-ASCII"));  
+            System.out.println("Value Size:"+raf.readUnsignedByte());  
+            System.out.println("---- Column Ends ----");  
+        } 
+        System.out.println("++++ Records ++++");  
+        try{  
+            while(true){  
+                byte valid = raf.readByte();  
+                System.out.print(valid+" - ");  
+                byte buff[] = new byte[159];  
+                raf.read(buff);  
+                String s =  new String (buff,"US-ASCII");  
+                System.out.println(s);  
+                  
+            }  
+        }catch (EOFException exc){}  
+        raf.close();  
+    }  
     
 }
