@@ -1,6 +1,7 @@
 package suncertify.ui;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 
 /**
@@ -9,7 +10,8 @@ import javax.swing.JTable;
  */
 public class HotelFrame extends JFrame{
     
-    private JTable hotelTable;
+    private JPanel topPanel; //top panel will contain search bar items
+    private JPanel bottomPanel; //bottom panel will contain JTable loaded with records from the database
     
     public HotelFrame() {
         setTitle("URLyBird Hotel User Interface");
@@ -18,9 +20,22 @@ public class HotelFrame extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //pack();
         //setVisible(true);
-        hotelTable = loadTable();
+        topPanel = loadSearchPanel();
+        bottomPanel = loadTablePanel();        
+    }
+    
+    private JPanel loadSearchPanel() {
+        JPanel searchPanel = new JPanel();
+        searchPanel.setVisible(true);
+        return searchPanel;
+    }
+    
+    private JPanel loadTablePanel() {
+        JPanel tablePanel = new JPanel();
+        JTable hotelTable = loadTable();
         hotelTable.setVisible(true);
-        add(hotelTable);
+        tablePanel.add(hotelTable);
+        return tablePanel;
     }
     
     private JTable loadTable() {
