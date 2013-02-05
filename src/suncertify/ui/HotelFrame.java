@@ -21,7 +21,9 @@ public class HotelFrame extends JFrame{
         //pack();
         //setVisible(true);
         topPanel = loadSearchPanel();
-        bottomPanel = loadTablePanel();        
+        bottomPanel = loadTablePanel();
+        add(topPanel);
+        add(bottomPanel);
     }
     
     private JPanel loadSearchPanel() {
