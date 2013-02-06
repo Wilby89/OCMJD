@@ -18,8 +18,8 @@ public class LoadDatabase {
     
     public static void main(String [ ] args) {
         try {
-            //loadDataBase();
-            loadDatabase2();
+            loadDataBase();
+            //loadDatabase2();
         } catch (Exception e) {}
     }
     
@@ -27,26 +27,28 @@ public class LoadDatabase {
     public static void loadDataBase() throws FileNotFoundException, IOException {
         
         fileObject = new RandomAccessFile(new File("db-1x3.db"),"r");
-        magicCookie = fileObject.readInt();
+        fileObject.readInt(); //magicCookie Value
         numOfFields = fileObject.readShort();
+        System.out.println("Num of Fields: "+numOfFields); 
         for(int i = 0; i < numOfFields; i++) {
             byte nameSize = fileObject.readByte();
             System.out.println("Name Size: "+nameSize);
-            for (int j = 0; j < nameSize; j++) {
-                byte[] fieldName = new byte[nameSize];
-                fileObject.read(fieldName);
-                System.out.println(new String(fieldName));                
-            }
+            byte[] fieldName = new byte[nameSize];
+            fileObject.read(fieldName);
+            System.out.println(new String(fieldName));
+            fileObject.readByte(); //fieldLength, not needed to display
+            
         }
+        System.out.println("===========Records============");
         try {
             while (true) {
-                byte first = fileObject.readByte();
-                byte[] fieldName = new byte[159];
+                fileObject.readByte();
+                byte[] fieldName = new byte[159]; //length of db field names, 64+64+4+1+8+10+8 = 159
                 fileObject.read(fieldName);
                 System.out.println(new String(fieldName)); 
             }
         } catch (EOFException e) {
-            System.out.println("Something wrong");
+            System.out.println("End of file");
         }
         fileObject.close();
         
