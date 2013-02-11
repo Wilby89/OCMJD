@@ -33,8 +33,9 @@ public class HotelFrame extends JFrame{
         topPanel = loadSearchPanel();
         bottomPanel = loadTablePanel();
         add(topPanel);
+        topPanel.setVisible(true);
         add(bottomPanel);
-        //setVisible(true);
+        bottomPanel.setVisible(true);
     }
     
     private JPanel loadSearchPanel() {
@@ -51,7 +52,6 @@ public class HotelFrame extends JFrame{
         searchPanel.add(locationField);
         searchButton = new JButton("Search");
         searchPanel.add(searchButton);
-        //searchPanel.setVisible(true);
         return searchPanel;
     }
     
