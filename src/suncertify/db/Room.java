@@ -1,7 +1,6 @@
 package suncertify.db;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 
 /**
  *
@@ -29,7 +28,7 @@ public class Room implements Serializable {
     private short maxOccupancy;
     private char smoking;
     private String price;
-    private SimpleDateFormat date;
+    private String date;
     private int custId;
 
     /**
