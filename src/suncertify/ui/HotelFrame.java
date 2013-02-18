@@ -1,5 +1,6 @@
 package suncertify.ui;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,23 +33,20 @@ public class HotelFrame extends JFrame{
         //pack();
         topPanel = loadSearchPanel();
         bottomPanel = loadTablePanel();
-        add(topPanel);
-        topPanel.setVisible(true);
-        add(bottomPanel);
-        bottomPanel.setVisible(true);
+        add(topPanel, BorderLayout.NORTH);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
     
     private JPanel loadSearchPanel() {
         JPanel searchPanel = new JPanel();
-        int align = FlowLayout.CENTER;
-        searchPanel.setLayout(new FlowLayout(align));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         nameLabel = new JLabel("Name");
         searchPanel.add(nameLabel);
-        nameField = new JTextField();
+        nameField = new JTextField(30);
         searchPanel.add(nameField);
         locationLabel = new JLabel("Location");
         searchPanel.add(locationLabel);
-        locationField = new JTextField();
+        locationField = new JTextField(30);
         searchPanel.add(locationField);
         searchButton = new JButton("Search");
         searchPanel.add(searchButton);
@@ -58,7 +56,6 @@ public class HotelFrame extends JFrame{
     private JPanel loadTablePanel() {
         JPanel tablePanel = new JPanel();
         JTable hotelTable = loadTable();
-        //hotelTable.setVisible(true);
         tablePanel.add(hotelTable);
         return tablePanel;
     }

@@ -104,14 +104,14 @@ public class Room implements Serializable {
     /**
      * @return the date
      */
-    public SimpleDateFormat getDate() {
+    public String getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(SimpleDateFormat date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
