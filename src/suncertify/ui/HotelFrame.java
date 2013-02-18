@@ -24,6 +24,7 @@ public class HotelFrame extends JFrame{
     private JTextField nameField;
     private JTextField locationField;
     private JButton searchButton;
+    private JButton loadButton;
     
     public HotelFrame() {
         setTitle("URLyBird Hotel User Interface");
@@ -34,7 +35,7 @@ public class HotelFrame extends JFrame{
         topPanel = loadSearchPanel();
         bottomPanel = loadTablePanel();
         add(topPanel, BorderLayout.NORTH);
-        add(bottomPanel, BorderLayout.SOUTH);
+        add(bottomPanel, BorderLayout.CENTER);
     }
     
     private JPanel loadSearchPanel() {
@@ -50,6 +51,8 @@ public class HotelFrame extends JFrame{
         searchPanel.add(locationField);
         searchButton = new JButton("Search");
         searchPanel.add(searchButton);
+        loadButton = new JButton("Load Table");
+        searchPanel.add(loadButton);
         return searchPanel;
     }
     
@@ -61,7 +64,7 @@ public class HotelFrame extends JFrame{
     }
     
     private JTable loadTable() {
-        JTable table = new HotelTable();
+        JTable table = new JTable();
         return table;
     }
 }
