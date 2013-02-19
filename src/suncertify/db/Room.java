@@ -7,22 +7,32 @@ import java.io.Serializable;
  * @author William Brosnan
  */
 public class Room implements Serializable {
-    
+
+    /**
+     * A version number to support serialization and de-serialization.
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Maximum length of database field names taken from spec instructions.html
+     */
+    static final private int HOTEL_NAME_LENGTH = 64;
+    static final private int CITY_LENGTH = 64;
+    static final private int MAXIMUM_OCCUPANCY_LENGTH = 4;
+    static final private int SMOKING_LENGTH = 1;
+    static final private int PRICE_LENGTH = 8;
+    static final private int DATE_AVAILABLE_LENGTH = 10;
+    static final private int CUSTOMER_ID_LENGTH = 8;
     
-    //Maximum length of database field names taken from spec
-    static final int HOTEL_NAME_LENGTH = 64;
-    static final int CITY_LENGTH = 64;
-    static final int MAXIMUM_OCCUPANCY_LENGTH = 4;
-    static final int SMOKING_LENGTH = 1;
-    static final int PRICE_LENGTH = 8;
-    static final int DATE_AVAILABLE_LENGTH = 10;
-    static final int CUSTOMER_ID_LENGTH = 8;
+    /**
+     * This constant is used as the maximum size of a full record.
+     */
+    static final private int MAX_RECORD_LENGTH = HOTEL_NAME_LENGTH + CITY_LENGTH + MAXIMUM_OCCUPANCY_LENGTH + SMOKING_LENGTH
+            + PRICE_LENGTH + DATE_AVAILABLE_LENGTH + CUSTOMER_ID_LENGTH;
     
-    static final int MAX_RECORD_LENGTH = HOTEL_NAME_LENGTH + CITY_LENGTH + MAXIMUM_OCCUPANCY_LENGTH + SMOKING_LENGTH +
-            PRICE_LENGTH + DATE_AVAILABLE_LENGTH + CUSTOMER_ID_LENGTH;
-    
-    
+    /**
+     * Java variables used as a representation of the data contained in the database file.
+     */
     private String hotelName;
     private String city;
     private short maxOccupancy;

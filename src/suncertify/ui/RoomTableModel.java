@@ -1,7 +1,6 @@
 package suncertify.ui;
 
 import java.util.ArrayList;
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 /**
  *
