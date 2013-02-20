@@ -24,8 +24,9 @@ public class RoomTableModel extends AbstractTableModel {
     public void addRoomRecord(Room room) {
         this.room = room;
         
-        String tempRoom = {room.getHotelName(), room.getCity(), room.getMaxOccupancy(), Boolean.toString(room.getSmoking())
-                , room.getPrice(), room.getDate(), Integer.toString(room.getCustId())};
+        String[] tempRoom = {room.getHotelName(), room.getCity(), room.getMaxOccupancy(), Boolean.toString(room.getSmoking())
+        , room.getPrice(), room.getDate(), Integer.toString(room.getCustId())};
+        this.roomRecords.add(tempRoom);
     }
     
     public Object getValueAt(int row, int column) {

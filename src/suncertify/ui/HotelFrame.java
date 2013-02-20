@@ -57,9 +57,9 @@ public class HotelFrame extends JFrame{
     }
     
     private JPanel loadTablePanel() {
-        JPanel tablePanel = new JPanel();
+        JPanel tablePanel = new JPanel(new BorderLayout());
         JTable hotelTable = loadTable();
-        tablePanel.add(hotelTable);
+        tablePanel.add(new JScrollPane(hotelTable));
         return tablePanel;
     }
     
