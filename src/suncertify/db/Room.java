@@ -35,8 +35,8 @@ public class Room implements Serializable {
      */
     private String hotelName;
     private String city;
-    private short maxOccupancy;
-    private char smoking;
+    private String maxOccupancy;
+    private boolean smoking;
     private String price;
     private String date;
     private int custId;
@@ -72,28 +72,28 @@ public class Room implements Serializable {
     /**
      * @return the maxOccupancy
      */
-    public short getMaxOccupancy() {
+    public String getMaxOccupancy() {
         return maxOccupancy;
     }
 
     /**
      * @param maxOccupancy the maxOccupancy to set
      */
-    public void setMaxOccupancy(short maxOccupancy) {
+    public void setMaxOccupancy(String maxOccupancy) {
         this.maxOccupancy = maxOccupancy;
     }
 
     /**
      * @return the smoking
      */
-    public char getSmoking() {
+    public boolean getSmoking() {
         return smoking;
     }
 
     /**
      * @param smoking the smoking to set
      */
-    public void setSmoking(char smoking) {
+    public void setSmoking(boolean smoking) {
         this.smoking = smoking;
     }
 

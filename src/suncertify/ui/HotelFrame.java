@@ -64,7 +64,7 @@ public class HotelFrame extends JFrame{
     }
     
     private JTable loadTable() {
-        JTable table = new JTable();
+        JTable table = new JTable(new RoomTableModel());
         return table;
     }
 }
