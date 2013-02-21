@@ -40,6 +40,26 @@ public class Room implements Serializable {
     private String price;
     private String date;
     private int custId;
+    
+    /**
+     * Empty constructor for the room object
+     */
+    public void Room() {}
+    
+    /**
+     * Constructor for the room Object
+     */
+    public void Room(String hotelName, String city, String maxOccupancy
+            , boolean smoking, String price, String date, int custId ) {
+        
+        this.hotelName = hotelName;
+        this.city = city;
+        this.maxOccupancy = maxOccupancy;
+        this.smoking = smoking;
+        this.price = price;
+        this.date = date;
+        this.custId = custId;
+    }
 
     /**
      * @return the hotelName
