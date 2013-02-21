@@ -2,6 +2,10 @@ package suncertify.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import suncertify.db.LoadDatabase;
+import suncertify.db.Room;
 
 /**
  *
@@ -25,8 +31,9 @@ public class HotelFrame extends JFrame{
     private JTextField locationField;
     private JButton searchButton;
     private JButton loadButton;
+    private ArrayList roomList;
     
-    public HotelFrame() {
+    public HotelFrame() throws FileNotFoundException, IOException {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
         setLocationRelativeTo(null);
@@ -56,15 +63,25 @@ public class HotelFrame extends JFrame{
         return searchPanel;
     }
     
-    private JPanel loadTablePanel() {
+    private JPanel loadTablePanel() throws FileNotFoundException, IOException {
         JPanel tablePanel = new JPanel(new BorderLayout());
         JTable hotelTable = loadTable();
         tablePanel.add(new JScrollPane(hotelTable));
         return tablePanel;
     }
     
-    private JTable loadTable() {
-        JTable table = new JTable(new RoomTableModel());
+    private JTable loadTable() throws FileNotFoundException, IOException {
+        RoomTableModel tableModel = new RoomTableModel();
+        JTable table = new JTable(tableModel);
+        roomList = LoadDatabase.loadDataBase();
+        Iterator it = roomList.iterator();
+        for (Object room: roomList) {
+            System.out.println(room.toString());
+            tableModel.addRoomRecord((String) room);
+        }
+        //while (it.hasNext()) {
+        //    tableModel.addRoomRecord((Room)it.next());
+        //}
         return table;
     }
 }

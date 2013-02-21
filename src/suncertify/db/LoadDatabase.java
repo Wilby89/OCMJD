@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,8 +25,9 @@ public class LoadDatabase {
     }
     
     
-    public static void loadDataBase() throws FileNotFoundException, IOException {
+    public static ArrayList loadDataBase() throws FileNotFoundException, IOException {
         
+        ArrayList recordList = new ArrayList();
         fileObject = new RandomAccessFile(new File("db-1x3.db"),"r");
         fileObject.readInt(); //magicCookie Value
         numOfFields = fileObject.readShort();
@@ -44,12 +46,15 @@ public class LoadDatabase {
                 fileObject.readByte();
                 byte[] fieldName = new byte[159]; //length of db field names, 64+64+4+1+8+10+8 = 159
                 fileObject.read(fieldName);
-                System.out.println(new String(fieldName, "US-ASCII")); //The character encoding is 8 bit US ASCII
+                String tempRecord = new String(fieldName, "US-ASCII");
+                System.out.println(tempRecord); //The character encoding is 8 bit US ASCII
+                recordList.add(tempRecord);
             }
         } catch (EOFException e) {
             System.out.println("End of file");
         }
         fileObject.close();
+        return recordList;
         
     }    
 }
