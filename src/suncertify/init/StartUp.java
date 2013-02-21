@@ -9,7 +9,7 @@ import suncertify.ui.HotelFrame;
 
 /**
  *
- * @author ewibros
+ * @author William Brosnan
  */
 public class StartUp {
     
