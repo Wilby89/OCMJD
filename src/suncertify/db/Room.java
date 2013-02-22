@@ -31,14 +31,32 @@ public class Room implements Serializable {
             + PRICE_LENGTH + DATE_AVAILABLE_LENGTH + CUSTOMER_ID_LENGTH;
     
     /**
-     * Java variables used as a representation of the data contained in the database file.
+     * Variable used as a representation of the data contained in the database file.
      */
     private String hotelName;
+    /**
+     * Variable used as a representation of the data contained in the database file.
+     */
     private String city;
+    /**
+     * Variable used as a representation of the data contained in the database file.
+     */
     private String maxOccupancy;
+    /**
+     * Variable used as a representation of the data contained in the database file.
+     */
     private boolean smoking;
+    /**
+     * Variable used as a representation of the data contained in the database file.
+     */
     private String price;
+    /**
+     * Variable used as a representation of the data contained in the database file.
+     */
     private String date;
+    /**
+     * Variable used as a representation of the data contained in the database file.
+     */
     private int custId;
     
     /**

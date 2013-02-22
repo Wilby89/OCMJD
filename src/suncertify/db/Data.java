@@ -7,11 +7,16 @@ package suncertify.db;
 public class Data implements DBMain {
     
     /**
-     * Constants to signify whether a record is valid in the database or if it has been deleted.
+     * Constant to signify whether a record is valid in the database or if it has been deleted.
      * Chose to use constants since the values of the constant shouldn't change.
      * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
     private final static int DELETED = 0;
+    /**
+     * Constant to signify whether a record is valid in the database or if it has been deleted.
+     * Chose to use constants since the values of the constant shouldn't change.
+     * Could have read these values from the properties file but would have been outside scope/unnecessary work
+     */
     private final static int PRESENT = 1;
 
     @Override
