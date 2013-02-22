@@ -22,14 +22,37 @@ import suncertify.db.Room;
  */
 public class HotelFrame extends JFrame{
     
-    private JPanel topPanel; //top panel will contain search bar items
-    private JPanel bottomPanel; //bottom panel will contain JTable loaded with records from the database
-    private JScrollPane scrollPane; //Scroller for JTable records
+    /**
+     * This JPanel will contain the search bar items and the JButtons   
+     */
+    private JPanel topPanel; 
+    /**
+     * This JPanel will contain JTable loaded with records from the database
+     */
+    private JPanel bottomPanel;
+    /*
+     * JLabel for hotel name search term
+     */
     private JLabel nameLabel;
+    /*
+     * JLabel for location search term
+     */
     private JLabel locationLabel;
+    /*
+     * JTextField to enter the hotel name search term
+     */
     private JTextField nameField;
+    /*
+     * JTextField to enter the location search term
+     */
     private JTextField locationField;
+    /*
+     * JButton to start search based on input in previous JTextFields
+     */
     private JButton searchButton;
+    /*
+     * JButton to load all records in JTable
+     */
     private JButton loadButton;
     private ArrayList roomList;
     
@@ -74,11 +97,11 @@ public class HotelFrame extends JFrame{
         RoomTableModel tableModel = new RoomTableModel();
         JTable table = new JTable(tableModel);
         roomList = LoadDatabase.loadDataBase();
-        Iterator it = roomList.iterator();
-        for (Object room: roomList) {
-            System.out.println(room.toString());
-            tableModel.addRoomRecord((String) room);
-        }
+        //Iterator it = roomList.iterator();
+        //for (Object room: roomList) {
+        //    System.out.println(room.toString());
+        //    tableModel.addRoomRecord((String) room);
+        //}
         //while (it.hasNext()) {
         //    tableModel.addRoomRecord((Room)it.next());
         //}

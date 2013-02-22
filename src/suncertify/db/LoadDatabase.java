@@ -20,7 +20,6 @@ public class LoadDatabase {
     public static void main(String [ ] args) {
         try {
             loadDataBase();
-            //loadDatabase2();
         } catch (Exception e) {}
     }
     
@@ -44,11 +43,20 @@ public class LoadDatabase {
         try {
             while (true) {
                 fileObject.readByte();
-                byte[] fieldName = new byte[159]; //length of db field names, 64+64+4+1+8+10+8 = 159
+                byte[] fieldName = new byte[Room.MAX_RECORD_LENGTH];
                 fileObject.read(fieldName);
                 String tempRecord = new String(fieldName, "US-ASCII");
                 System.out.println(tempRecord); //The character encoding is 8 bit US ASCII
-                recordList.add(tempRecord);
+                String tempName = tempRecord.substring(0,Room.HOTEL_NAME_LENGTH);
+                String tempLocation = tempRecord.substring(Room.HOTEL_NAME_LENGTH,Room.CITY_LENGTH);
+                String tempMax = tempRecord.substring(Room.CITY_LENGTH,Room.MAXIMUM_OCCUPANCY_LENGTH);
+                Boolean tempSmoke = Boolean.parseBoolean(tempRecord.substring(Room.MAXIMUM_OCCUPANCY_LENGTH, Room.SMOKING_LENGTH));
+                String tempPrice = tempRecord.substring(Room.SMOKING_LENGTH, Room.PRICE_LENGTH);
+                String tempDate = tempRecord.substring(Room.PRICE_LENGTH, Room.DATE_AVAILABLE_LENGTH);
+                int tempCust = Integer.parseInt(tempRecord.substring(Room.DATE_AVAILABLE_LENGTH, Room.CUSTOMER_ID_LENGTH));
+                Room newRoom = new Room(tempName, tempLocation, tempMax, tempSmoke
+                        , tempPrice, tempDate, tempCust);
+                recordList.add(newRoom);
             }
         } catch (EOFException e) {
             System.out.println("End of file");

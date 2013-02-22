@@ -16,18 +16,19 @@ public class Room implements Serializable {
     /**
      * Maximum length of database field names taken from spec instructions.html
      */
-    static final private int HOTEL_NAME_LENGTH = 64;
-    static final private int CITY_LENGTH = 64;
-    static final private int MAXIMUM_OCCUPANCY_LENGTH = 4;
-    static final private int SMOKING_LENGTH = 1;
-    static final private int PRICE_LENGTH = 8;
-    static final private int DATE_AVAILABLE_LENGTH = 10;
-    static final private int CUSTOMER_ID_LENGTH = 8;
+    static final int HOTEL_NAME_LENGTH = 64;
+    static final int CITY_LENGTH = 64;
+    static final int MAXIMUM_OCCUPANCY_LENGTH = 4;
+    static final int SMOKING_LENGTH = 1;
+    static final int PRICE_LENGTH = 8;
+    static final int DATE_AVAILABLE_LENGTH = 10;
+    static final int CUSTOMER_ID_LENGTH = 8;
     
     /**
      * This constant is used as the maximum size of a full record.
+     * It is given default access so all other classes in the package can see the variable
      */
-    static final private int MAX_RECORD_LENGTH = HOTEL_NAME_LENGTH + CITY_LENGTH + MAXIMUM_OCCUPANCY_LENGTH + SMOKING_LENGTH
+    static final int MAX_RECORD_LENGTH = HOTEL_NAME_LENGTH + CITY_LENGTH + MAXIMUM_OCCUPANCY_LENGTH + SMOKING_LENGTH
             + PRICE_LENGTH + DATE_AVAILABLE_LENGTH + CUSTOMER_ID_LENGTH;
     
     /**
@@ -62,13 +63,13 @@ public class Room implements Serializable {
     /**
      * Empty constructor for the room object
      */
-    public void Room() {}
+    public  Room() {}
     
     /**
      * Constructor for the room Object
      */
-    public void Room(String hotelName, String city, String maxOccupancy
-            , boolean smoking, String price, String date, int custId ) {
+    public Room(String hotelName, String city, String maxOccupancy
+            , boolean smoking, String price, String date, int custId) {
         
         this.hotelName = hotelName;
         this.city = city;
