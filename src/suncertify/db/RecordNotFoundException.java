@@ -13,7 +13,7 @@ class RecordNotFoundException extends DatabaseException {
      * This is the default constructor which is passed no parameters, used to throw an instance of
      * this exception, e.g. throw new RecordNotFoundException();
      */
-    public RecordNotFoundException() {}
+    public RecordNotFoundException() { }
     
     /**
      * This constructor is passed in an exception message which is passed up to DatabaseException

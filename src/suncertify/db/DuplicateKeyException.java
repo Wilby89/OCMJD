@@ -13,7 +13,7 @@ class DuplicateKeyException extends DatabaseException {
      * This is the default constructor which is passed no parameters, used to throw an instance of
      * this exception, e.g. throw new DuplicateKeyException();
      */
-    public DuplicateKeyException() {}
+    public DuplicateKeyException() { }
     
     /**
      * This constructor is passed in an exception message which is passed up to DatabaseException

@@ -3,6 +3,8 @@ package suncertify.db;
 /**
  *
  * @author William Brosnan
+ * This is the Exception class used when an exception is caught when failing to find a record.
+ * It is extended by both DuplicateKeyException and RecordNotFoundException
  */
 class DatabaseException extends Exception {
     /**
@@ -11,7 +13,7 @@ class DatabaseException extends Exception {
      * This Exception won't be thrown by me directly but will be called through the Exception classes 
      * which extend this exception, e.g. RecordNotFoundException and DuplicateKeyException
      */
-    public DatabaseException () {}
+    public DatabaseException() { }
     
     /**
      * This Exception won't be thrown by me directly but will be called through the Exception classes 
@@ -19,9 +21,8 @@ class DatabaseException extends Exception {
      * The super call will then call the Exception constructor extended by this class
      * @param message 
      */
-    public DatabaseException (String message) {
+    public DatabaseException(final String message) {
         //call Exception class constructor
         super(message);
     }
-    
 }
