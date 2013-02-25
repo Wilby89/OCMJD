@@ -3,6 +3,7 @@ package suncertify.db;
 /**
  * 
  * @author William Brosnan
+ * 
  * This class implements the interface set out in the exam in the instructions.html page.
  * The interface will not be touched or edited by me, any additional methods I need can be added as part of
  * a facade pattern.
@@ -14,13 +15,13 @@ public class Data implements DBMain {
      * I chose to use constants since the values of the constant shouldn't change.
      * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
-    private final static int DELETED = 0;
+    private final static byte DELETED = 1;
     /**
      * Constant to signify whether a record is valid in the database or if it has been deleted.
      * I chose to use constants since the values of the constant shouldn't change.
      * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
-    private final static int PRESENT = 1;
+    private final static byte PRESENT = 0;
 
     @Override
     public String[] read(int recNo) throws RecordNotFoundException {
