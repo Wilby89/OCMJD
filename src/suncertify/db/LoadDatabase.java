@@ -27,7 +27,7 @@ public class LoadDatabase {
     }
     
     
-    public static ArrayList loadDataBase() throws FileNotFoundException, IOException {
+    public static ArrayList<Room> loadDataBase() throws FileNotFoundException, IOException {
         
         ArrayList recordList = new ArrayList();
         fileObject = new RandomAccessFile(new File("db-1x3.db"),"r");
@@ -53,17 +53,37 @@ public class LoadDatabase {
                 fileObject.read(fieldName);
                 String tempRecord = new String(fieldName, ENCODING);
                 System.out.println(tempRecord); //The character encoding is 8 bit US ASCII
-                String tempName = tempRecord.substring(0,Room.HOTEL_NAME_LENGTH+1);
+                String tempName = tempRecord.substring(0,Room.HOTEL_NAME_LENGTH);
                 System.out.println(tempName);
-                String tempLocation = tempRecord.substring(Room.HOTEL_NAME_LENGTH,Room.CITY_LENGTH+1);
+                String tempLocation = tempRecord.substring(Room.HOTEL_NAME_LENGTH,Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
                 System.out.println(tempLocation);
-                String tempMax = tempRecord.substring(Room.CITY_LENGTH,Room.MAXIMUM_OCCUPANCY_LENGTH);
-                Boolean tempSmoke = Boolean.parseBoolean(tempRecord.substring(Room.MAXIMUM_OCCUPANCY_LENGTH, Room.SMOKING_LENGTH));
-                String tempPrice = tempRecord.substring(Room.SMOKING_LENGTH, Room.PRICE_LENGTH);
-                String tempDate = tempRecord.substring(Room.PRICE_LENGTH, Room.DATE_AVAILABLE_LENGTH);
-                int tempCust = Integer.parseInt(tempRecord.substring(Room.DATE_AVAILABLE_LENGTH, Room.CUSTOMER_ID_LENGTH));
+                String tempMax = tempRecord.substring(Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH 
+                        ,Room.MAXIMUM_OCCUPANCY_LENGTH+Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
+                System.out.println(tempMax);
+                String tempSmoke = tempRecord.substring(
+                        Room.MAXIMUM_OCCUPANCY_LENGTH+Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH
+                        , Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH+Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
+                System.out.println(tempSmoke);
+                String tempPrice = tempRecord.substring(
+                        Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH+Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH
+                        , Room.PRICE_LENGTH+Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH
+                        +Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
+                System.out.println(tempPrice);
+                String tempDate = tempRecord.substring(Room.PRICE_LENGTH+Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH
+                        +Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH, Room.DATE_AVAILABLE_LENGTH
+                        +Room.PRICE_LENGTH+Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH
+                        +Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
+                System.out.println(tempDate);
+                String tempCust = tempRecord.substring(Room.DATE_AVAILABLE_LENGTH
+                        +Room.PRICE_LENGTH+Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH
+                        +Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH, Room.CUSTOMER_ID_LENGTH
+                        +Room.DATE_AVAILABLE_LENGTH
+                        +Room.PRICE_LENGTH+Room.SMOKING_LENGTH+Room.MAXIMUM_OCCUPANCY_LENGTH
+                        +Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
+                System.out.println(tempCust);
+                int custInt = 1;//Integer.parseInt(tempCust);
                 Room newRoom = new Room(tempName, tempLocation, tempMax, tempSmoke
-                        , tempPrice, tempDate, tempCust);
+                        , tempPrice, tempDate, custInt);
                 recordList.add(newRoom);
             }
         } catch (EOFException e) {

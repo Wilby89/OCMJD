@@ -46,7 +46,7 @@ public class Room implements Serializable {
     /**
      * Variable used as a representation of the data contained in the database file.
      */
-    private boolean smoking;
+    private String smoking;
     /**
      * Variable used as a representation of the data contained in the database file.
      */
@@ -69,7 +69,7 @@ public class Room implements Serializable {
      * Constructor for the room Object
      */
     public Room(String hotelName, String city, String maxOccupancy
-            , boolean smoking, String price, String date, int custId) {
+            , String smoking, String price, String date, int custId) {
         
         this.hotelName = hotelName;
         this.city = city;
@@ -125,14 +125,14 @@ public class Room implements Serializable {
     /**
      * @return the smoking
      */
-    public boolean getSmoking() {
+    public String getSmoking() {
         return smoking;
     }
 
     /**
      * @param smoking the smoking to set
      */
-    public void setSmoking(boolean smoking) {
+    public void setSmoking(String smoking) {
         this.smoking = smoking;
     }
 

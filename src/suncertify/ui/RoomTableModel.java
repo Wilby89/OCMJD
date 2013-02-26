@@ -48,9 +48,9 @@ public class RoomTableModel extends AbstractTableModel {
      * @param custId 
      */
     public void addRoomRecord(String hotelName, String city, String maxOccupancy
-            , boolean smoking, String price, String date, int custId) {
+            , String smoking, String price, String date, int custId) {
         
-        String[] tempRoom = {hotelName, city, maxOccupancy, Boolean.toString(smoking)
+        String[] tempRoom = {hotelName, city, maxOccupancy, smoking
         , price, date, Integer.toString(custId)};
         
         this.roomRecords.add(tempRoom);
@@ -68,6 +68,12 @@ public class RoomTableModel extends AbstractTableModel {
         String[] rowValues = this.roomRecords.get(row);
         //Return the object from the specified column 
         return rowValues[column];
+    }
+    
+    @Override
+    public void setValueAt(Object obj, int row, int column) {
+        Object[] rowValues = this.roomRecords.get(row);
+        rowValues[column] = obj; 
     }
     
     /**

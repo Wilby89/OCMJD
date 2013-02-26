@@ -5,10 +5,13 @@ import java.awt.FlowLayout;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +25,10 @@ import suncertify.db.Room;
  */
 public class HotelFrame extends JFrame{
     
+    /*
+     * Adding a logger instance for logging and debugging purposes.
+     */
+    private Logger logger = Logger.getLogger("suncertify.ui.HotelFrame");   
     /**
      * This JPanel will contain the search bar items and the JButtons   
      */
@@ -54,18 +61,32 @@ public class HotelFrame extends JFrame{
      * JButton to load all records in JTable
      */
     private JButton loadButton;
-    private ArrayList roomList;
+    /**
+     * ArrayList holding the records for each room
+     */
+    private ArrayList<Room> roomList;
+    /**
+     * JMenuBar to hold the file menu to quit and the help menu
+     */
+    JMenuBar menuBar = new JMenuBar();
     
     public HotelFrame() throws FileNotFoundException, IOException {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //pack();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem quitMenuItem = new JMenuItem("Quit");
+        fileMenu.add(quitMenuItem);
+        JMenu helpMenu = new JMenu("Help");
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+        this.setJMenuBar(menuBar);
         topPanel = loadSearchPanel();
         bottomPanel = loadTablePanel();
         add(topPanel, BorderLayout.NORTH);
         add(bottomPanel, BorderLayout.CENTER);
+        //pack();
     }
     
     private JPanel loadSearchPanel() {
@@ -97,14 +118,9 @@ public class HotelFrame extends JFrame{
         RoomTableModel tableModel = new RoomTableModel();
         JTable table = new JTable(tableModel);
         roomList = LoadDatabase.loadDataBase();
-        //Iterator it = roomList.iterator();
-        //for (Object room: roomList) {
-        //    System.out.println(room.toString());
-        //    tableModel.addRoomRecord((String) room);
-        //}
-        //while (it.hasNext()) {
-        //    tableModel.addRoomRecord((Room)it.next());
-        //}
+        for (Room room: roomList) {
+            tableModel.addRoomRecord(room);
+        }
         return table;
     }
 }
