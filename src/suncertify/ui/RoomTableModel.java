@@ -70,6 +70,13 @@ public class RoomTableModel extends AbstractTableModel {
         return rowValues[column];
     }
     
+    /**
+     * Overriding setValueAt method from AbstractTablemodel
+     * Sets the value at specified row and column
+     * @param obj
+     * @param row
+     * @param column 
+     */
     @Override
     public void setValueAt(Object obj, int row, int column) {
         Object[] rowValues = this.roomRecords.get(row);

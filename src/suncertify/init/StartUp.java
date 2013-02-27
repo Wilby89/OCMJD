@@ -17,9 +17,9 @@ import suncertify.ui.HotelFrame;
 public class StartUp {
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
-       JFrame configFrame = new ConfigurationFrame();
-       //JFrame hotelFrame = new HotelFrame();
-       configFrame.setVisible(true);
+       //JFrame configFrame = new ConfigurationFrame();
+       JFrame hotelFrame = new HotelFrame();
+       hotelFrame.setVisible(true);
     }
     
 }

@@ -31,19 +31,19 @@ public class ConfigurationFrame extends JFrame {
         configPanel = new JPanel();
         dbLabel = new JLabel("Enter database location");
         configPanel.add(dbLabel);
-        dbField = new JTextField();
+        dbField = new JTextField(30);
         configPanel.add(dbField);
-        JButton dbButton = new JButton();
+        JButton dbButton = new JButton("Choose File");
         configPanel.add(dbButton);
         //JFileChooser dbFileChooser = new JFileChooser();
         //configPanel.add(dbFileChooser);
         JLabel portLabel = new JLabel("Enter an RMI port");
         configPanel.add(portLabel);
-        JTextField portField = new JTextField();
+        JTextField portField = new JTextField(10);
         configPanel.add(portField);
         JLabel hostLabel = new JLabel("Enter an RMI hostname");
         configPanel.add(hostLabel);
-        JTextField hostField = new JTextField();
+        JTextField hostField = new JTextField(20);
         configPanel.add(hostField);
         
         return configPanel;
