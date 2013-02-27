@@ -61,6 +61,5 @@ public class Data implements DBMain {
     @Override
     public boolean isLocked(int recNo) throws RecordNotFoundException {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
+    }    
 }
