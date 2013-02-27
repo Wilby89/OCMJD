@@ -177,4 +177,17 @@ public class Room implements Serializable {
     public void setCustId(int custId) {
         this.custId = custId;
     }
+    
+    public String toString() {
+        String roomString =
+                this.hotelName +
+                this.city +
+                this.maxOccupancy +
+                this.smoking +
+                this.price +
+                this.date +
+                this.custId;
+        
+        return roomString;
+    }
 }
