@@ -77,6 +77,7 @@ public class HotelFrame extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
+        quitMenuItem.addActionListener(new QuitApplication());
         fileMenu.add(quitMenuItem);
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(fileMenu);
