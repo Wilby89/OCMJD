@@ -28,7 +28,7 @@ public class HotelFrame extends JFrame{
     /*
      * Adding a logger instance for logging and debugging purposes.
      */
-    private Logger logger = Logger.getLogger("suncertify.ui.HotelFrame");   
+    private Logger logger = Logger.getLogger("suncertify.ui");   
     /**
      * This JPanel will contain the search bar items and the JButtons   
      */
