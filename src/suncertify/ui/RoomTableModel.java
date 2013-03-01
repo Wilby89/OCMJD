@@ -18,7 +18,7 @@ public class RoomTableModel extends AbstractTableModel {
      * String array to hold the column names of the JTable that will represent fields in the database
      */
     private String[] COLUMN_NAMES = {"Hotel Name", "City", "Max Occupants", "Smoking", 
-        "Price", "Date Available","Customer ID"};
+        "Price", "Date Available", "Customer ID"};
     
     /**
      * ArrayList holding the records for each room, a room record is held as a String array.

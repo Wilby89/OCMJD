@@ -2,6 +2,8 @@ package suncertify.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -102,8 +104,10 @@ public class HotelFrame extends JFrame{
         locationField = new JTextField(30);
         searchPanel.add(locationField);
         searchButton = new JButton("Search");
+        searchButton.addActionListener(new SearchRoom());
         searchPanel.add(searchButton);
         loadButton = new JButton("Load Table");
+        loadButton.addActionListener(new LoadRooms());
         searchPanel.add(loadButton);
         return searchPanel;
     }
@@ -124,4 +128,22 @@ public class HotelFrame extends JFrame{
         }
         return table;
     }
+    
+    private class SearchRoom implements ActionListener {
+    
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+    
+    private class LoadRooms implements ActionListener {
+    
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+    
+    
 }
