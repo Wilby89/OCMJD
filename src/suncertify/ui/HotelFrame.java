@@ -34,11 +34,15 @@ public class HotelFrame extends JFrame{
      */
     private Logger logger = Logger.getLogger("suncertify.ui");   
     /**
-     * This JPanel will contain the search bar items and the JButtons   
+     * This JPanel will contain the search fields and JButtons   
      */
     private JPanel topPanel; 
     /**
      * This JPanel will contain JTable loaded with records from the database
+     */
+    private JPanel tablePanel;
+    /**
+     * This JPanel will contain the booking field and JButtons 
      */
     private JPanel bottomPanel;
     /*
@@ -65,6 +69,14 @@ public class HotelFrame extends JFrame{
      * JButton to load all records in JTable
      */
     private JButton loadButton;
+    /**
+     * JLabel for customer ID
+     */
+    private JLabel custIDLabel;
+    /**
+     * JTextField to hold the customer ID
+     */
+    private JTextField custIDField;
     /**
      * ArrayList holding the records for each room
      */
@@ -94,9 +106,11 @@ public class HotelFrame extends JFrame{
         menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
         topPanel = loadSearchPanel();
-        bottomPanel = loadTablePanel();
+        tablePanel = loadTablePanel();
+        bottomPanel = loadBookingPanel();
         add(topPanel, BorderLayout.NORTH);
-        add(bottomPanel, BorderLayout.CENTER);
+        add(tablePanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
         //pack();
     }
     
@@ -155,6 +169,16 @@ public class HotelFrame extends JFrame{
             tableModel.addRoomRecord(room);
         }
         return table;
+    }
+    
+    private JPanel loadBookingPanel() {
+        JPanel bookingPanel = new JPanel();
+        bookingPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        custIDLabel = new JLabel("Enter Customer ID");
+        bookingPanel.add(custIDLabel);
+        custIDField = new JTextField(30);
+        bookingPanel.add(custIDField);
+        return bookingPanel;
     }
     
     /**
