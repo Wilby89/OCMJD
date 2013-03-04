@@ -24,6 +24,8 @@ import suncertify.db.Room;
 /**
  *
  * @author William Brosnan
+ * 
+ * This class holds the boiler-plate code for creating the main GUI
  */
 public class HotelFrame extends JFrame{
     
@@ -72,6 +74,12 @@ public class HotelFrame extends JFrame{
      */
     JMenuBar menuBar = new JMenuBar();
     
+    /**
+     * Constructor for the JFrame, the JPanels that make up the GUI are added
+     * the the JFrame here
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public HotelFrame() throws FileNotFoundException, IOException {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
@@ -92,6 +100,11 @@ public class HotelFrame extends JFrame{
         //pack();
     }
     
+    /**
+     * Used to separate the GUI construction code out into manageable functions
+     * instead of having all the code in the constructor
+     * @return the JPanel that contains the search fields and buttons
+     */
     private JPanel loadSearchPanel() {
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -112,6 +125,14 @@ public class HotelFrame extends JFrame{
         return searchPanel;
     }
     
+    /**
+     * Used to separate the GUI construction code out into manageable functions
+     * instead of having all the code in the constructor
+     * @return the JPanel that holds the JTable populated with records from the
+     * database
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     private JPanel loadTablePanel() throws FileNotFoundException, IOException {
         JPanel tablePanel = new JPanel(new BorderLayout());
         JTable hotelTable = loadTable();
@@ -119,6 +140,13 @@ public class HotelFrame extends JFrame{
         return tablePanel;
     }
     
+    /**
+     * The records from the database are created in the RoomTableModel which 
+     * the JTable is using
+     * @return the JTable populated with records
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     private JTable loadTable() throws FileNotFoundException, IOException {
         RoomTableModel tableModel = new RoomTableModel();
         JTable table = new JTable(tableModel);
@@ -129,6 +157,9 @@ public class HotelFrame extends JFrame{
         return table;
     }
     
+    /**
+     * Private class used to listen when the Search button is fired
+     */
     private class SearchRoom implements ActionListener {
     
         @Override
@@ -137,6 +168,10 @@ public class HotelFrame extends JFrame{
         }
     }
     
+    /**
+     * Private class used to listen when the Load Table button is fired
+     * This loads all valid records from the DB
+     */
     private class LoadRooms implements ActionListener {
     
         @Override
