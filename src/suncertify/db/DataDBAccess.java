@@ -30,13 +30,13 @@ public class DataDBAccess {
      * I chose to use constants since the values of the constant shouldn't change.
      * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
-    private static final byte DELETED = 1;
+    private static final byte DELETED = (byte) 0xFF;
     /**
      * Constant to signify whether a record is valid in the database or if it has been deleted.
      * I chose to use constants since the values of the constant shouldn't change.
      * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
-    private static final byte PRESENT = 0;
+    private static final byte VALID = 00;
     
     
     public DataDBAccess(String dbLocation) {
@@ -107,5 +107,33 @@ public class DataDBAccess {
         fileObject.close();
         recordList = list.toArray(new String[list.size()]);
         return recordList;
+    }
+    
+    public void update(int recNo, String[] data) throws RecordNotFoundException {
+        
+    }
+    
+    public void delete(int recNo) throws RecordNotFoundException {
+        
+    }
+    
+    public int[] find(String[] criteria) throws RecordNotFoundException {
+        
+    }
+    
+    public int create(String[] data) throws RecordNotFoundException {
+        
+    }
+    
+    public void lock(int recNo) throws RecordNotFoundException {
+        
+    }
+    
+    public void unlock(int recNo) throws RecordNotFoundException {
+        
+    }
+    
+    public boolean isLocked(int recNo) throws RecordNotFoundException {
+        
     }
 }

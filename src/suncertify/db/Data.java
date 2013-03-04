@@ -9,30 +9,35 @@ package suncertify.db;
  * a facade pattern.
  */
 public class Data implements DBMain {
+    
+    /**
+     * The worker class that will contain the code to access the database
+     */
+    private static DataDBAccess database = null;
 
     @Override
     public String[] read(int recNo) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return database.read(recNo);
     }
 
     @Override
     public void update(int recNo, String[] data) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+       database.update(recNo, data);
     }
 
     @Override
     public void delete(int recNo) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        database.delete(recNo);
     }
 
     @Override
     public int[] find(String[] criteria) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return database.find(criteria);
     }
 
     @Override
     public int create(String[] data) throws DuplicateKeyException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return database.create(data);
     }
 
     @Override
