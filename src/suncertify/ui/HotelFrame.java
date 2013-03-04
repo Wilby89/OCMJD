@@ -78,6 +78,10 @@ public class HotelFrame extends JFrame{
      */
     private JTextField custIDField;
     /**
+     * JButton for reserving a room
+     */
+    private JButton reserveButton;
+    /**
      * ArrayList holding the records for each room
      */
     private ArrayList<Room> roomList;
@@ -174,15 +178,21 @@ public class HotelFrame extends JFrame{
     private JPanel loadBookingPanel() {
         JPanel bookingPanel = new JPanel();
         bookingPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        custIDLabel = new JLabel("Enter Customer ID");
+        custIDLabel = new JLabel("Select a record and press Reserve Room button "
+                + "to reserve");
         bookingPanel.add(custIDLabel);
-        custIDField = new JTextField(30);
-        bookingPanel.add(custIDField);
+        //custIDField = new JTextField(30);
+        //bookingPanel.add(custIDField);
+        reserveButton = new JButton("Reserve Room");
+        reserveButton.addActionListener(new ReserveRoom());
+        bookingPanel.add(reserveButton);
         return bookingPanel;
     }
     
     /**
      * Private class used to listen when the Search button is fired
+     * Search will use the entries added in hotel name and location fields
+     * as search terms
      */
     private class SearchRoom implements ActionListener {
     
@@ -204,5 +214,15 @@ public class HotelFrame extends JFrame{
         }
     }
     
+    /**
+     * Private class used to listen when the Reserve Room button is fired
+     * This reserves a room in the DB
+     */
+    private class ReserveRoom implements ActionListener {
     
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }    
 }

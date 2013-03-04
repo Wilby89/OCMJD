@@ -17,12 +17,26 @@ import java.util.ArrayList;
 public class DataDBAccess {
     
     private static final int MAGIC_COOKIE_LENGTH = 4;
+    private static final int MAGIC_COOKIE_VALUE = 259;
     private static final int NUMBER_OF_FIELDS_LENGTH = 2;
     private static final String ENCODING = "US-ASCII";
     private static final String DATABASE_NAME = "db-1x3.db";
     private static RandomAccessFile fileObject;
     private String[] recordList;
     private String dbLocation;
+    
+    /**
+     * Constant to signify whether a record is valid in the database or if it has been deleted.
+     * I chose to use constants since the values of the constant shouldn't change.
+     * Could have read these values from the properties file but would have been outside scope/unnecessary work
+     */
+    private static final byte DELETED = 1;
+    /**
+     * Constant to signify whether a record is valid in the database or if it has been deleted.
+     * I chose to use constants since the values of the constant shouldn't change.
+     * Could have read these values from the properties file but would have been outside scope/unnecessary work
+     */
+    private static final byte PRESENT = 0;
     
     
     public DataDBAccess(String dbLocation) {

@@ -9,19 +9,6 @@ package suncertify.db;
  * a facade pattern.
  */
 public class Data implements DBMain {
-    
-    /**
-     * Constant to signify whether a record is valid in the database or if it has been deleted.
-     * I chose to use constants since the values of the constant shouldn't change.
-     * Could have read these values from the properties file but would have been outside scope/unnecessary work
-     */
-    private final static byte DELETED = 1;
-    /**
-     * Constant to signify whether a record is valid in the database or if it has been deleted.
-     * I chose to use constants since the values of the constant shouldn't change.
-     * Could have read these values from the properties file but would have been outside scope/unnecessary work
-     */
-    private final static byte PRESENT = 0;
 
     @Override
     public String[] read(int recNo) throws RecordNotFoundException {
