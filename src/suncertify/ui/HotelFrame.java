@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import suncertify.db.Data;
 import suncertify.db.LoadDatabase;
 import suncertify.db.Room;
 
@@ -88,7 +89,7 @@ public class HotelFrame extends JFrame{
     /**
      * JMenuBar to hold the file menu to quit and the help menu
      */
-    JMenuBar menuBar = new JMenuBar();
+    JMenuBar menuBar = new JMenuBar(); 
     
     /**
      * Constructor for the JFrame, the JPanels that make up the GUI are added
@@ -168,7 +169,7 @@ public class HotelFrame extends JFrame{
     private JTable loadTable() throws FileNotFoundException, IOException {
         RoomTableModel tableModel = new RoomTableModel();
         JTable table = new JTable(tableModel);
-        roomList = LoadDatabase.loadDataBase();
+        roomList = Data.read();
         for (Room room: roomList) {
             tableModel.addRoomRecord(room);
         }

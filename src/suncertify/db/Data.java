@@ -14,6 +14,12 @@ public class Data implements DBMain {
      * The worker class that will contain the code to access the database
      */
     private static DataDBAccess database = null;
+    private static LockManager lockManager = null;
+    private String dbLocation = null;
+    
+    public Data(String dbLocation) {
+        this.dbLocation = dbLocation;
+    }
 
     @Override
     public String[] read(int recNo) throws RecordNotFoundException {
@@ -42,16 +48,16 @@ public class Data implements DBMain {
 
     @Override
     public void lock(int recNo) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        lockManager.lock(recNo);
     }
 
     @Override
     public void unlock(int recNo) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        lockManager.unlock(recNo);
     }
 
     @Override
     public boolean isLocked(int recNo) throws RecordNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return lockManager.isLocked(recNo);
     }    
 }
