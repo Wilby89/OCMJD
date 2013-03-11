@@ -18,8 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import suncertify.db.DBMain;
 import suncertify.db.Data;
 import suncertify.db.LoadDatabase;
+import suncertify.db.RecordNotFoundException;
 import suncertify.db.Room;
 
 /**
@@ -85,11 +87,14 @@ public class HotelFrame extends JFrame{
     /**
      * ArrayList holding the records for each room
      */
-    private ArrayList<Room> roomList;
+    private String[] roomList;
     /**
      * JMenuBar to hold the file menu to quit and the help menu
      */
-    JMenuBar menuBar = new JMenuBar(); 
+    private JMenuBar menuBar = new JMenuBar(); 
+    private DBMain dbTest = new Data();
+    
+    
     
     /**
      * Constructor for the JFrame, the JPanels that make up the GUI are added
@@ -166,13 +171,11 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    private JTable loadTable() throws FileNotFoundException, IOException {
+    private JTable loadTable() throws FileNotFoundException, IOException, RecordNotFoundException {
         RoomTableModel tableModel = new RoomTableModel();
         JTable table = new JTable(tableModel);
-        roomList = Data.read();
-        for (Room room: roomList) {
-            tableModel.addRoomRecord(room);
-        }
+        roomList = dbTest.read(1);
+            tableModel.addRoomRecord(roomList);
         return table;
     }
     

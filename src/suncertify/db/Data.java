@@ -17,6 +17,10 @@ public class Data implements DBMain {
     private static LockManager lockManager = null;
     private String dbLocation = null;
     
+    public Data () {
+        
+    }
+    
     public Data(String dbLocation) {
         this.dbLocation = dbLocation;
     }
