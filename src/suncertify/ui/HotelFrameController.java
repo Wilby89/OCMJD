@@ -18,4 +18,8 @@ public class HotelFrameController {
      */
     private Logger logger = Logger.getLogger("suncertify.ui");
     
+    public HotelFrameController() {
+        
+    }
+    
 }
