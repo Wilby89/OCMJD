@@ -20,9 +20,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import suncertify.db.DBMain;
 import suncertify.db.Data;
+import suncertify.db.DataDBAccess;
 import suncertify.db.LoadDatabase;
-import suncertify.db.RecordNotFoundException;
 import suncertify.db.Room;
+import suncertify.util.ApplicationMode;
 
 /**
  *
@@ -91,8 +92,15 @@ public class HotelFrame extends JFrame{
     /**
      * JMenuBar to hold the file menu to quit and the help menu
      */
-    private JMenuBar menuBar = new JMenuBar(); 
-    private DBMain dbTest = new Data();
+    private JMenuBar menuBar = new JMenuBar();
+    /**
+     * Enumeration to know in what mode to start in
+     */
+    private ApplicationMode applicationMode;
+    /**
+     * A controller to fulfill the controller function of the MVC pattern
+     */
+    private HotelFrameController controller;
     
     
     
@@ -102,11 +110,23 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public HotelFrame() throws FileNotFoundException, IOException {
+    public HotelFrame(String[] args) throws FileNotFoundException, IOException {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        if (args.length == 0) {
+            applicationMode = ApplicationMode.NETWORK;
+        }
+        else if (args.toString().contains("server")) {
+            applicationMode = ApplicationMode.SERVER;
+        }
+        else {
+            applicationMode = ApplicationMode.ALONE;
+        }
+        
+        controller = new HotelFrameController(ApplicationMode.ALONE, "C:/Users/ewibros/Documents/instructions-133/" + DataDBAccess.DATABASE_NAME, "5005");
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(new QuitApplication());
@@ -171,7 +191,7 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    private JTable loadTable() throws FileNotFoundException, IOException, RecordNotFoundException {
+    private JTable loadTable() throws FileNotFoundException, IOException {
         RoomTableModel tableModel = new RoomTableModel();
         JTable table = new JTable(tableModel);
         roomList = dbTest.read(1);

@@ -1,5 +1,8 @@
 package suncertify.db;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  * 
  * @author William Brosnan
@@ -14,15 +17,17 @@ public class Data implements DBMain {
      * The worker class that will contain the code to access the database
      */
     private static DataDBAccess database = null;
+    /**
+     * This class will take care of locking/unlocking the database to prevent
+     * data corruption
+     */
     private static LockManager lockManager = null;
     private String dbLocation = null;
     
-    public Data () {
-        
-    }
+    public Data () {}
     
-    public Data(String dbLocation) {
-        this.dbLocation = dbLocation;
+    public Data(String dbLocation) throws FileNotFoundException, IOException, DatabaseException {
+        database = new DataDBAccess(dbLocation);
     }
 
     @Override

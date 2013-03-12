@@ -8,7 +8,7 @@ package suncertify.db;
  */
 class DatabaseException extends Exception {
     /**
-     * This is the default constructor which is passed no parameters, used to throw an instance of
+     * This is the default zero argument constructor, used to throw an instance of
      * this exception, e.g. throw new DatabaseException();
      * Generally this will be called by the RecordNotFoundException and DuplicateException classes.
      * The only time it will be thrown by me is when the magic cookie value in the file isn't what I expect

@@ -26,7 +26,7 @@ public class StartUp {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
        //JFrame configFrame = new ConfigurationFrame();
-       JFrame hotelFrame = new HotelFrame();
+       JFrame hotelFrame = new HotelFrame(args);
        hotelFrame.setVisible(true);
     }
     

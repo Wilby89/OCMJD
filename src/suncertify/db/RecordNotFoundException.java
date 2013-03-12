@@ -10,7 +10,7 @@ package suncertify.db;
  */
 class RecordNotFoundException extends DatabaseException {
     /**
-     * This is the default constructor which is passed no parameters, used to throw an instance of
+     * This is the default zero argument constructor, used to throw an instance of
      * this exception, e.g. throw new RecordNotFoundException();
      */
     public RecordNotFoundException() { }

@@ -18,14 +18,14 @@ import java.util.logging.Logger;
  */
 public class DataDBAccess {
     
-    private static final int MAGIC_COOKIE_LENGTH = 4;
-    private static final int MAGIC_COOKIE_VALUE = 259;
-    private static final int NUMBER_OF_FIELDS_LENGTH = 2;
-    private static final int FIELD_NAME_LENGTH = 1;
-    private static final int ACTUAL_FIELD_LENGTH = 1;
-    private static final int RECORD_DELETION_STATUS_LENGTH = 1;
-    private static final String ENCODING = "US-ASCII";
-    private static final String DATABASE_NAME = "db-1x3.db";
+    public static final int MAGIC_COOKIE_LENGTH = 4;
+    public static final int MAGIC_COOKIE_VALUE = 259;
+    public static final int NUMBER_OF_FIELDS_LENGTH = 2;
+    public static final int FIELD_NAME_LENGTH = 1;
+    public static final int ACTUAL_FIELD_LENGTH = 1;
+    public static final int RECORD_DELETION_STATUS_LENGTH = 1;
+    public static final String ENCODING = "US-ASCII";
+    public static final String DATABASE_NAME = "db-1x3.db";
     private final RandomAccessFile fileObject;
     private Logger log = Logger.getLogger("suncertify.db");
     private int numOfFields;
@@ -72,7 +72,7 @@ public class DataDBAccess {
         }
     }
     
-    public String[] read(int recNo) throws RecordNotFoundException, FileNotFoundException, IOException {
+    public String[] read(int recNo) throws RecordNotFoundException {
         ArrayList<String> list = new ArrayList(); 
         try {
             fileObject.seek(offset + RECORD_DELETION_STATUS_LENGTH + recNo * Room.MAX_RECORD_LENGTH);
@@ -112,11 +112,11 @@ public class DataDBAccess {
         
     }
     
-    public int[] find(String[] criteria) throws RecordNotFoundException {
+    public int[] find(String[] criteria) throws DuplicateKeyException {
         
     }
     
-    public int create(String[] data) throws RecordNotFoundException {
+    public int create(String[] data) throws DuplicateKeyException {
         
     }
 }
