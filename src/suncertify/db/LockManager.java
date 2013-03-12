@@ -15,6 +15,6 @@ public class LockManager {
     }
     
     public boolean isLocked(int recNo) throws RecordNotFoundException {
-        
+        return false;
     }
 }

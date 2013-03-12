@@ -21,7 +21,9 @@ import javax.swing.JTextField;
 import suncertify.db.DBMain;
 import suncertify.db.Data;
 import suncertify.db.DataDBAccess;
+import suncertify.db.DatabaseException;
 import suncertify.db.LoadDatabase;
+import suncertify.db.RecordNotFoundException;
 import suncertify.db.Room;
 import suncertify.util.ApplicationMode;
 
@@ -110,7 +112,7 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public HotelFrame(String[] args) throws FileNotFoundException, IOException {
+    public HotelFrame(String[] args) throws FileNotFoundException, IOException, RecordNotFoundException, DatabaseException {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
         setLocationRelativeTo(null);
@@ -126,7 +128,8 @@ public class HotelFrame extends JFrame{
             applicationMode = ApplicationMode.ALONE;
         }
         
-        controller = new HotelFrameController(ApplicationMode.ALONE, "C:/Users/ewibros/Documents/instructions-133/" + DataDBAccess.DATABASE_NAME, "5005");
+        controller = new HotelFrameController(ApplicationMode.ALONE, "C:/Users/ewibros/Documents/instructions-133/" 
+                + DataDBAccess.DATABASE_NAME, "5005");
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(new QuitApplication());
@@ -177,7 +180,7 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    private JPanel loadTablePanel() throws FileNotFoundException, IOException {
+    private JPanel loadTablePanel() throws FileNotFoundException, IOException, RecordNotFoundException {
         JPanel tablePanel = new JPanel(new BorderLayout());
         JTable hotelTable = loadTable();
         tablePanel.add(new JScrollPane(hotelTable));
@@ -191,11 +194,10 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    private JTable loadTable() throws FileNotFoundException, IOException {
-        RoomTableModel tableModel = new RoomTableModel();
+    private JTable loadTable() throws FileNotFoundException, IOException, RecordNotFoundException {
+        RoomTableModel tableModel;
+        tableModel = this.controller.getAllRooms();
         JTable table = new JTable(tableModel);
-        roomList = dbTest.read(1);
-            tableModel.addRoomRecord(roomList);
         return table;
     }
     

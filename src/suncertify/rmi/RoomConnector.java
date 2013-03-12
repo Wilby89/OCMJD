@@ -8,8 +8,8 @@ import suncertify.db.Data;
  */
 public class RoomConnector {
     
-    public static Data getRemoteConnection(String hostname, String port) {
+    //public static Data getRemoteConnection(String hostname, String port) {
         
-    }
+    //}
     
 }

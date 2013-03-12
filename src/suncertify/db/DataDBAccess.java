@@ -55,7 +55,8 @@ public class DataDBAccess {
         if (magicCookie != MAGIC_COOKIE_VALUE) {
             throw new DatabaseException("Magic cookie values do not match");
         }
-        offset = MAGIC_COOKIE_LENGTH + NUMBER_OF_FIELDS_LENGTH + Room.MAX_RECORD_LENGTH;
+        offset = MAGIC_COOKIE_LENGTH + NUMBER_OF_FIELDS_LENGTH;
+        System.out.println("Offset: " + offset);
         numOfFields = fileObject.readShort();
         fieldColumnNames = new String[numOfFields];
         fieldMap = new HashMap<String, Integer>();
@@ -66,16 +67,18 @@ public class DataDBAccess {
             fileObject.read(fieldName);
             fieldColumnNames[i] = new String(fieldName, ENCODING);
             int size = fileObject.readByte();
+            System.out.println("Size: " + size);
             fieldMap.put(fieldColumnNames[i], size);
             //System.out.println(new String(fieldName, ENCODING)); //The character encoding is 8 bit US ASCII   
             offset += FIELD_NAME_LENGTH + ACTUAL_FIELD_LENGTH + nameSize;
+            System.out.println("Offset: " + offset);
         }
     }
     
     public String[] read(int recNo) throws RecordNotFoundException {
         ArrayList<String> list = new ArrayList(); 
         try {
-            fileObject.seek(offset + RECORD_DELETION_STATUS_LENGTH + recNo * Room.MAX_RECORD_LENGTH);
+            fileObject.seek(offset + recNo * Room.MAX_RECORD_LENGTH);
             byte[] record = new byte[Room.MAX_RECORD_LENGTH];
             int tempRecordLength = fileObject.read(record);
             if (tempRecordLength != Room.MAX_RECORD_LENGTH) {
@@ -88,7 +91,7 @@ public class DataDBAccess {
             
         } catch (Exception e) {
             throw new RecordNotFoundException("The record: " + recNo 
-                    + "was not found, " + e.getMessage());
+                    + " was not found, " + e.getMessage());
         }
     }
     
@@ -112,11 +115,13 @@ public class DataDBAccess {
         
     }
     
-    public int[] find(String[] criteria) throws DuplicateKeyException {
-        
+    public int[] find(String[] criteria) throws RecordNotFoundException {
+        int[] temp = {6,5,6};
+        return temp;
     }
     
     public int create(String[] data) throws DuplicateKeyException {
-        
+        int temp = 1;
+        return temp;
     }
 }

@@ -1,7 +1,11 @@
 package suncertify.ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Logger;
 import suncertify.db.DBMain;
+import suncertify.db.DatabaseException;
+import suncertify.db.RecordNotFoundException;
 import suncertify.rmi.RoomConnector;
 import suncertify.util.ApplicationMode;
 import suncertify.util.RoomDBConnector;
@@ -21,24 +25,26 @@ public class HotelFrameController {
      */
     private Logger logger = Logger.getLogger("suncertify.ui");
     
-    public HotelFrameController(ApplicationMode appMode, String dbLocation, String port) {
+    public HotelFrameController(ApplicationMode appMode, String dbLocation, String port) throws FileNotFoundException, IOException, DatabaseException {
         if (appMode == ApplicationMode.ALONE) {
             connection = RoomDBConnector.getLocalConnection(dbLocation);
         }
         else {
-            connection = RoomConnector.getRemoteConnection(dbLocation, port);
+            //connection = RoomConnector.getRemoteConnection(dbLocation, port);
         }
     }
     
-    public RoomTableModel getAllRooms() {
+    public RoomTableModel getAllRooms() throws RecordNotFoundException {
         RoomTableModel allRoomsModel = new RoomTableModel();
         String[] allRoomsData;
-        //allRoomsData = connection.
+        allRoomsData = connection.read(1);
+        allRoomsModel.addRoomRecord(allRoomsData);
+        return allRoomsModel;
     }
     
-    public RoomTableModel searchRooms(String hotelName, String location) {
-        RoomTableModel searchRoomsModel = new RoomTableModel();
-        String[] searchRoomsData;
-    }
+    //public RoomTableModel searchRooms(String hotelName, String location) {
+    //    RoomTableModel searchRoomsModel = new RoomTableModel();
+    //    String[] searchRoomsData;
+    //}
     
 }

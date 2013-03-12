@@ -31,10 +31,10 @@ public class RoomTableModel extends AbstractTableModel {
      * It should only be called from the other addRoomRecord method in this class
      * @param room A room Object
      */
-    public void addRoomRecord(Room room) {
-        addRoomRecord(room.getHotelName(), room.getCity(), room.getMaxOccupancy(), room.getSmoking()
-        , room.getPrice(), room.getDate(), room.getCustId());
-    }
+    //public void addRoomRecord(Room room) {
+    //    addRoomRecord(room.getHotelName(), room.getCity(), room.getMaxOccupancy(), room.getSmoking()
+    //    , room.getPrice(), room.getDate(), room.getCustId());
+    //}
 
     /**
      * This method is used to add a room record into the roomRecords arrayList to populate the JTable.
@@ -47,13 +47,8 @@ public class RoomTableModel extends AbstractTableModel {
      * @param date
      * @param custId 
      */
-    public void addRoomRecord(String hotelName, String city, String maxOccupancy
-            , String smoking, String price, String date, int custId) {
-        
-        String[] tempRoom = {hotelName, city, maxOccupancy, smoking
-        , price, date, Integer.toString(custId)};
-        
-        this.roomRecords.add(tempRoom);
+    public void addRoomRecord(String[] roomArray) {              
+        this.roomRecords.add(roomArray);
     }
     
     /**

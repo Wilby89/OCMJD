@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import suncertify.db.DatabaseException;
+import suncertify.db.RecordNotFoundException;
 import suncertify.ui.ConfigurationFrame;
 import suncertify.ui.HotelFrame;
 
@@ -24,7 +26,7 @@ public class StartUp {
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, RecordNotFoundException, DatabaseException {
        //JFrame configFrame = new ConfigurationFrame();
        JFrame hotelFrame = new HotelFrame(args);
        hotelFrame.setVisible(true);

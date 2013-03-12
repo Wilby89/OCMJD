@@ -8,7 +8,7 @@ package suncertify.db;
  * It extends another custom class, DatabaseException so that both RecordNotFoundException and
  * DuplicateKeyException can extend the same class.
  */
-class RecordNotFoundException extends DatabaseException {
+public class RecordNotFoundException extends DatabaseException {
     /**
      * This is the default zero argument constructor, used to throw an instance of
      * this exception, e.g. throw new RecordNotFoundException();

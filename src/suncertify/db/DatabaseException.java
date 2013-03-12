@@ -6,7 +6,7 @@ package suncertify.db;
  * This is the Exception class used when an exception is caught when failing to find a record.
  * It is extended by both DuplicateKeyException and RecordNotFoundException
  */
-class DatabaseException extends Exception {
+public class DatabaseException extends Exception {
     /**
      * This is the default zero argument constructor, used to throw an instance of
      * this exception, e.g. throw new DatabaseException();
