@@ -67,7 +67,7 @@ public class DataDBAccess {
             fileObject.read(fieldName);
             fieldColumnNames[i] = new String(fieldName, ENCODING);
             int size = fileObject.readByte();
-            System.out.println("Size: " + size);
+            //System.out.println("Size: " + size);
             fieldMap.put(fieldColumnNames[i], size);
             //System.out.println(new String(fieldName, ENCODING)); //The character encoding is 8 bit US ASCII   
             offset += FIELD_NAME_LENGTH + ACTUAL_FIELD_LENGTH + nameSize;
@@ -78,7 +78,8 @@ public class DataDBAccess {
     public String[] read(int recNo) throws RecordNotFoundException {
         ArrayList<String> list = new ArrayList(); 
         try {
-            fileObject.seek(offset + recNo * Room.MAX_RECORD_LENGTH);
+            System.out.println("Offset going into read: " + (offset + recNo * Room.MAX_RECORD_LENGTH));
+            fileObject.seek(offset + recNo * Room.MAX_RECORD_LENGTH + 1);
             byte[] record = new byte[Room.MAX_RECORD_LENGTH];
             int tempRecordLength = fileObject.read(record);
             if (tempRecordLength != Room.MAX_RECORD_LENGTH) {
@@ -101,7 +102,7 @@ public class DataDBAccess {
         
         for (int i = 0; i < fieldColumnNames.length; i++ ) {
             int fieldLength = fieldMap.get(fieldColumnNames[i]).intValue();
-            recordValue[i] = record.substring(startIndex, fieldLength);
+            recordValue[i] = record.substring(startIndex, startIndex + fieldLength);
             startIndex += fieldLength;
         }
         return recordValue;

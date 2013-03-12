@@ -37,7 +37,7 @@ public class HotelFrameController {
     public RoomTableModel getAllRooms() throws RecordNotFoundException {
         RoomTableModel allRoomsModel = new RoomTableModel();
         String[] allRoomsData;
-        allRoomsData = connection.read(1);
+        allRoomsData = connection.read(0);
         allRoomsModel.addRoomRecord(allRoomsData);
         return allRoomsModel;
     }
