@@ -1,6 +1,7 @@
     
 <project name="suncertify" default="buildAndTest" basedir=".">
 
+    <import file="nbproject/build-impl.xml"/> 
     <property name="your.name" value="William Brosnan" description="your name" />
     <!-- computer settings -->
     <property name="proxy.host" value="http.proxy www-proxy.ericsson.se" 
@@ -60,6 +61,12 @@
             description="delete all generated files">
         <delete dir="${dir.output}" failonerror="true" />
     </target>
+    
+    <!--<target name="run" depends="suncertify-impl.jar">
+        <exec dir="bin" executable="launcher.exe">
+            <arg file="${dist.jar}"/>
+        </exec>
+    </target>-->
 
     <target name="prepare" depends="clean" 
             description="creates all necessary directories">

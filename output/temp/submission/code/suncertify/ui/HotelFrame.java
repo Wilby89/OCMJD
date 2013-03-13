@@ -196,7 +196,8 @@ public class HotelFrame extends JFrame{
      */
     private JTable loadTable() {
         RoomTableModel tableModel;
-        tableModel = this.controller.getAllRooms();
+        int temp = 5;
+        tableModel = this.controller.getRoom(temp);
         JTable table = new JTable(tableModel);
         return table;
     }

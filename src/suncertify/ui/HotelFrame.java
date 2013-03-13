@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -103,6 +104,15 @@ public class HotelFrame extends JFrame{
      * A controller to fulfill the controller function of the MVC pattern
      */
     private HotelFrameController controller;
+    /**
+     * This is the <code>JTable</code> that will hold the records
+     */
+    private JTable hotelTable;
+    /**
+     * The Custom Table Model created the hold the <code>JTable</code> records
+     * It extends <code>AbstractTableModel</code>
+     */
+    private RoomTableModel tableModel;
     
     
     
@@ -182,7 +192,7 @@ public class HotelFrame extends JFrame{
      */
     private JPanel loadTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
-        JTable hotelTable = loadTable();
+        hotelTable = loadTable();
         tablePanel.add(new JScrollPane(hotelTable));
         return tablePanel;
     }
@@ -195,10 +205,17 @@ public class HotelFrame extends JFrame{
      * @throws IOException 
      */
     private JTable loadTable() {
-        RoomTableModel tableModel;
         tableModel = this.controller.getAllRooms();
         JTable table = new JTable(tableModel);
         return table;
+    }
+    
+    /**
+     * Refreshes the data in the <code>JTable</code> by re-setting the 
+     * <code>RoomTableModel</code>
+     */
+    private void refreshTable() {
+        this.hotelTable.setModel(this.tableModel);       
     }
     
     private JPanel loadBookingPanel() {
@@ -224,7 +241,23 @@ public class HotelFrame extends JFrame{
     
         @Override
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            String hotelNameCriteria = nameField.getText();
+            String locationCriteria = locationField.getText();
+            try {                
+                if (hotelNameCriteria == null && locationCriteria == null) {
+                    tableModel = controller.getAllRooms();
+                    refreshTable();
+                }
+                else {
+                    tableModel = controller.getRoomsByCriteria(hotelNameCriteria, locationCriteria);
+                    refreshTable();
+                }
+            } catch (Exception ex) {
+                logger.log(Level.SEVERE, ex.getMessage(), ex);
+                System.err.println("Search problem found: " + ex.getMessage());
+            }
+            nameField.setText("");
+            locationField.setText("");
         }
     }
     
@@ -236,7 +269,13 @@ public class HotelFrame extends JFrame{
     
         @Override
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            try {
+                tableModel = controller.getAllRooms();
+                refreshTable();
+            } catch (Exception ex) {
+                logger.log(Level.SEVERE, ex.getMessage(), ex);
+                System.err.println("Load all rooms problem found: " + ex.getMessage());
+            }            
         }
     }
     

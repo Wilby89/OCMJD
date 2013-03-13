@@ -40,23 +40,30 @@ public class HotelFrameController {
         }
     }
     
-    public RoomTableModel getAllRooms() {
-        RoomTableModel allRoomsModel = new RoomTableModel();
-        String[] allRoomsData;
+    public RoomTableModel getRoom(int recordNumber) {
+        RoomTableModel roomModel = new RoomTableModel();
+        String[] roomData;
         try {
-            allRoomsData = connection.read(5);
-            allRoomsModel.addRoomRecord(allRoomsData);
+            roomData = connection.read(5);
+            roomModel.addRoomRecord(roomData);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             System.err.println("Error attempting to get all Rooms: " 
                     + e.getMessage());
         }
-        return allRoomsModel;
+        return roomModel;
     }
     
-    //public RoomTableModel searchRooms(String hotelName, String location) {
-    //    RoomTableModel searchRoomsModel = new RoomTableModel();
-    //    String[] searchRoomsData;
-    //}
+    public RoomTableModel getAllRooms() {
+        RoomTableModel allRoomsModel = new RoomTableModel();
+        allRoomsModel = getRoomsByCriteria("", "");
+        return allRoomsModel;        
+    }
+    
+    public RoomTableModel getRoomsByCriteria(String hotelName, String location) {
+        RoomTableModel criteriaRoomsModel = new RoomTableModel();
+        String[] criteriaRoomsData;
+        return criteriaRoomsModel;
+    }
     
 }

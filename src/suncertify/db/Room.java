@@ -59,7 +59,7 @@ public class Room implements Serializable {
     /**
      * Variable used as a representation of the data contained in the database file.
      */
-    private int custId;
+    private String custId;
     /**
      * Logger instance to pass log messages through, this is transient to
      * escape serialization, there is no need to serialize the logger
@@ -76,7 +76,7 @@ public class Room implements Serializable {
      * Constructor for the room Object
      */
     public Room(String hotelName, String city, String maxOccupancy
-            , String smoking, String price, String date, int custId) {
+            , String smoking, String price, String date, String custId) {
 
         log.entering("Room", "Room", new Object[]{hotelName, city, maxOccupancy
             , smoking, price, date, custId});
@@ -201,7 +201,7 @@ public class Room implements Serializable {
     /**
      * @return the custId
      */
-    public int getCustId() {
+    public String getCustId() {
         log.entering("Room", "getCustId");
         log.exiting("Room", "getCustId", this.custId);
         return custId;
@@ -210,7 +210,7 @@ public class Room implements Serializable {
     /**
      * @param custId the custId to set
      */
-    public void setCustId(int custId) {
+    public void setCustId(String custId) {
         log.entering("Room", "setCustId", custId);
         this.custId = custId;
         log.exiting("Room", "setCustId", this.custId);

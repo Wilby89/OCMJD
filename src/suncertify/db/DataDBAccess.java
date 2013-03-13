@@ -118,6 +118,9 @@ public class DataDBAccess {
     }
     
     public int[] find(String[] criteria) throws RecordNotFoundException {
+        if (criteria == null) {
+            return findAllRecords();
+        }
         int[] temp = {6,5,6};
         return temp;
     }
@@ -125,5 +128,10 @@ public class DataDBAccess {
     public int create(String[] data) throws DuplicateKeyException {
         int temp = 1;
         return temp;
+    }
+    
+    public int[] findAllRecords() {
+        int recNum = 0;
+        int[] recNumArray;
     }
 }

@@ -30,14 +30,14 @@ public class RoomTableModel extends AbstractTableModel {
     
     /**
      * This addRoomRecord method takes a Room object as a parameter and de-constructs it into
-     * object variables which are passed to the other addRoomRecord method
-     * It should only be called from the other addRoomRecord method in this class
+     * object variables which are loaded into a <code>String[]</code>
      * @param room A room Object
      */
-    //public void addRoomRecord(Room room) {
-    //    addRoomRecord(room.getHotelName(), room.getCity(), room.getMaxOccupancy(), room.getSmoking()
-    //    , room.getPrice(), room.getDate(), room.getCustId());
-    //}
+    public void addRoomRecord(Room room) {
+        String[] roomArray = {room.getHotelName(), room.getCity(), room.getMaxOccupancy(), room.getSmoking()
+        , room.getPrice(), room.getDate(), room.getCustId()};
+        this.roomRecords.add(roomArray);
+    }
 
     /**
      * This method is used to add a room record into the roomRecords arrayList to populate the JTable.
