@@ -2,6 +2,8 @@ package suncertify.db;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -21,13 +23,20 @@ public class Data implements DBMain {
      * This class will take care of locking/unlocking the database to prevent
      * data corruption
      */
+    private Logger logger = Logger.getLogger("suncertify.db");
     private static LockManager lockManager = null;
     private String dbLocation = null;
     
     public Data () {}
     
-    public Data(String dbLocation) throws FileNotFoundException, IOException, DatabaseException {
-        database = new DataDBAccess(dbLocation);
+    public Data(String dbLocation) throws FileNotFoundException, IOException {
+        try {
+            database = new DataDBAccess(dbLocation);
+        } catch (DatabaseException dex) {
+            logger.log(Level.SEVERE, dex.getMessage(), dex);
+            System.err.println("Exception encountered when attempting to "
+                    + "access database: " + dex.getMessage());
+        }
     }
 
     @Override

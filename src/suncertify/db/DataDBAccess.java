@@ -27,13 +27,14 @@ public class DataDBAccess {
     public static final String ENCODING = "US-ASCII";
     public static final String DATABASE_NAME = "db-1x3.db";
     private final RandomAccessFile fileObject;
-    private Logger log = Logger.getLogger("suncertify.db");
+    private Logger logger = Logger.getLogger("suncertify.db");
     private int numOfFields;
     private String[] fieldColumnNames;
     private String[] recordList;
     private String dbLocation;
     private HashMap<String, Integer> fieldMap = null;
     private int offset;
+    private int maxRecord = Room.MAX_RECORD_LENGTH + RECORD_DELETION_STATUS_LENGTH;
     
     /**
      * Constant to signify whether a record is valid in the database or if it has been deleted.
@@ -78,11 +79,11 @@ public class DataDBAccess {
     public String[] read(int recNo) throws RecordNotFoundException {
         ArrayList<String> list = new ArrayList(); 
         try {
-            System.out.println("Offset going into read: " + (offset + recNo * Room.MAX_RECORD_LENGTH));
-            fileObject.seek(offset + recNo * Room.MAX_RECORD_LENGTH + 1);
-            byte[] record = new byte[Room.MAX_RECORD_LENGTH];
+            System.out.println("Offset going into read: " + (offset + recNo * maxRecord));
+            fileObject.seek(offset + recNo * maxRecord);
+            byte[] record = new byte[maxRecord];
             int tempRecordLength = fileObject.read(record);
-            if (tempRecordLength != Room.MAX_RECORD_LENGTH) {
+            if (tempRecordLength != maxRecord) {
                 throw new RecordNotFoundException("Record not found or record size does not match");
             }
             if (record[0] == DELETED) {
@@ -97,7 +98,7 @@ public class DataDBAccess {
     }
     
     private String[] parseRecord(String record) {
-        int startIndex = 0;
+        int startIndex = 1;
         String[] recordValue = new String[fieldColumnNames.length];
         
         for (int i = 0; i < fieldColumnNames.length; i++ ) {

@@ -26,7 +26,7 @@ public class StartUp {
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException, RecordNotFoundException, DatabaseException {
+    public static void main(String[] args) {
        //JFrame configFrame = new ConfigurationFrame();
        JFrame hotelFrame = new HotelFrame(args);
        hotelFrame.setVisible(true);

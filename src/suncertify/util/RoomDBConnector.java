@@ -21,7 +21,7 @@ public class RoomDBConnector {
      * @param location the location of the local database
      * @return A <code>Data</code> instance
      */
-    public static Data getLocalConnection(String dbLocation) throws FileNotFoundException, IOException, DatabaseException {
+    public static Data getLocalConnection(String dbLocation) throws FileNotFoundException, IOException {
         return new Data(dbLocation);
     }
 }

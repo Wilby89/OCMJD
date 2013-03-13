@@ -112,7 +112,7 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public HotelFrame(String[] args) throws FileNotFoundException, IOException, RecordNotFoundException, DatabaseException {
+    public HotelFrame(String[] args) {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
         setLocationRelativeTo(null);
@@ -180,7 +180,7 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    private JPanel loadTablePanel() throws FileNotFoundException, IOException, RecordNotFoundException {
+    private JPanel loadTablePanel() {
         JPanel tablePanel = new JPanel(new BorderLayout());
         JTable hotelTable = loadTable();
         tablePanel.add(new JScrollPane(hotelTable));
@@ -194,7 +194,7 @@ public class HotelFrame extends JFrame{
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    private JTable loadTable() throws FileNotFoundException, IOException, RecordNotFoundException {
+    private JTable loadTable() {
         RoomTableModel tableModel;
         tableModel = this.controller.getAllRooms();
         JTable table = new JTable(tableModel);
