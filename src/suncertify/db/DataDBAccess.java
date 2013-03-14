@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -18,22 +19,69 @@ import java.util.logging.Logger;
  */
 public class DataDBAccess {
     
+    /**
+     * The number of bytes used to hold the magic cookie value
+     */
     public static final int MAGIC_COOKIE_LENGTH = 4;
+    /**
+     * The value of the magic cookie in the database for validation purposes
+     */
     public static final int MAGIC_COOKIE_VALUE = 259;
+    /**
+     * The number of bytes used to hold the number of fields in a record
+     */
     public static final int NUMBER_OF_FIELDS_LENGTH = 2;
+    /**
+     * Length in bytes of field name 
+     */
     public static final int FIELD_NAME_LENGTH = 1;
+    /**
+     * Field length in bytes 
+     */
     public static final int ACTUAL_FIELD_LENGTH = 1;
+    /**
+     * 1 byte flag. 00 implies valid record, 0xFF implies deleted record 
+     */
     public static final int RECORD_DELETION_STATUS_LENGTH = 1;
+    /**
+     * The character encoding is 8 bit US ASCII
+     */
     public static final String ENCODING = "US-ASCII";
+    /**
+     * Constant to hold the database name
+     */
     public static final String DATABASE_NAME = "db-1x3.db";
+    /**
+     * Database reader instance
+     */
     private final RandomAccessFile fileObject;
+    /**
+     * Logger instance to send messages through
+     */
     private Logger logger = Logger.getLogger("suncertify.db");
+    /**
+     * Hold the number of fields
+     */
     private int numOfFields;
+    /**
+     * Array to hold the column names from the database
+     */
     private String[] fieldColumnNames;
-    private String[] recordList;
+    /**
+     * The location of the database on the system
+     */
     private String dbLocation;
+    /**
+     * <code>HashMap</code> to map field names and sizes
+     */
     private HashMap<String, Integer> fieldMap = null;
+    /**
+     * Variable to hold our location in the database
+     */
     private int offset;
+    /**
+     * Variable to hold max record size + deleted flag size
+     */
     private int maxRecord = Room.MAX_RECORD_LENGTH + RECORD_DELETION_STATUS_LENGTH;
     
     /**
@@ -118,7 +166,7 @@ public class DataDBAccess {
     }
     
     public int[] find(String[] criteria) throws RecordNotFoundException {
-        if (criteria == null) {
+        if (criteria[0] == null && criteria[1] == null) {
             return findAllRecords();
         }
         int[] temp = {6,5,6};
@@ -130,8 +178,44 @@ public class DataDBAccess {
         return temp;
     }
     
+    /**
+     * I made the choice to call this function on start-up purely for aesthetic 
+     * reasons.
+     * All records are displayed on startup.
+     * @return an <code>int[]</code> that holds all record numbers that correspond
+     * to records in the database
+     */
     public int[] findAllRecords() {
         int recNum = 0;
-        int[] recNumArray;
+        ArrayList<Integer> recNumArray = new ArrayList<Integer>();
+        try {
+        for (int i = this.offset; i < this.fileObject.length();
+                i += this.maxRecord) {
+            recNumArray.add(recNum);
+            recNum++;
+        }
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
+            System.err.println("I/O problem found when attempting to load all"
+                    + "records: " + ioe.getMessage());
+        }
+        return intArrayConvert(recNumArray);
+    }
+    
+    /**
+     * This is a private helper method used to convert the <code>ArrayList</code>
+     * from <code>findAllRecords</code> to the expected <code>int[]</code>
+     * @param intArrayList
+     * @return an <code>int[]</code> containing the record numbers corresponding
+     * to the records in the database
+     */
+    private int[] intArrayConvert(ArrayList<Integer> intArrayList) {
+        int[] convertedArray = new int[intArrayList.size()];
+        int i = 0;        
+        for (Integer integer: intArrayList) {
+            convertedArray[i] = integer;
+            i++;
+        }        
+        return convertedArray;            
     }
 }

@@ -82,9 +82,6 @@ public class LoadDatabase {
                         +Room.CITY_LENGTH+Room.HOTEL_NAME_LENGTH);
                 System.out.println(tempCust);
                 int custInt = 1;//Integer.parseInt(tempCust);
-                Room newRoom = new Room(tempName, tempLocation, tempMax, tempSmoke
-                        , tempPrice, tempDate, custInt);
-                recordList.add(newRoom);
             }
         } catch (EOFException e) {
             System.out.println("End of file");

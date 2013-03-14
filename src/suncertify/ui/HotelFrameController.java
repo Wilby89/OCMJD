@@ -61,9 +61,7 @@ public class HotelFrameController {
      * @return the RoomTableModel holding all records
      */
     public RoomTableModel getAllRooms() {
-        RoomTableModel allRoomsModel = new RoomTableModel();
-        allRoomsModel = getRoomsByCriteria(null, null);
-        return allRoomsModel;        
+        return getRoomsByCriteria(null, null);      
     }
     
     public RoomTableModel getRoomsByCriteria(String hotelName, String location) {
