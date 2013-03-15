@@ -244,7 +244,7 @@ public class HotelFrame extends JFrame{
             String hotelNameCriteria = nameField.getText();
             String locationCriteria = locationField.getText();
             try {                
-                if (hotelNameCriteria == "" && locationCriteria == "") {
+                if (hotelNameCriteria.equals("") && locationCriteria.equals("")) {
                     tableModel = controller.getAllRooms();
                     refreshTable();
                 }

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  * This class will be used to take care of low level db access
- * This will keep Data.java and will make use of the
+ * This will keep Data.java clean and manageable and will make use of the
  * OOP concept of delegation through the use of the Delegation pattern
  * 
  * @author William Brosnan
@@ -166,11 +166,43 @@ public class DataDBAccess {
     }
     
     public int[] find(String[] criteria) throws RecordNotFoundException {
+        ArrayList<Integer> foundArray = new ArrayList<Integer>();
+        String[] recordData;
+        int[] results;
         if (criteria[0] == null && criteria[1] == null) {
             return findAllRecords();
         }
-        int[] temp = {6,5,6};
-        return temp;
+        else if (!criteria[0].equals("") && criteria[1].equals("")) {
+            results = findAllRecords();
+            for (int i = 0; i < results.length; i++) {
+                recordData = this.read(i);            
+                if (recordData[0].startsWith(criteria[0])) {
+                    foundArray.add(i);
+                }
+            }
+            return intArrayConvert(foundArray);
+        }
+        else if (criteria[0].equals("") && !criteria[1].equals("")) {
+            results = findAllRecords();
+            for (int i = 0; i < results.length; i++) {
+                recordData = this.read(i);            
+                if (recordData[1].startsWith(criteria[1])) {
+                    foundArray.add(i);
+                }
+            }
+            return intArrayConvert(foundArray);
+        }
+        else {
+            results = findAllRecords();
+            for (int i = 0; i < results.length; i++) {
+                recordData = this.read(i);            
+                if (recordData[0].startsWith(criteria[0]) && recordData[1].startsWith(criteria[1])) {
+                    foundArray.add(i);
+                }
+            }
+            return intArrayConvert(foundArray);
+        }
+        
     }
     
     public int create(String[] data) throws DuplicateKeyException {
