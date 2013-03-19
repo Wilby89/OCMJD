@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import suncertify.db.DBMain;
 import suncertify.db.DatabaseException;
 import suncertify.db.RecordNotFoundException;
@@ -28,7 +29,7 @@ public class HotelFrameController {
     
     public HotelFrameController(ApplicationMode appMode, String dbLocation, String port) {
         try {
-            if (appMode == ApplicationMode.ALONE) {
+            if (appMode == ApplicationMode.ALONE ) {
                 connection = RoomDBConnector.getLocalConnection(dbLocation);
             }
             else {
@@ -80,6 +81,12 @@ public class HotelFrameController {
                     + e.getMessage());
         }
         return criteriaRoomsModel;
+    }
+    
+    public void reserveRoom(int recordNumber) {
+        logger.entering("HotelFrameController", "reserveRoom",
+                "Record number to be reserved: " + recordNumber);
+        logger.exiting("HotelFrameController", "reserveRoom");
     }
     
 }

@@ -1,10 +1,17 @@
 package suncertify.ui;
 
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import suncertify.db.DataDBAccess;
+import suncertify.util.ApplicationMode;
 
 /**
  *
@@ -46,20 +53,26 @@ public class ConfigurationFrame extends JFrame {
      * JTextField for host name location
      */
     private JTextField hostField;
+    /**
+     * The mode that the application is running in (standalone, server or
+     * network client)
+     */
+    ApplicationMode appMode;
     
     /**
      * Constructor for class, set parameters for the JFrame on startup
      */
-    public ConfigurationFrame() {
+    public ConfigurationFrame(ApplicationMode applicationMode) {
+        appMode = applicationMode;
         setTitle("Configure Options");
         //Manually setting size
         setSize(600,500);
+        setResizable(false);
         //centers the GUI in the middle of the screen
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         configPanel = loadConfigPanel();
         add(configPanel);
-        //pack();
     }
     
     /**
@@ -71,12 +84,11 @@ public class ConfigurationFrame extends JFrame {
         dbLabel = new JLabel("Enter database location");
         configPanel.add(dbLabel);
         //Manually set size of JTextField
-        dbField = new JTextField(30);
+        dbField = new JTextField(DataDBAccess.DATABASE_NAME, 30);
         configPanel.add(dbField);
         dbButton = new JButton("Choose File");
+        dbButton.addActionListener(new ChooseFile());
         configPanel.add(dbButton);
-        //JFileChooser dbFileChooser = new JFileChooser();
-        //configPanel.add(dbFileChooser);
         portLabel = new JLabel("Enter an RMI port");
         configPanel.add(portLabel);
         //Manually set size of JTextField
@@ -91,4 +103,27 @@ public class ConfigurationFrame extends JFrame {
         return configPanel;
     }
     
+    public String getDBLocation() {
+        return this.dbField.getText();
+    }
+    
+    /**
+     * Private class used to listen when the Search button is fired
+     * Search will use the entries added in hotel name and location fields
+     * as search terms
+     */
+    private class ChooseFile implements ActionListener {
+    
+        @Override
+        public void actionPerformed(ActionEvent e) {           
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Database file", "db");
+            fileChooser.setFileFilter(filter);
+            int returnVal = fileChooser.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                dbField.setText(fileChooser.getSelectedFile().toString());
+            }
+        }
+    }
 }

@@ -4,9 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -15,26 +12,21 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import suncertify.db.DBMain;
-import suncertify.db.Data;
 import suncertify.db.DataDBAccess;
-import suncertify.db.DatabaseException;
-import suncertify.db.LoadDatabase;
-import suncertify.db.RecordNotFoundException;
-import suncertify.db.Room;
 import suncertify.util.ApplicationMode;
 
 /**
  *
  * @author William Brosnan
  * 
- * This class holds the boiler-plate code for creating the main GUI
+ * This class holds the code for creating the main GUI
  */
-public class HotelFrame extends JFrame{
+public class HotelFrame extends JFrame {
     
     /*
      * Adding a logger instance for logging and debugging purposes.
@@ -69,7 +61,7 @@ public class HotelFrame extends JFrame{
      */
     private JTextField locationField;
     /*
-     * JButton to start search based on input in previous JTextFields
+     * JButton to start search based on input in JTextFields
      */
     private JButton searchButton;
     /*
@@ -113,6 +105,11 @@ public class HotelFrame extends JFrame{
      * It extends <code>AbstractTableModel</code>
      */
     private RoomTableModel tableModel;
+    /**
+     * String to hold the location of the database got from the 
+     * <code>ConfigurationFrame</code> dialog.
+     */
+    private String dbLocation;
     
     
     
@@ -125,18 +122,23 @@ public class HotelFrame extends JFrame{
     public HotelFrame(String[] args) {
         setTitle("URLyBird Hotel User Interface");
         setSize(1000,800);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         if (args.length == 0) {
             applicationMode = ApplicationMode.NETWORK;
         }
-        else if (args.toString().contains("server")) {
+        else if (args[0].equalsIgnoreCase("server")) {
             applicationMode = ApplicationMode.SERVER;
         }
         else {
             applicationMode = ApplicationMode.ALONE;
         }
+        
+        ConfigurationFrame configurationFrame = new ConfigurationFrame(applicationMode);
+        configurationFrame.setVisible(true);
+        this.dbLocation = configurationFrame.getDBLocation();
         
         controller = new HotelFrameController(ApplicationMode.ALONE, "C:/Users/ewibros/Documents/instructions-133/" 
                 + DataDBAccess.DATABASE_NAME, "5005");
@@ -287,7 +289,16 @@ public class HotelFrame extends JFrame{
     
         @Override
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            int recordRow = hotelTable.getSelectedRow();
+            if (recordRow < 0) {
+                JOptionPane.showMessageDialog(bottomPanel, "Please select a row");
+            }
+            try {
+                controller.reserveRoom(recordRow);
+            } catch(Exception ex) {
+                logger.log(Level.SEVERE, ex.getMessage(), ex);
+                System.err.println("Reserve room problem found: " + ex.getMessage());
+            }
         }
     }    
 }

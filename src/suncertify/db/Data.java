@@ -34,9 +34,12 @@ public class Data implements DBMain {
     private String dbLocation = null;
     
     /**
-     * Empty constuctor
+     * Empty constructor that will call other constructor with the database
+     * location pulled from the properties file
      */
-    public Data () {}
+    public Data () {
+        //this(System.getProperty("dbPath"));
+    }
     
     /**
      * This constructor takes in the database location as a param
