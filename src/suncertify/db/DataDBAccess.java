@@ -1,6 +1,5 @@
 package suncertify.db;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -99,6 +98,7 @@ public class DataDBAccess {
     
     
     public DataDBAccess(String dbLocation) throws FileNotFoundException, IOException, DatabaseException {
+        logger.entering("DataDBAccess", "DataDBAccess", dbLocation);
         fileObject = new RandomAccessFile(new File(dbLocation),"rw");
         final int magicCookie = fileObject.readInt();
         if (magicCookie != MAGIC_COOKIE_VALUE) {
@@ -122,9 +122,11 @@ public class DataDBAccess {
             offset += FIELD_NAME_LENGTH + ACTUAL_FIELD_LENGTH + nameSize;
             System.out.println("Offset: " + offset);
         }
+         logger.exiting("DataDBAccess", "DataDBAccess");
     }
     
     public String[] read(int recNo) throws RecordNotFoundException {
+        logger.entering("DataDBAccess", "read", recNo);
         ArrayList<String> list = new ArrayList(); 
         try {
             System.out.println("Offset going into read: " + (offset + recNo * maxRecord));
@@ -137,6 +139,7 @@ public class DataDBAccess {
             if (record[0] == DELETED) {
                 throw new RecordNotFoundException("The record " + recNo + " has been deleted" );
             }
+            logger.exiting("DataDBAccess", "read");
             return parseRecord(new String(record, ENCODING));
             
         } catch (Exception e) {
@@ -158,14 +161,25 @@ public class DataDBAccess {
     }
     
     public void update(int recNo, String[] data) throws RecordNotFoundException {
-        
+        logger.entering("DataDBAccess", "update", recNo);
+        if (recNo < 0) {
+            throw new RecordNotFoundException("Record not found for record"
+                    + "number: " + recNo);
+        }
+        logger.exiting("DataDBAccess", "update", data);
     }
     
     public void delete(int recNo) throws RecordNotFoundException {
-        
+        logger.entering("DataDBAccess", "delete", recNo);
+        if (recNo < 0) {
+            throw new RecordNotFoundException("Record not found for record"
+                    + "number: " + recNo);
+        }
+        logger.exiting("DataDBAccess", "delete");
     }
     
     public int[] find(String[] criteria) throws RecordNotFoundException {
+        logger.entering("DataDBAccess", "find", criteria);
         ArrayList<Integer> foundArray = new ArrayList<Integer>();
         String[] recordData;
         int[] results;
@@ -200,9 +214,9 @@ public class DataDBAccess {
                     foundArray.add(i);
                 }
             }
+            logger.exiting("DataDBAccess", "find");
             return intArrayConvert(foundArray);
-        }
-        
+        }        
     }
     
     public int create(String[] data) throws DuplicateKeyException {
