@@ -36,7 +36,7 @@
 
     <property name="file.choices" value="choices.txt" 
         description="the required file choices.txt" />
-    <property name="file.db" value="${dir.temp.assignment}/db-1x2.db" 
+    <property name="file.db" value="${dir.temp.assignment}/db-1x3.db" 
         description="the required original, unchanged database file" />
     <property name="file.instructions" value="${dir.temp.assignment}/instructions.html" 
         description="the required file instructions.html" />
@@ -49,7 +49,7 @@
         description="the assignment jar file (used to copy instructions and database file)" />
     <property name="jar.executable" value="${dir.submission}/runme.jar" 
         description="the executable jar file" />
-    <property name="jar.executable.main.class" value="suncertify.application.LaunchApplication" 
+    <property name="jar.executable.main.class" value="suncertify.init.StartUp" 
         description="the full qualified name of the main class" />
     <property name="jar.submission" value="SR2483386.jar" 
         description="the submission jar file" />
@@ -62,12 +62,6 @@
         <delete dir="${dir.output}" failonerror="true" />
     </target>
     
-    <!--<target name="run" depends="suncertify-impl.jar">
-        <exec dir="bin" executable="launcher.exe">
-            <arg file="${dist.jar}"/>
-        </exec>
-    </target>-->
-
     <target name="prepare" depends="clean" 
             description="creates all necessary directories">
         <mkdir dir="${dir.temp.assignment}" />

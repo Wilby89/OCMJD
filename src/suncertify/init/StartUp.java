@@ -1,13 +1,8 @@
 package suncertify.init;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import suncertify.db.DatabaseException;
-import suncertify.db.RecordNotFoundException;
-import suncertify.ui.ConfigurationFrame;
 import suncertify.ui.HotelFrame;
 
 /**

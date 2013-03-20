@@ -136,9 +136,11 @@ public class HotelFrame extends JFrame {
             applicationMode = ApplicationMode.ALONE;
         }
         
-        ConfigurationFrame configurationFrame = new ConfigurationFrame(applicationMode);
+        ConfigurationDialog configurationFrame = new ConfigurationDialog(applicationMode);
         configurationFrame.setVisible(true);
         this.dbLocation = configurationFrame.getDBLocation();
+        logger.log(Level.INFO, "Database location is: " + dbLocation);
+        System.out.println("Database location is: " + dbLocation);
         
         controller = new HotelFrameController(ApplicationMode.ALONE, "C:/Users/ewibros/Documents/instructions-133/" 
                 + DataDBAccess.DATABASE_NAME, "5005");

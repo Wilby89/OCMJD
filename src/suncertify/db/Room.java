@@ -17,19 +17,19 @@ public class Room implements Serializable {
     /**
      * Maximum length of database field names taken from spec instructions.html
      */
-    static final int HOTEL_NAME_LENGTH = 64;
-    static final int CITY_LENGTH = 64;
-    static final int MAXIMUM_OCCUPANCY_LENGTH = 4;
-    static final int SMOKING_LENGTH = 1;
-    static final int PRICE_LENGTH = 8;
-    static final int DATE_AVAILABLE_LENGTH = 10;
-    static final int CUSTOMER_ID_LENGTH = 8;
+    public static final int HOTEL_NAME_LENGTH = 64;
+    public static final int CITY_LENGTH = 64;
+    public static final int MAXIMUM_OCCUPANCY_LENGTH = 4;
+    public static final int SMOKING_LENGTH = 1;
+    public static final int PRICE_LENGTH = 8;
+    public static final int DATE_AVAILABLE_LENGTH = 10;
+    public static final int CUSTOMER_ID_LENGTH = 8;
     
     /**
      * This constant is used as the maximum size of a full record.
      * It is given default access so all other classes in the package can see the variable
      */
-    static final int MAX_RECORD_LENGTH = HOTEL_NAME_LENGTH + CITY_LENGTH + MAXIMUM_OCCUPANCY_LENGTH + SMOKING_LENGTH
+    public static final int MAX_RECORD_LENGTH = HOTEL_NAME_LENGTH + CITY_LENGTH + MAXIMUM_OCCUPANCY_LENGTH + SMOKING_LENGTH
             + PRICE_LENGTH + DATE_AVAILABLE_LENGTH + CUSTOMER_ID_LENGTH;
     
     /**
