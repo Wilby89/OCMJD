@@ -131,6 +131,13 @@ public class Data implements DBMain {
      */
     @Override
     public void lock(int recNo) throws RecordNotFoundException {
+        if (recNo < 0) {
+            throw new RecordNotFoundException("Record not found for record"
+                    + "number: " + recNo);
+        }
+        read(recNo);
+        //if the read is unsuccessful a RecordNotFoundException will be thrown
+        //and this line will not be reached
         lockManager.lock(recNo);
     }
 
@@ -141,6 +148,13 @@ public class Data implements DBMain {
      */
     @Override
     public void unlock(int recNo) throws RecordNotFoundException {
+        if (recNo < 0) {
+            throw new RecordNotFoundException("Record not found for record"
+                    + "number: " + recNo);
+        }
+        read(recNo);
+        //if the read is unsuccessful a RecordNotFoundException will be thrown
+        //and this line will not be reached
         lockManager.unlock(recNo);
     }
 
@@ -153,6 +167,10 @@ public class Data implements DBMain {
      */
     @Override
     public boolean isLocked(int recNo) throws RecordNotFoundException {
+        if (recNo < 0) {
+            throw new RecordNotFoundException("Record not found for record"
+                    + "number: " + recNo);
+        }
         return lockManager.isLocked(recNo);
     }    
 }
