@@ -93,14 +93,14 @@
                  version="true">
             <arg value="-J-Dhttp.proxyHost=${proxy.host}" />
             <arg value="-J-Dhttp.proxyPort=${proxy.port}" />
-            <link href="http://java.sun.com/javase/6/docs/api/" />
+            <link href="http://docs.oracle.com/javase/6/docs/api//" />
         </javadoc>
     </target>
 
     <target name="create-executable-jar" depends="prepare" 
             description="create the executable jar">
         <!-- compile the source files -->
-        <javac srcdir="${dir.source}" destdir="${dir.temp.classes}" listfiles="true" failonerror="true" />
+        <javac srcdir="${dir.source}" destdir="${dir.temp.classes}" listfiles="true" failonerror="true" includeantruntime="false" />
         <!-- compile stubs and skeletons (using rmic) -->
         <rmic base="${dir.temp.classes}" verify="true" debug="true" />
         <!-- jar all classes -->

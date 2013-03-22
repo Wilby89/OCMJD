@@ -18,7 +18,7 @@ public class RoomDBConnector {
      * I chose not to use private constructor
      * No need for a constructor in a utility class, the only function that will
      * be called is <code>getLocalConnection</code>
-     * @param location the location of the local database
+     * @param dbLocation the location of the local database
      * @return A <code>Data</code> instance
      */
     public static Data getLocalConnection(String dbLocation) throws FileNotFoundException, IOException {
