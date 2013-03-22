@@ -42,13 +42,7 @@ public class RoomTableModel extends AbstractTableModel {
     /**
      * This method is used to add a room record into the roomRecords arrayList to populate the JTable.
      * It should only be called from the other addRoomRecord method in this class
-     * @param hotelName
-     * @param city
-     * @param maxOccupancy
-     * @param smoking
-     * @param price
-     * @param date
-     * @param custId 
+     * @param roomArray a String array representing room values
      */
     public void addRoomRecord(String[] roomArray) {              
         this.roomRecords.add(roomArray);

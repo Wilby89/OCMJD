@@ -127,7 +127,6 @@ public class DataDBAccess {
     
     public String[] read(int recNo) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "read", recNo);
-        ArrayList<String> list = new ArrayList(); 
         try {
             System.out.println("Offset going into read: " + (offset + recNo * maxRecord));
             fileObject.seek(offset + recNo * maxRecord);
@@ -166,6 +165,7 @@ public class DataDBAccess {
             throw new RecordNotFoundException("Record not found for record"
                     + "number: " + recNo);
         }
+        
         logger.exiting("DataDBAccess", "update", data);
     }
     

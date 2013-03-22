@@ -27,7 +27,7 @@ public class Data implements DBMain {
      * This class will take care of locking/unlocking the database to prevent
      * data corruption
      */
-    private static LockManager lockManager = null;
+    private final LockManager lockManager = new LockManager();
     /**
      * Location of database
      */

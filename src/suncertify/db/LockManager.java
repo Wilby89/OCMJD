@@ -90,4 +90,8 @@ public class LockManager {
         logger.exiting("LockManager", "isLocked");
         return false;
     }
+    
+    public Long getOwner(int recNo) {
+        return bookingsMap.get(recNo);
+    }
 }
