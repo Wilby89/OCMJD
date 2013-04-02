@@ -95,10 +95,22 @@ public class DataDBAccess {
      * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
     private static final byte VALID = 00;
-    
-    
-    public DataDBAccess(String dbLocation) throws FileNotFoundException, IOException, DatabaseException {
+    /**
+     * LockManager instance
+     */
+    private LockManager locker;
+    /**
+     * Constructor that reads the header information in the database and
+     * sets the offset to the start of the first record
+     * @param dbLocation
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws DatabaseException 
+     */    
+    public DataDBAccess(String dbLocation, LockManager locker) 
+            throws FileNotFoundException, IOException, DatabaseException {
         logger.entering("DataDBAccess", "DataDBAccess", dbLocation);
+        this.locker = locker;
         fileObject = new RandomAccessFile(new File(dbLocation),"rw");
         final int magicCookie = fileObject.readInt();
         if (magicCookie != MAGIC_COOKIE_VALUE) {
@@ -116,13 +128,11 @@ public class DataDBAccess {
             fileObject.read(fieldName);
             fieldColumnNames[i] = new String(fieldName, ENCODING);
             int size = fileObject.readByte();
-            //System.out.println("Size: " + size);
-            fieldMap.put(fieldColumnNames[i], size);
-            //System.out.println(new String(fieldName, ENCODING)); //The character encoding is 8 bit US ASCII   
+            fieldMap.put(fieldColumnNames[i], size);   
             offset += FIELD_NAME_LENGTH + ACTUAL_FIELD_LENGTH + nameSize;
             System.out.println("Offset: " + offset);
         }
-         logger.exiting("DataDBAccess", "DataDBAccess");
+         logger.exiting("DataDBAccess", "DataDBAccess", locker);
     }
     
     public String[] read(int recNo) throws RecordNotFoundException {
@@ -159,13 +169,35 @@ public class DataDBAccess {
         return recordValue;
     }
     
-    public void update(int recNo, String[] data) throws RecordNotFoundException {
+    /**
+     * Updates a record in the database
+     * @param recNo
+     * @param data
+     * @throws RecordNotFoundException
+     * @throws DatabaseException
+     */
+    public synchronized void update(int recNo, String[] data) 
+            throws RecordNotFoundException, DatabaseException {
         logger.entering("DataDBAccess", "update", recNo);
+        final Long lockCookie = Thread.currentThread().getId();
+        Long ownerCookieValue = locker.getOwner(recNo);
+        
         if (recNo < 0) {
             throw new RecordNotFoundException("Record not found for record"
-                    + "number: " + recNo);
+                    + " number: " + recNo);
         }
         
+        if (ownerCookieValue == null) {
+            throw new DatabaseException("Record is not locked: " + recNo);
+        }
+        
+        if (ownerCookieValue.equals(lockCookie)) {
+            
+        }
+        else {
+            throw new DatabaseException("Record already locked by another"
+                    + " client: " + recNo);
+        }
         logger.exiting("DataDBAccess", "update", data);
     }
     
@@ -173,7 +205,7 @@ public class DataDBAccess {
         logger.entering("DataDBAccess", "delete", recNo);
         if (recNo < 0) {
             throw new RecordNotFoundException("Record not found for record"
-                    + "number: " + recNo);
+                    + " number: " + recNo);
         }
         logger.exiting("DataDBAccess", "delete");
     }

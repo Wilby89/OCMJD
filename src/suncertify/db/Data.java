@@ -42,14 +42,14 @@ public class Data implements DBMain {
     }
     
     /**
-     * This constructor takes in the database location as a param
+     * This constructor takes in the database location as a parameter
      * @param dbLocation
      * @throws FileNotFoundException
      * @throws IOException 
      */
     public Data(String dbLocation) throws FileNotFoundException, IOException {
         try {
-            database = new DataDBAccess(dbLocation);
+            database = new DataDBAccess(dbLocation, lockManager);
         } catch (DatabaseException dex) {
             logger.log(Level.SEVERE, dex.getMessage(), dex);
             System.err.println("Exception encountered when attempting to "
@@ -78,7 +78,13 @@ public class Data implements DBMain {
      */
     @Override
     public void update(int recNo, String[] data) throws RecordNotFoundException {
-       database.update(recNo, data);
+        try {
+            database.update(recNo, data);
+        } catch (DatabaseException dex) {
+            logger.log(Level.SEVERE, dex.getMessage(), dex);
+            System.err.println("Locking problem found when atempting update "
+                     + dex.getMessage());
+        }
     }
 
     /**
