@@ -95,7 +95,13 @@ public class Data implements DBMain {
      */
     @Override
     public void delete(int recNo) throws RecordNotFoundException {
-        database.delete(recNo);
+        try {
+            database.delete(recNo);
+        } catch (DatabaseException dex) {
+            logger.log(Level.SEVERE, dex.getMessage(), dex);
+            System.err.println("Locking problem found when atempting deletion "
+                     + dex.getMessage());
+        }
     }
 
     /**

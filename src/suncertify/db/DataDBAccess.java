@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -192,7 +193,23 @@ public class DataDBAccess {
         }
         
         if (ownerCookieValue.equals(lockCookie)) {
-            
+            try {
+                fileObject.seek(offset + recNo * maxRecord);
+                byte[] record = new byte[maxRecord];
+                int tempRecordLength = fileObject.read(record);
+                if (tempRecordLength != maxRecord) {
+                    throw new RecordNotFoundException("Record not found or record size does not match");
+                }
+                if (record[0] == DELETED) {
+                    throw new RecordNotFoundException("The record " + recNo + " has been deleted" );
+                }
+                fileObject.seek(offset + recNo * maxRecord);
+                fileObject.writeByte(VALID);
+                fileObject.write(getDataAsByteArray(data));
+            } catch (Exception e) {
+                throw new RecordNotFoundException("The record: " + recNo 
+                    + " was not found, " + e.getMessage());
+            }
         }
         else {
             throw new DatabaseException("Record already locked by another"
@@ -201,11 +218,55 @@ public class DataDBAccess {
         logger.exiting("DataDBAccess", "update", data);
     }
     
-    public void delete(int recNo) throws RecordNotFoundException {
+    private byte[] getDataAsByteArray (String[] data) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        byte[] byteArray = new byte[7];
+        for (String str: data) {
+            stringBuilder.append(str);
+        }
+        try {
+            byteArray = stringBuilder.toString().getBytes(ENCODING);
+        } catch (UnsupportedEncodingException ueex) {
+            logger.severe("Unsupported character set: " 
+                    + ENCODING + " " + ueex.getMessage());
+        }
+        return byteArray;
+    }
+    
+    public synchronized void delete(int recNo) throws RecordNotFoundException, DatabaseException {
         logger.entering("DataDBAccess", "delete", recNo);
+        final Long lockCookie = Thread.currentThread().getId();
+        Long ownerCookieValue = locker.getOwner(recNo);
         if (recNo < 0) {
             throw new RecordNotFoundException("Record not found for record"
                     + " number: " + recNo);
+        }
+        if (ownerCookieValue == null) {
+            throw new DatabaseException("Record is not locked: " + recNo);
+        }
+        
+        if (ownerCookieValue.equals(lockCookie)) {
+            try {
+                fileObject.seek(offset + recNo * maxRecord);
+                byte[] record = new byte[maxRecord];
+                int tempRecordLength = fileObject.read(record);
+                if (tempRecordLength != maxRecord) {
+                    throw new RecordNotFoundException("Record not found or record size does not match");
+                }
+                if (record[0] == DELETED) {
+                    throw new RecordNotFoundException
+                            ("The record " + recNo + " has already been deleted" );
+                }
+                fileObject.seek(offset + recNo * maxRecord);
+                fileObject.writeByte(DELETED);
+            } catch (Exception e) {
+                throw new RecordNotFoundException("The record: " + recNo 
+                    + " was not found, " + e.getMessage());
+            }
+        }
+        else {
+            throw new DatabaseException("Record already locked by another"
+                    + " client: " + recNo);
         }
         logger.exiting("DataDBAccess", "delete");
     }
@@ -251,7 +312,7 @@ public class DataDBAccess {
         }        
     }
     
-    public int create(String[] data) throws DuplicateKeyException {
+    public synchronized int create(String[] data) throws DuplicateKeyException {
         int temp = 1;
         return temp;
     }
