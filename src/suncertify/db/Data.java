@@ -99,7 +99,7 @@ public class Data implements DBMain {
             database.delete(recNo);
         } catch (DatabaseException dex) {
             logger.log(Level.SEVERE, dex.getMessage(), dex);
-            System.err.println("Locking problem found when atempting deletion "
+            System.err.println("Locking problem found when attempting deletion "
                      + dex.getMessage());
         }
     }
@@ -131,7 +131,15 @@ public class Data implements DBMain {
      */
     @Override
     public int create(String[] data) throws DuplicateKeyException {
-        return database.create(data);
+        int creationPointer = 0;
+        try {
+            creationPointer =  database.create(data);
+        } catch (RecordNotFoundException rex) {
+            logger.log(Level.SEVERE, rex.getMessage(), rex);
+            System.err.println("Problem found when attempting creation "
+                     + rex.getMessage());
+        }
+        return creationPointer;
     }
 
     /**
