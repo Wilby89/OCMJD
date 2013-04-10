@@ -312,9 +312,46 @@ public class DataDBAccess {
         }        
     }
     
-    public synchronized int create(String[] data) throws DuplicateKeyException {
-        int temp = 1;
-        return temp;
+    public synchronized int create(String[] data) throws DuplicateKeyException, RecordNotFoundException {
+        logger.entering("DataDBAccess", "create", data);
+        if (data == null) {
+            throw new IllegalArgumentException("Record not found for record"
+                    + " number");
+        }
+        int[] existingRecords = find(data);
+        if (existingRecords != null || existingRecords.length > 0) {
+            throw new DuplicateKeyException("Record already exists");
+        }
+        try {            
+            int position = getPositionToInsert();  
+            fileObject.seek(offset + position * maxRecord);
+            fileObject.writeByte(VALID);
+            fileObject.write(getDataAsByteArray(data));
+            logger.exiting("DataDBAccess", "create",
+                    "Created at position: " + position);
+            return position;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    public int getPositionToInsert() {
+        int insertPosition = 0;
+        try {
+            this.fileObject.seek(offset);
+            byte[] record = new byte[maxRecord];
+            while (this.fileObject.read(record) == maxRecord) {
+                if (record[0] == DELETED) {
+                    return insertPosition;
+                }
+                insertPosition++;
+                record = new byte[maxRecord];
+            }
+            return insertPosition;
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
     
     /**
