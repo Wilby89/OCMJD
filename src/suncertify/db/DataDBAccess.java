@@ -361,7 +361,7 @@ public class DataDBAccess {
      * @return an <code>int[]</code> that holds all record numbers that correspond
      * to records in the database
      */
-    public int[] findAllRecords() {
+    private int[] findAllRecords() {
         int recNum = 0;
         ArrayList<Integer> recNumArray = new ArrayList<Integer>();
         try {
