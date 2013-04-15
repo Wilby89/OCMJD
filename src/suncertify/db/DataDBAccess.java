@@ -139,7 +139,7 @@ public class DataDBAccess {
     public String[] read(int recNo) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "read", recNo);
         try {
-            System.out.println("Offset going into read: " + (offset + recNo * maxRecord));
+            //System.out.println("Offset going into read: " + (offset + recNo * maxRecord));
             fileObject.seek(offset + recNo * maxRecord);
             byte[] record = new byte[maxRecord];
             int tempRecordLength = fileObject.read(record);

@@ -301,6 +301,8 @@ public class HotelFrame extends JFrame {
             }
             try {
                 controller.reserveRoom(recordRow, csrNumber);
+                tableModel = controller.getAllRooms();
+                refreshTable();
             } catch(Exception ex) {
                 logger.log(Level.SEVERE, ex.getMessage(), ex);
                 System.err.println("Reserve room problem found: " + ex.getMessage());
