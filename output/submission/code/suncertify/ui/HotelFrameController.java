@@ -1,11 +1,14 @@
 package suncertify.ui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import suncertify.db.DBMain;
+import suncertify.db.DatabaseException;
 import suncertify.db.RecordNotFoundException;
-import suncertify.db.Room;
+import suncertify.rmi.RoomConnector;
 import suncertify.util.ApplicationMode;
 import suncertify.util.RoomDBConnector;
 
@@ -80,35 +83,9 @@ public class HotelFrameController {
         return criteriaRoomsModel;
     }
     
-    /**
-     * Reserve a room in the database
-     * I chose to use a conversion method in my room object to get CSR, set CSR 
-     * and then return a String[] containing to existing record with a new CSR
-     * @param recordNumber
-     * @param CSRNumber 
-     */
-    public void reserveRoom(int recordNumber, String CSRNumber) {
+    public void reserveRoom(int recordNumber) {
         logger.entering("HotelFrameController", "reserveRoom",
                 "Record number to be reserved: " + recordNumber);
-        String[] data = null;
-        try {
-            data = connection.read(recordNumber);
-        } catch (RecordNotFoundException rex) {
-            logger.log(Level.SEVERE, rex.getMessage(), rex);
-            System.err.println("Error reading record at position : " 
-                    + rex.getMessage());
-        }
-        Room room = new Room(data);
-        room.setCustId(CSRNumber);
-        try {
-            connection.lock(recordNumber);
-            connection.update(recordNumber, room.toStringArray());
-            connection.unlock(recordNumber);
-        } catch (RecordNotFoundException rex) {
-            logger.log(Level.SEVERE, rex.getMessage(), rex);
-            System.err.println("Error attempting to update : " 
-                    + rex.getMessage());
-        }
         logger.exiting("HotelFrameController", "reserveRoom");
     }
     

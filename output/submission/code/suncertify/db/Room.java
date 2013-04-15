@@ -73,14 +73,7 @@ public class Room implements Serializable {
     }
     
     /**
-     * Constructor for Room
-     * @param hotelName
-     * @param city
-     * @param maxOccupancy
-     * @param smoking
-     * @param price
-     * @param date
-     * @param custId 
+     * Constructor for the room Object
      */
     public Room(String hotelName, String city, String maxOccupancy
             , String smoking, String price, String date, String custId) {
@@ -94,23 +87,6 @@ public class Room implements Serializable {
         this.price = price;
         this.date = date;
         this.custId = custId;
-        log.exiting("Room", "Room");
-    }
-    
-    /**
-     * Constructor for Room
-     * @param data 
-     */
-    public Room(String[] data) {
-
-        log.entering("Room", "Room", data);
-        this.hotelName = data[0];
-        this.city = data[1];
-        this.maxOccupancy = data[2];
-        this.smoking = data[3];
-        this.price = data[4];
-        this.date = data[5];
-        this.custId = data[6];
         log.exiting("Room", "Room");
     }
 
@@ -240,10 +216,6 @@ public class Room implements Serializable {
         log.exiting("Room", "setCustId", this.custId);
     }
     
-    /**
-     * Returns a String representation of the object
-     * @return a <code>String</code> containing the record data
-     */
     public String toString() {
         String roomString =
                 this.hotelName +
@@ -255,15 +227,5 @@ public class Room implements Serializable {
                 this.custId;
         
         return roomString;
-    }
-    
-    /**
-     * returns a String[] representation of the object
-     * @return a <code>String[]</code> containing the record data
-     */
-    public String[] toStringArray() {
-        final String[] roomStrArray = {this.hotelName, this.city, 
-            this.maxOccupancy, this.smoking, this.price, this.date, this.custId};
-        return roomStrArray;
     }
 }

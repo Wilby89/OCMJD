@@ -292,15 +292,11 @@ public class HotelFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             int recordRow = hotelTable.getSelectedRow();
-            String csrNumber = "";
             if (recordRow < 0) {
                 JOptionPane.showMessageDialog(bottomPanel, "Please select a row");
             }
-            else {
-                csrNumber = (String) JOptionPane.showInputDialog(bottomPanel, "Enter CSR number");
-            }
             try {
-                controller.reserveRoom(recordRow, csrNumber);
+                controller.reserveRoom(recordRow);
             } catch(Exception ex) {
                 logger.log(Level.SEVERE, ex.getMessage(), ex);
                 System.err.println("Reserve room problem found: " + ex.getMessage());
