@@ -1,14 +1,9 @@
 package suncertify.ui;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import suncertify.db.DBMain;
-import suncertify.db.DatabaseException;
-import suncertify.db.RecordNotFoundException;
-import suncertify.rmi.RoomConnector;
 import suncertify.util.ApplicationMode;
 import suncertify.util.RoomDBConnector;
 
