@@ -297,7 +297,10 @@ public class HotelFrame extends JFrame {
                 JOptionPane.showMessageDialog(bottomPanel, "Please select a row");
             }
             else {
-                csrNumber = (String) JOptionPane.showInputDialog(bottomPanel, "Enter CSR number");
+                do {
+                csrNumber = (String) JOptionPane.showInputDialog
+                        (bottomPanel, "Enter CSR number of 8 digits");
+                } while (csrNumber.length() != 8);
             }
             try {
                 controller.reserveRoom(recordRow, csrNumber);
