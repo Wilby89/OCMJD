@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import suncertify.db.DataDBAccess;
 import suncertify.util.ApplicationMode;
+import suncertify.util.PropertyManager;
 
 /**
  *
@@ -106,6 +107,10 @@ public class HotelFrame extends JFrame {
      */
     private RoomTableModel tableModel;
     /**
+     * PropertyManager instance to get properties from property file
+     */
+    private PropertyManager propManager = PropertyManager.getInstance();
+    /**
      * String to hold the location of the database got from the 
      * <code>ConfigurationFrame</code> dialog.
      */
@@ -138,11 +143,13 @@ public class HotelFrame extends JFrame {
         
         ConfigurationDialog configurationFrame = new ConfigurationDialog(applicationMode);
         configurationFrame.setVisible(true);
-        this.dbLocation = configurationFrame.getDBLocation();
+        String dbPath = configurationFrame.getDBLocation();
+        propManager.setProperty(dbPath, dbPath);
+        this.dbLocation = propManager.getProperty(dbPath);
         logger.log(Level.INFO, "Database location is: " + dbLocation);
         System.out.println("Database location is: " + dbLocation);
         
-        controller = new HotelFrameController(ApplicationMode.ALONE, "C:/Users/ewibros/Documents/instructions-133/" 
+        controller = new HotelFrameController(ApplicationMode.ALONE, dbLocation 
                 + DataDBAccess.DATABASE_NAME, "5005");
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
