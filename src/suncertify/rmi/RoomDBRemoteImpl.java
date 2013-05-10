@@ -12,7 +12,7 @@ import suncertify.db.DuplicateKeyException;
 import suncertify.db.RecordNotFoundException;
 
 /**
- *
+ * This class implements the remote interface
  * @author William Brosnan
  */
 public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabaseRemote {
