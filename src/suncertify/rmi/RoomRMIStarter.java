@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import suncertify.util.PropertyManager;
 
 /**
+ * 
  * @author William Brosnan
  * 
  * This class is used to start the RMI registry and register the 
@@ -23,7 +24,7 @@ public class RoomRMIStarter {
     /**
      * The implementation class instance on the server side
      */
-    private static RoomDBRemoteImpl roomDBRemoteImpl;
+    private static RoomDatabaseRemote roomDBRemoteImpl;
     
     private RoomRMIStarter() {}
     
@@ -39,7 +40,8 @@ public class RoomRMIStarter {
         try {
             roomDBRemoteImpl = new RoomDBRemoteImpl(dbPath);
             LocateRegistry.createRegistry(Integer.parseInt(port));
-            Naming.rebind("rmi://"+hostName+":"+port+"/"+"RoomDBRemoteImpl", roomDBRemoteImpl);
+            Naming.rebind("rmi://" + hostName 
+                    + ":" + port + "/RoomDBRemoteImpl", roomDBRemoteImpl);
             logger.log(Level.INFO, "RMI Server started at " 
                     + hostName + ":" + port);
         } catch (RemoteException rex) {
