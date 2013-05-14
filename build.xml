@@ -102,7 +102,7 @@
         <!-- compile the source files -->
         <javac srcdir="${dir.source}" destdir="${dir.temp.classes}" listfiles="true" failonerror="true" includeantruntime="false" />
         <!-- compile stubs and skeletons (using rmic) -->
-        <rmic base="${dir.temp.classes}" verify="true" debug="true" />
+        <!--<rmic base="${dir.temp.classes}" verify="true" debug="true" />-->
         <!-- jar all classes -->
         <jar destfile="${jar.executable}" basedir="${dir.temp.classes}">
             <manifest>
