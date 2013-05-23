@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import suncertify.ui.HotelFrame;
+import suncertify.util.ApplicationMode;
 
 /**
  *
@@ -27,11 +28,11 @@ public class StartUp {
     }
     
     public StartUp(String[] args) {        
-        if (args.length == 0 || "ALONE".equalsIgnoreCase(args[0])) {
+        if (args.length == 0 || ApplicationMode.ALONE.name().equalsIgnoreCase(args[0])) {
             JFrame hotelFrame = new HotelFrame(args);
             hotelFrame.setVisible(true);
         }
-        else if ("SERVER".equalsIgnoreCase(args[0])) {
+        else if (ApplicationMode.SERVER.name().equalsIgnoreCase(args[0])) {
             //JFrame hotelServerFrame = new HotelFrame(args);
             //hotelServerFrame.setVisible(true);
         }

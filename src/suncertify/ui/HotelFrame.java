@@ -134,9 +134,6 @@ public class HotelFrame extends JFrame {
         if (args.length == 0) {
             applicationMode = ApplicationMode.NETWORK;
         }
-        else if (args[0].equalsIgnoreCase("server")) {
-            applicationMode = ApplicationMode.SERVER;
-        }
         else {
             applicationMode = ApplicationMode.ALONE;
         }

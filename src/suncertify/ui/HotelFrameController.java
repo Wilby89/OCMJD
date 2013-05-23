@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import suncertify.db.DBMain;
 import suncertify.db.RecordNotFoundException;
 import suncertify.db.Room;
+import suncertify.rmi.RoomConnector;
 import suncertify.util.ApplicationMode;
 import suncertify.util.RoomDBConnector;
 
@@ -30,7 +31,7 @@ public class HotelFrameController {
                 connection = RoomDBConnector.getLocalConnection(dbLocation);
             }
             else {
-                //connection = RoomConnector.getRemoteConnection(dbLocation, port);
+                connection = RoomConnector.getRemoteConnection(dbLocation, port);
             }
         } catch (IOException ex) {
             logger.log(Level.SEVERE, "Caught IOException: " + ex.getMessage(), ex);
