@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import suncertify.ui.HotelFrame;
+import suncertify.ui.HotelServerFrame;
 import suncertify.util.ApplicationMode;
 
 /**
@@ -33,12 +34,12 @@ public class StartUp {
             hotelFrame.setVisible(true);
         }
         else if (ApplicationMode.SERVER.name().equalsIgnoreCase(args[0])) {
-            //JFrame hotelServerFrame = new HotelFrame(args);
-            //hotelServerFrame.setVisible(true);
+            JFrame hotelServerFrame = new HotelServerFrame();
+            hotelServerFrame.setVisible(true);
         }
         else {
             logger.log(Level.INFO, "Invalid param supplied to application: " +
                     args[0]);
         }
-    }    
+    }
 }
