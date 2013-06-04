@@ -17,22 +17,22 @@ import java.util.logging.Logger;
  */
 public final class PropertyManager {
     
-    private static PropertyManager instance = new PropertyManager();
-    
     private static final String PROPERTY_FILE_NAME = "suncertify.properties";
     
     private static final String PROPERTY_FILE_DIR = System.getProperty("user.dir");
+    
+    private static File propertiesFile = 
+            new File(PROPERTY_FILE_DIR, PROPERTY_FILE_NAME);
     
     private static final String DATABASE_PATH = "dbPath";
     private static final String RMI_HOST = "rmiHost";
     private static final String RMI_PORT = "rmiPort";
     
-    private static File propertiesFile = 
-            new File(PROPERTY_FILE_DIR, PROPERTY_FILE_NAME);
-    
     private Logger logger = Logger.getLogger("suncertify.rmi");
     
-    private Properties properties;
+    private Properties properties = null;
+    
+    private static final PropertyManager instance = new PropertyManager();
     
     public static PropertyManager getInstance() {
         return instance;
@@ -98,6 +98,7 @@ public final class PropertyManager {
      */
     private Properties loadProperties() {
         Properties loadedProperties = null;
+        System.out.println("File is: " + propertiesFile.toString());
         
         if (propertiesFile.exists() && propertiesFile.canRead()) {
             synchronized(propertiesFile) {
