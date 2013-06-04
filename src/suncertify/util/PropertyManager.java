@@ -47,6 +47,7 @@ public final class PropertyManager {
             properties = new Properties();
             
             properties.setProperty(RMI_HOST, "localhost");
+            properties.setProperty(DATABASE_PATH, "");
             properties.setProperty(RMI_PORT, 
                     "" + java.rmi.registry.Registry.REGISTRY_PORT);
         }        

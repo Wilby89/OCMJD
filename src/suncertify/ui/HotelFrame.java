@@ -141,7 +141,7 @@ public class HotelFrame extends JFrame {
         ConfigurationDialog configurationFrame = new ConfigurationDialog(applicationMode);
         configurationFrame.setVisible(true);
         String dbPath = configurationFrame.getDBLocation();
-        propManager.setProperty(dbPath, dbPath);
+        propManager.setProperty("dbPath", dbPath);
         this.dbLocation = propManager.getProperty(dbPath);
         logger.log(Level.INFO, "Database location is: " + dbLocation);
         System.out.println("Database location is: " + dbLocation);
