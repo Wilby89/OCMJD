@@ -30,17 +30,15 @@ public class RoomConnector {
      */
     public static DBMain getRemoteConnection(String hostName, String port) 
             throws RemoteException {
-        String url = "rmi://" + hostName + ":" +
-                port + "/RoomDBRemoteImpl", roomDBRemoteImpl;
+        String url = "rmi://" + hostName + ":" + port + "/RoomBroker";
         try {
-            RoomDatabaseRemote roomDatabaseRemote = 
-                    (RoomDatabaseRemote) Naming.lookup(url);
-            return (DBMain) roomDatabaseRemote;
+            RoomDBRemoteFactory factory = (RoomDBRemoteFactory) Naming.lookup(url);
+            return (DBMain) factory.getClient();
         } catch (NotBoundException nbex) {
-            System.err.println("No associated binding found for " + url + " "
-                    + nbex.getMessage());
+            System.err.println("No associated binding found for broker at " + url
+                    + " " + nbex.getMessage());
             logger.log(Level.SEVERE, nbex.getMessage(), nbex);
-            throw new RemoteException("Problem with Room connection: ", nbex);
+            throw new RemoteException("Problem with Room broker connection: ", nbex);
         } catch (MalformedURLException muex) {
             System.err.println("Invalid URL when trying to retrieve connection "
                     + muex.getMessage());
