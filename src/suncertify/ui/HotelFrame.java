@@ -107,10 +107,6 @@ public class HotelFrame extends JFrame {
      */
     private RoomTableModel tableModel;
     /**
-     * PropertyManager instance to get properties from property file
-     */
-    private PropertyManager propManager = PropertyManager.getInstance();
-    /**
      * String to hold the location of the database got from the 
      * <code>ConfigurationFrame</code> dialog.
      */
@@ -130,6 +126,7 @@ public class HotelFrame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        PropertyManager propManager = PropertyManager.getInstance();
         
         if (args.length == 0) {
             applicationMode = ApplicationMode.NETWORK;
@@ -140,7 +137,8 @@ public class HotelFrame extends JFrame {
         
         ConfigurationDialog configurationFrame = new ConfigurationDialog(applicationMode);
         configurationFrame.setVisible(true);
-        String dbPath = configurationFrame.getDBLocation();
+        
+        String dbPath = configurationFrame.getDatabaseLocation();
         System.out.println("Db path is " + dbPath);
         propManager.setProperty("dbPath", dbPath);
         this.dbLocation = propManager.getProperty(dbPath);

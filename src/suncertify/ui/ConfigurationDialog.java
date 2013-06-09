@@ -5,7 +5,9 @@ import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Properties;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -14,14 +16,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import suncertify.db.DataDBAccess;
 import suncertify.util.ApplicationMode;
+import suncertify.util.PropertyManager;
 
 /**
  *
  * @author William Brosnan
  */
-public class ConfigurationDialog extends JDialog {
+public class ConfigurationDialog extends JDialog implements ActionListener {
     
     /**
      * Constant to represent property key in properties file
@@ -35,6 +37,18 @@ public class ConfigurationDialog extends JDialog {
      * Constant to represent property key in properties file
      */
     public static final String RMI_PORT = "rmiPort";
+    /**
+     * Constant to represent confirmation in the dialog
+     */
+    private static final String CONFIRM = "Confirm";
+    /**
+     * Constant to exit out of the entire application
+     */
+    private static final String KILL = "Kill";
+    /**
+     * Constant to choose file with <code>JFileChooser</code>
+     */
+    private static final String BROWSE = "Browse";
     /**
      * JPanel to hold the database selection components
      */
@@ -105,7 +119,19 @@ public class ConfigurationDialog extends JDialog {
     /**
      * Properties instance to get/set properties from properties file
      */
-    private Properties properties;
+    private PropertyManager properties = PropertyManager.getInstance();
+    /**
+     * String to hold database location
+     */
+    private String dbPath = null;
+    /**
+     * String to hold port number
+     */
+    private String rmiPort = null;
+    /**
+     * String to hold dbHost
+     */
+    private String rmiHost = null;
     
     /**
      * Constructor for class, set parameters for the JFrame on startup
@@ -114,15 +140,22 @@ public class ConfigurationDialog extends JDialog {
         appMode = applicationMode;
         setTitle("Configure Options");
         //Manually setting size
-        setSize(600,500);
+        setSize(600,200);
         setResizable(false);
         //centers the GUI in the middle of the screen
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setModalityType(Dialog.ModalityType.APPLICATION_MODAL);        
+        setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);        
         add(loadDBPanel(), BorderLayout.NORTH);
         add(loadRMIPanel(), BorderLayout.CENTER);
         add(loadConfirmationPanel(), BorderLayout.SOUTH);
+        initComponents();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                getEvent(KILL);
+            }
+        });
     }
     
     /**
@@ -135,10 +168,11 @@ public class ConfigurationDialog extends JDialog {
         dbLabel = new JLabel("Enter database location");
         dbPanel.add(dbLabel);
         //Manually set size of JTextField
-        dbField = new JTextField(DataDBAccess.DATABASE_NAME, 30);
+        dbField = new JTextField(30);
         dbPanel.add(dbField);
         dbButton = new JButton("Choose File");
-        dbButton.addActionListener(new ChooseFile());
+        dbButton.setActionCommand(BROWSE);
+        dbButton.addActionListener(this);
         dbPanel.add(dbButton);
         portLabel = new JLabel("Enter an RMI port");
         dbPanel.add(portLabel);
@@ -173,17 +207,66 @@ public class ConfigurationDialog extends JDialog {
     private JPanel loadConfirmationPanel() {
         confirmationPanel = new JPanel();
         okButton = new JButton("OK");
-        okButton.addActionListener(new Confirmation());
+        okButton.setActionCommand(CONFIRM);
+        okButton.addActionListener(this);
         confirmationPanel.add(okButton);
+        okButton.setEnabled(false);
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new Cancel());
+        cancelButton.setActionCommand(KILL);
+        cancelButton.addActionListener(this);
         confirmationPanel.add(cancelButton);
         //returns the JPanel to the class constructor
         return confirmationPanel;
     }
     
-    public String getDBLocation() {
-        return this.dbField.getText();
+    /**
+     * Used to populate/disable fields based on application mode
+     */
+    private void initComponents() {
+        dbFlag = false;
+        portFlag = false;
+        hostFlag = false;
+        System.out.println(properties.getProperty("dbPath"));
+        dbPath = properties.getProperty("dbPath");
+        rmiPort = properties.getProperty("rmiPort");
+        rmiHost = properties.getProperty("rmiHost");
+        switch (appMode) {
+            case ALONE :
+                dbField.setText(dbPath);
+                portField.setEnabled(false);
+                hostField.setEnabled(false);
+                break;
+            case SERVER :
+                dbField.setText(dbPath);
+                portField.setText(rmiPort);
+                hostField.setEnabled(false);
+                break;
+            case NETWORK :
+                dbField.setEnabled(false);
+                dbButton.setEnabled(false);
+                portField.setText(rmiPort);
+                hostField.setText(rmiHost);
+                break;
+            default :
+                throw new UnsupportedOperationException
+                        ("Invalid application startup mode");                
+        }
+    }
+    
+    public void actionPerformed(ActionEvent ae) {
+        getEvent(ae.getActionCommand());
+    }
+    
+    private void getEvent(String event) {
+        if (CONFIRM.equals(event)) {
+            confirmation();
+        }
+        else if (BROWSE.equals(event)) {
+            chooseFile();            
+        }
+        else {
+            
+        }
     }
     
     /**
@@ -191,53 +274,57 @@ public class ConfigurationDialog extends JDialog {
      * Search will use the entries added in hotel name and location fields
      * as search terms
      */
-    private class ChooseFile implements ActionListener {
     
-        @Override
-        public void actionPerformed(ActionEvent e) {           
-            JFileChooser fileChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "Database file", "db");
-            fileChooser.setFileFilter(filter);
-            int returnVal = fileChooser.showOpenDialog(null);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                dbField.setText(fileChooser.getSelectedFile().toString());
-            }
+        
+    private void chooseFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Database file", "db");
+        fileChooser.setFileFilter(filter);
+        int returnVal = fileChooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            dbField.setText(fileChooser.getSelectedFile().toString());
         }
     }
-    
-    private class Confirmation implements ActionListener {
-    
-        @Override
-        public void actionPerformed(ActionEvent e) {           
-            switch (appMode) {
-                case ALONE : {
-                    portFlag = true;
-                    hostFlag = true;
-                    if (!dbField.getText().equals("")) {
+
+    private void confirmation() {
+        switch (appMode) {
+            case ALONE:
+                portFlag = true;
+                hostFlag = true;
+                if (!dbField.getText().equals("")) {
+                    File file = new File(dbPath);
+                    if (file.exists() && file.isFile()) {
                         dbFlag = true;
+                        dbPath = dbField.getText();
+                        properties.setProperty("dbPath", dbPath);
+                        this.setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(confirmationPanel,
+                                "Path entered is invalid");
                     }
-                    else {
-                        JOptionPane.showMessageDialog(confirmationPanel, 
-                                "Please enter a path to the local database");
-                    }
-                    break;
+                } else {
+                    JOptionPane.showMessageDialog(confirmationPanel,
+                            "Please enter a path to the local database");
                 }
-                case SERVER : {
-                    
-                }
-                case NETWORK : {
-                    
-                }                                       
-            }            
+                break;
+            case SERVER:
+
+            case NETWORK:
+
         }
     }
     
-    private class Cancel implements ActionListener {
+    public String getDatabaseLocation() {
+        return dbPath;
+    }
     
-        @Override
-        public void actionPerformed(ActionEvent e) {           
-            
-        }
+    public String getRMIPort() {
+        return rmiPort;
+    }
+    
+    public String getRMIHost() {
+        return rmiHost;
     }
 }
+
