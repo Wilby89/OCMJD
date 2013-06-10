@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 /**
  *
  * @author William Brosnan
+ * 
+ * Implementation class of the <code>RoomDBRemoteFactory</code> interface
  */
 public class RoomDBRemoteFactoryImpl extends UnicastRemoteObject implements RoomDBRemoteFactory {
     
@@ -29,8 +31,10 @@ public class RoomDBRemoteFactoryImpl extends UnicastRemoteObject implements Room
     } 
 
     /**
-     * returns a client to the 
-     * @return a new <code>RoomDatabaseRemoteImpl</code>
+     * Returns a remote reference to <code>RoomDatabaseRemote</code> to the 
+     * client attempting to connect allowing the client to remotely call methods
+     * on the database
+     * @return <code>RoomDatabaseRemote</code>
      * @throws RemoteException 
      */
     @Override
