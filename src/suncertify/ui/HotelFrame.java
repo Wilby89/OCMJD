@@ -139,14 +139,11 @@ public class HotelFrame extends JFrame {
         configurationFrame.setVisible(true);
         
         String dbPath = configurationFrame.getDatabaseLocation();
-        System.out.println("Db path is " + dbPath);
-        propManager.setProperty("dbPath", dbPath);
-        this.dbLocation = propManager.getProperty(dbPath);
-        logger.log(Level.INFO, "Database location is: " + dbLocation);
-        System.out.println("Database location is: " + dbLocation);
+        logger.log(Level.INFO, "Database location is: " + dbPath);
+        System.out.println("Database location is: " + dbPath);
         
-        controller = new HotelFrameController(ApplicationMode.ALONE, dbLocation 
-                + DataDBAccess.DATABASE_NAME, "5005");
+        controller = new HotelFrameController(ApplicationMode.ALONE, dbPath 
+                 ,"5005");
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(new QuitApplication());

@@ -210,7 +210,6 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         okButton.setActionCommand(CONFIRM);
         okButton.addActionListener(this);
         confirmationPanel.add(okButton);
-        okButton.setEnabled(false);
         cancelButton = new JButton("Cancel");
         cancelButton.setActionCommand(KILL);
         cancelButton.addActionListener(this);
@@ -298,6 +297,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                         dbFlag = true;
                         dbPath = dbField.getText();
                         properties.setProperty("dbPath", dbPath);
+                        System.out.println("DBPath: " + dbPath);
                         this.setVisible(false);
                     } else {
                         JOptionPane.showMessageDialog(confirmationPanel,
