@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -25,6 +27,10 @@ import suncertify.util.PropertyManager;
  */
 public class ConfigurationDialog extends JDialog implements ActionListener {
     
+    /*
+     * Adding a logger instance for logging and debugging purposes.
+     */
+    private Logger logger = Logger.getLogger("suncertify.ui");
     /**
      * Constant to represent property key in properties file
      */
@@ -296,8 +302,8 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                     if (file.exists() && file.isFile()) {
                         dbFlag = true;
                         dbPath = dbField.getText();
+                        logger.log(Level.INFO, "Database location is: " + dbPath);
                         properties.setProperty("dbPath", dbPath);
-                        System.out.println("DBPath: " + dbPath);
                         this.setVisible(false);
                     } else {
                         JOptionPane.showMessageDialog(confirmationPanel,
@@ -309,10 +315,107 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 }
                 break;
             case SERVER:
-
+                hostFlag = true;
+                if (!dbField.getText().equals("")) {
+                    File file = new File(dbPath);
+                    if (file.exists() && file.isFile()) {
+                        dbFlag = true;
+                        dbPath = dbField.getText();
+                        logger.log(Level.INFO, "Database location is: " + dbPath);
+                        properties.setProperty("dbPath", dbPath);
+                    } else {
+                        JOptionPane.showMessageDialog(confirmationPanel,
+                                "Path entered is invalid");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(confirmationPanel,
+                            "Please enter a path to the local database");
+                }
+                
+                if (!portField.getText().equals("")) {
+                    if (isNumeric(portField.getText())) {
+                        if (isInRange(portField.getText())) {
+                            portFlag = true;
+                            rmiPort = portField.getText();
+                            logger.log(Level.INFO, "Port number is: " + rmiPort);
+                            properties.setProperty("rmiPort", rmiPort);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(confirmationPanel,
+                                "Port not in range, port must be between 0 and 65535");
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(confirmationPanel,
+                                "Port number supplied is not a recognised number");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(confirmationPanel,
+                                "Please enter a port number");
+                }
+                
+                if (dbFlag && portFlag && hostFlag) {
+                    this.setVisible(false);
+                    break;
+                }
             case NETWORK:
-
+                dbFlag = true;
+                if (!portField.getText().equals("")) {
+                    if (isNumeric(portField.getText())) {
+                        if (isInRange(portField.getText())) {
+                            portFlag = true;
+                            rmiPort = portField.getText();
+                            logger.log(Level.INFO, "Port number is: " + rmiPort);
+                            properties.setProperty("rmiPort", rmiPort);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(confirmationPanel,
+                                "Port not in range, port must be between 0 and 65535");
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(confirmationPanel,
+                                "Port number supplied is not a recognised number");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(confirmationPanel,
+                                "Please enter a port number");
+                }
+                
+                if (!hostField.getText().equals("")) {
+                    hostFlag = true;
+                }
+                else {
+                    JOptionPane.showMessageDialog(confirmationPanel,
+                                "Please enter a hostname");
+                }
+                break;
+                
+            default:
+                throw new UnsupportedOperationException
+                        ("Invalid application startup mode");                                           
         }
+    }
+    
+    private boolean isNumeric(String possibleNumeric) {
+        try {
+            double dub = Double.parseDouble(possibleNumeric);
+        }
+        catch(NumberFormatException nfex) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean isInRange(String possibleInRange) {
+        double dub = Double.parseDouble(possibleInRange);
+        if (dub > 0 && dub < 65535) {
+            return true;
+        }
+        logger.log(Level.INFO, "Port number out of bounds: " + dub);
+        return false;            
     }
     
     public String getDatabaseLocation() {

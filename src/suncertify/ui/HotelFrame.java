@@ -142,8 +142,8 @@ public class HotelFrame extends JFrame {
         logger.log(Level.INFO, "Database location is: " + dbPath);
         System.out.println("Database location is: " + dbPath);
         
-        controller = new HotelFrameController(ApplicationMode.ALONE, dbPath 
-                 ,"5005");
+        controller = new HotelFrameController(applicationMode, dbPath 
+                 ,configurationFrame.getRMIPort());
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(new QuitApplication());
