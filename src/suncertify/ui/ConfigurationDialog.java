@@ -194,6 +194,10 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         return dbPanel;
     }
     
+    /**
+     * Loads the components for the network/server application mode
+     * @return <code>JPanel</code> containing components
+     */
     private JPanel loadRMIPanel() {
         rmiPanel = new JPanel();
         portLabel = new JLabel("Enter an RMI port");
@@ -210,6 +214,10 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         return rmiPanel;
     }
     
+     /**
+     * Loads the components for confirmation/canceling 
+     * @return <code>JPanel</code> containing components
+     */
     private JPanel loadConfirmationPanel() {
         confirmationPanel = new JPanel();
         okButton = new JButton("OK");
@@ -258,10 +266,23 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         }
     }
     
+    /**
+     * Listener for ActionEvents on the GUI buttons
+     * @param ae 
+     */
     public void actionPerformed(ActionEvent ae) {
         getEvent(ae.getActionCommand());
     }
     
+    /**
+     * Facilitator method to call the correct handler function to deal with
+     * the event being passed through.
+     * 
+     *  CONFIRM calls confirmation to verify parameters.
+     *  BROWSE calls chooseFile to open the <code>JFileChooser</code>.
+     *  KILL will exit the application.
+     * @param event 
+     */
     private void getEvent(String event) {
         if (CONFIRM.equals(event)) {
             confirmation();
@@ -270,17 +291,15 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
             chooseFile();            
         }
         else {
-            
+            properties = null;
+            logger.log(Level.INFO, "Closing down application");
+            System.exit(0);
         }
     }
     
     /**
-     * Private class used to listen when the Search button is fired
-     * Search will use the entries added in hotel name and location fields
-     * as search terms
-     */
-    
-        
+     * Displays a <code>JFileChooser</code> when the Choose File button is fired
+     */           
     private void chooseFile() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -292,6 +311,10 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * Validates the configuration parameters entered and saves the new 
+     * parameters to the properties file
+     */
     private void confirmation() {
         switch (appMode) {
             case ALONE:
@@ -399,6 +422,12 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         }
     }
     
+    /**
+     * Helper method to verify if the port number entered is a recognized number
+     * @param possibleNumeric - The contents of the portField <code>JTextField</code>
+     * entered by the user.
+     * @return a boolean signifying if value is a valid number
+     */
     private boolean isNumeric(String possibleNumeric) {
         try {
             double dub = Double.parseDouble(possibleNumeric);
@@ -409,6 +438,13 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         return true;
     }
     
+    /**
+     * Helper method to verify if the port number supplied is in the range
+     * of valid ports
+     * @param possibleInRange - The contents of the portField <code>JTextField</code>
+     * entered by the user.
+     * @return a boolean signifying if value is in the accepted range
+     */
     private boolean isInRange(String possibleInRange) {
         double dub = Double.parseDouble(possibleInRange);
         if (dub > 0 && dub < 65535) {
@@ -418,14 +454,26 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         return false;            
     }
     
+    /**
+     * Return the database location.
+     * @return String containing the database location.
+     */
     public String getDatabaseLocation() {
         return dbPath;
     }
     
+    /**
+     * Return the RMI port number.
+     * @return String containing the  RMI port number.
+     */
     public String getRMIPort() {
         return rmiPort;
     }
     
+    /**
+     * Return the RMI host name.
+     * @return String containing the RMI host name.
+     */
     public String getRMIHost() {
         return rmiHost;
     }
