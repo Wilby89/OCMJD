@@ -414,7 +414,10 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                     JOptionPane.showMessageDialog(confirmationPanel,
                                 "Please enter a hostname");
                 }
-                break;
+                if (dbFlag && portFlag && hostFlag) {
+                    this.setVisible(false);
+                    break;
+                }
                 
             default:
                 throw new UnsupportedOperationException
