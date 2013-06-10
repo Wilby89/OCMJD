@@ -13,6 +13,9 @@ import suncertify.util.RoomDBConnector;
 /**
  *
  * @author William Brosnan
+ * 
+ * Controller for the <code>HotelFrame</code> GUI class, used as a broker between
+ * the GUI and the database code.
  */
 public class HotelFrameController {
     
@@ -25,6 +28,17 @@ public class HotelFrameController {
      */
     private Logger logger = Logger.getLogger("suncertify.ui");
     
+    /**
+     * Constructor which creates the connection to the database. Connection can
+     * be one of two types: 
+     *  LocalConnection:
+     *      Used for stand alone mode and access the database directly.
+     *  RemoteConnection:
+     *      Establishes a remote connection over RMI.
+     * @param appMode
+     * @param dbLocation
+     * @param port 
+     */
     public HotelFrameController(ApplicationMode appMode, String dbLocation, String port) {
         try {
             if (appMode == ApplicationMode.ALONE ) {
@@ -39,30 +53,22 @@ public class HotelFrameController {
         }
     }
     
-    public RoomTableModel getRoom(int recordNumber) {
-        RoomTableModel roomModel = new RoomTableModel();
-        String[] roomData;
-        try {
-            roomData = connection.read(5);
-            roomModel.addRoomRecord(roomData);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
-            System.err.println("Error attempting to get all Rooms: " 
-                    + e.getMessage());
-        }
-        return roomModel;
-    }
-    
     /**
-     * I chose to make use of the getRoomsByCriteria function to get all records
-     * By sending in null values as search criteria it will return all valid records
-     * in the database
-     * @return the RoomTableModel holding all records
+     * Retrieves all rooms from the database, this method uses the 
+     * getRoomsByCriteria method by passing in two null criteria.
+     * @return the <code>RoomTableModel</code> holding all records
      */
     public RoomTableModel getAllRooms() {
         return getRoomsByCriteria(null, null);      
     }
     
+    /**
+     * Retrieves a specific record or records depending on criteria passed into
+     * the method.
+     * @param hotelName
+     * @param location
+     * @return a <code>RoomTableModel</code> containing the desired records
+     */
     public RoomTableModel getRoomsByCriteria(String hotelName, String location) {
         RoomTableModel criteriaRoomsModel = new RoomTableModel();
         String[] criteriaRoomsData = {hotelName, location};
@@ -111,6 +117,5 @@ public class HotelFrameController {
                     + rex.getMessage());
         }
         logger.exiting("HotelFrameController", "reserveRoom");
-    }
-    
+    }    
 }

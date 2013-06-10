@@ -34,12 +34,9 @@ public class Data implements DBMain {
     private String dbLocation = null;
     
     /**
-     * Empty constructor that will call other constructor with the database
-     * location pulled from the properties file
+     * Empty constructor
      */
-    public Data () {
-        //this(System.getProperty("dbPath"));
-    }
+    public Data () {logger.info("Entering empty Room constructor");}
     
     /**
      * This constructor takes in the database location as a parameter
@@ -105,7 +102,7 @@ public class Data implements DBMain {
     }
 
     /**
-     *  Returns an array of record numbers that match the specified
+     * Returns an array of record numbers that match the specified
      * criteria. Field n in the database file is described by
      * criteria[n]. A null value in criteria[n] matches any field
      * value. A non-null  value in criteria[n] matches any field

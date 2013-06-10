@@ -136,6 +136,13 @@ public class DataDBAccess {
          logger.exiting("DataDBAccess", "DataDBAccess", locker);
     }
     
+    /**
+     * Reads a record from the file. Returns an array where each
+     * element is a record value.
+     * @param recNo
+     * @return a <code>String[]</code> holding the field values of a record
+     * @throws RecordNotFoundException 
+     */
     public String[] read(int recNo) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "read", recNo);
         try {
@@ -158,6 +165,11 @@ public class DataDBAccess {
         }
     }
     
+    /**
+     * Helper method to parse the record string retrieved from the database.
+     * @param record
+     * @return 
+     */
     private String[] parseRecord(String record) {
         int startIndex = 1;
         String[] recordValue = new String[fieldColumnNames.length];
@@ -171,7 +183,8 @@ public class DataDBAccess {
     }
     
     /**
-     * Updates a record in the database
+     * Modifies the fields of a record. The new value for field n 
+     * appears in data[n].
      * @param recNo
      * @param data
      * @throws RecordNotFoundException
@@ -218,6 +231,11 @@ public class DataDBAccess {
         logger.exiting("DataDBAccess", "update", data);
     }
     
+    /**
+     * Helper method used to convert the String array into a byte array
+     * @param data
+     * @return 
+     */
     private byte[] getDataAsByteArray (String[] data) {
         final StringBuilder stringBuilder = new StringBuilder();
         byte[] byteArray = new byte[7];
@@ -233,6 +251,12 @@ public class DataDBAccess {
         return byteArray;
     }
     
+    /**
+     * Deletes a record, making the record number and associated disk
+     * storage available for reuse.
+     * @param recNo
+     * @throws RecordNotFoundException 
+     */
     public synchronized void delete(int recNo) throws RecordNotFoundException, DatabaseException {
         logger.entering("DataDBAccess", "delete", recNo);
         final Long lockCookie = Thread.currentThread().getId();
@@ -271,6 +295,18 @@ public class DataDBAccess {
         logger.exiting("DataDBAccess", "delete");
     }
     
+    /**
+     * Returns an array of record numbers that match the specified
+     * criteria. Field n in the database file is described by
+     * criteria[n]. A null value in criteria[n] matches any field
+     * value. A non-null  value in criteria[n] matches any field
+     * value that begins with criteria[n]. (For example, "Fred"
+     * matches "Fred" or "Freddy".)
+     * @param criteria
+     * @return an <code>int[]</code> holding record numbers that correspond to 
+     * the records in the database
+     * @throws RecordNotFoundException 
+     */
     public int[] find(String[] criteria) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "find", criteria);
         ArrayList<Integer> foundArray = new ArrayList<Integer>();
@@ -312,6 +348,15 @@ public class DataDBAccess {
         }        
     }
     
+    /**
+     * Creates a new record in the database (possibly reusing a
+     * deleted entry). Inserts the given data, and returns the record
+     * number of the new record.
+     * @param data
+     * @return the record number of the newly created record
+     * @throws DuplicateKeyException 
+     * @throws RecordNotFoundException
+     */
     public synchronized int create(String[] data) throws DuplicateKeyException, RecordNotFoundException {
         logger.entering("DataDBAccess", "create", data);
         if (data == null) {
@@ -355,9 +400,8 @@ public class DataDBAccess {
     }
     
     /**
-     * I made the choice to call this function on start-up purely for aesthetic 
-     * reasons.
-     * All records are displayed on startup.
+     * Helper method to display all records, this method is called by default on
+     * GUI startup by the <code>HotelFrameController</code>.
      * @return an <code>int[]</code> that holds all record numbers that correspond
      * to records in the database
      */

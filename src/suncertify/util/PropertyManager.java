@@ -17,23 +17,48 @@ import java.util.logging.Logger;
  */
 public final class PropertyManager {
     
+    /**
+     * Constant representing properties file name
+     */
     private static final String PROPERTY_FILE_NAME = "suncertify.properties";
-    
+    /**
+     * Constant representing the directory where the application is run from
+     */
     private static final String PROPERTY_FILE_DIR = System.getProperty("user.dir");
-    
+    /**
+     * File object containing configuration parameters
+     */
     private static File propertiesFile = 
             new File(PROPERTY_FILE_DIR, PROPERTY_FILE_NAME);
     
+    /**
+     * Constant representing the path to the database
+     */
     private static final String DATABASE_PATH = "dbPath";
+    /**
+     * Constant representing the RMI hostname
+     */
     private static final String RMI_HOST = "rmiHost";
+    /**
+     * Constant representing the RMI port
+     */
     private static final String RMI_PORT = "rmiPort";
-    
+    /**
+     * Logger instance to send messages through
+     */    
     private Logger logger = Logger.getLogger("suncertify.rmi");
-    
+    /**
+     * Create properties instance that will hold properties and values.
+     */
     private Properties properties = null;
-    
+    /**
+     * Create singleton instance of this <code>PropertyManager</code>.
+     */
     private static final PropertyManager instance = new PropertyManager();
-    
+    /**
+     * Return the singleton instance
+     * @return singleton instance of this <code>PropertyManager</code>
+     */
     public static PropertyManager getInstance() {
         return instance;
     }

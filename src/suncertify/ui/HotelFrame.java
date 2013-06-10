@@ -34,15 +34,15 @@ public class HotelFrame extends JFrame {
      */
     private Logger logger = Logger.getLogger("suncertify.ui");   
     /**
-     * This JPanel will contain the search fields and JButtons   
+     * This JPanel will contain the search fields and JButtons.
      */
     private JPanel topPanel; 
     /**
-     * This JPanel will contain JTable loaded with records from the database
+     * This JPanel will contain JTable loaded with records from the database.
      */
     private JPanel tablePanel;
     /**
-     * This JPanel will contain the booking field and JButtons 
+     * This JPanel will contain the booking field and JButtons.
      */
     private JPanel bottomPanel;
     /*
@@ -50,55 +50,55 @@ public class HotelFrame extends JFrame {
      */
     private JLabel nameLabel;
     /*
-     * JLabel for location search term
+     * JLabel for location search term.
      */
     private JLabel locationLabel;
     /*
-     * JTextField to enter the hotel name search term
+     * JTextField to enter the hotel name search term.
      */
     private JTextField nameField;
     /*
-     * JTextField to enter the location search term
+     * JTextField to enter the location search term.
      */
     private JTextField locationField;
     /*
-     * JButton to start search based on input in JTextFields
+     * JButton to start search based on input in JTextFields.
      */
     private JButton searchButton;
     /*
-     * JButton to load all records in JTable
+     * JButton to load all records in JTable.
      */
     private JButton loadButton;
     /**
-     * JLabel for customer ID
+     * JLabel for customer ID.
      */
     private JLabel custIDLabel;
     /**
-     * JTextField to hold the customer ID
+     * JTextField to hold the customer ID.
      */
     private JTextField custIDField;
     /**
-     * JButton for reserving a room
+     * JButton for reserving a room.
      */
     private JButton reserveButton;
     /**
-     * ArrayList holding the records for each room
+     * ArrayList holding the records for each room.
      */
     private String[] roomList;
     /**
-     * JMenuBar to hold the file menu to quit and the help menu
+     * JMenuBar to hold the file menu to quit and the help menu.
      */
     private JMenuBar menuBar = new JMenuBar();
     /**
-     * Enumeration to know in what mode to start in
+     * Enumeration to know in what mode to start in.
      */
     private ApplicationMode applicationMode;
     /**
-     * A controller to fulfill the controller function of the MVC pattern
+     * A controller to fulfill the controller function of the MVC pattern.
      */
     private HotelFrameController controller;
     /**
-     * This is the <code>JTable</code> that will hold the records
+     * This is the <code>JTable</code> that will hold the records.
      */
     private JTable hotelTable;
     /**
@@ -116,7 +116,7 @@ public class HotelFrame extends JFrame {
     
     /**
      * Constructor for the JFrame, the JPanels that make up the GUI are added
-     * the the JFrame here
+     * the the JFrame here.
      * @throws FileNotFoundException
      * @throws IOException 
      */
@@ -158,13 +158,12 @@ public class HotelFrame extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
-        //pack();
     }
     
     /**
      * Used to separate the GUI construction code out into manageable functions
-     * instead of having all the code in the constructor
-     * @return the JPanel that contains the search fields and buttons
+     * instead of having all the code in the constructor.
+     * @return the JPanel that contains the search fields and buttons.
      */
     private JPanel loadSearchPanel() {
         JPanel searchPanel = new JPanel();
@@ -188,9 +187,9 @@ public class HotelFrame extends JFrame {
     
     /**
      * Used to separate the GUI construction code out into manageable functions
-     * instead of having all the code in the constructor
+     * instead of having all the code in the constructor.
      * @return the JPanel that holds the JTable populated with records from the
-     * database
+     * database.
      * @throws FileNotFoundException
      * @throws IOException 
      */
@@ -203,7 +202,7 @@ public class HotelFrame extends JFrame {
     
     /**
      * The records from the database are created in the RoomTableModel which 
-     * the JTable is using
+     * the JTable is using.
      * @return the JTable populated with records
      * @throws FileNotFoundException
      * @throws IOException 
@@ -216,7 +215,7 @@ public class HotelFrame extends JFrame {
     
     /**
      * Refreshes the data in the <code>JTable</code> by re-setting the 
-     * <code>RoomTableModel</code>
+     * <code>RoomTableModel</code>.
      */
     private void refreshTable() {
         this.hotelTable.setModel(this.tableModel);       
@@ -237,9 +236,9 @@ public class HotelFrame extends JFrame {
     }
     
     /**
-     * Private class used to listen when the Search button is fired
+     * Private class used to listen when the Search button is fired.
      * Search will use the entries added in hotel name and location fields
-     * as search terms
+     * as search terms.
      */
     private class SearchRoom implements ActionListener {
     
@@ -266,7 +265,7 @@ public class HotelFrame extends JFrame {
     }
     
     /**
-     * Private class used to listen when the Load Table button is fired
+     * Private class used to listen when the Load Table button is fired.
      * This loads all valid records from the DB
      */
     private class LoadRooms implements ActionListener {

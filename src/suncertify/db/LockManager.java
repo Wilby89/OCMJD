@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 /**
  *
  * @author William Brosnan
+ * 
+ * This class takes care of locking and unlocking the records in the database
  */
 public class LockManager {
     
@@ -91,6 +93,11 @@ public class LockManager {
         return false;
     }
     
+    /**
+     * Returns the id of the current owner of a lock
+     * @param recNo
+     * @return a long representing owner id
+     */
     public Long getOwner(int recNo) {
         return bookingsMap.get(recNo);
     }

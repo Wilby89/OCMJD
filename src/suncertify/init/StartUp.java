@@ -8,6 +8,8 @@ import suncertify.ui.HotelServerFrame;
 import suncertify.util.ApplicationMode;
 
 /**
+ * This is the entrypoint of the application. The argument passed in by the user
+ * is dealt with in the main method of this class.
  *
  * @author William Brosnan
  */
@@ -20,9 +22,14 @@ public class StartUp {
     
     /**
      * 
+     * Parses argument passed in by user and starts one of two GUIs depending on arg
+     * value.
+     * 
+     *  ALONE or no argument supplied:
+     *      Starts the main <code>HotelFrame</code> GUI
+     *  SERVER:
+     *      Starts the <code>HotelServerFrame</code> GUI
      * @param args
-     * @throws FileNotFoundException
-     * @throws IOException 
      */
     public static void main(String[] args) {
         StartUp startUp = new StartUp(args);             

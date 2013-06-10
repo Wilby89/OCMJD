@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 /**
  *
  * @author William Brosnan
+ * 
+ * Object class used as a representation of a Room in the database.
  */
 public class Room implements Serializable {
 
@@ -64,13 +66,12 @@ public class Room implements Serializable {
      * Logger instance to pass log messages through, this is transient to
      * escape serialization, there is no need to serialize the logger
      */
-    private transient Logger log = Logger.getLogger("suncertify.db");
+    private transient Logger logger = Logger.getLogger("suncertify.db");
     
     /**
      * Empty constructor for the room object
      */
-    public  Room() {log.info("Entering empty Room constructor");
-    }
+    public  Room() {logger.info("Entering empty Room constructor");}
     
     /**
      * Constructor for Room
@@ -80,12 +81,12 @@ public class Room implements Serializable {
      * @param smoking
      * @param price
      * @param date
-     * @param custId 
+     * @param custId
      */
     public Room(String hotelName, String city, String maxOccupancy
             , String smoking, String price, String date, String custId) {
 
-        log.entering("Room", "Room", new Object[]{hotelName, city, maxOccupancy
+        logger.entering("Room", "Room", new Object[]{hotelName, city, maxOccupancy
             , smoking, price, date, custId});
         this.hotelName = hotelName;
         this.city = city;
@@ -94,7 +95,7 @@ public class Room implements Serializable {
         this.price = price;
         this.date = date;
         this.custId = custId;
-        log.exiting("Room", "Room");
+        logger.exiting("Room", "Room");
     }
     
     /**
@@ -103,7 +104,7 @@ public class Room implements Serializable {
      */
     public Room(String[] data) {
 
-        log.entering("Room", "Room", data);
+        logger.entering("Room", "Room", data);
         this.hotelName = data[0];
         this.city = data[1];
         this.maxOccupancy = data[2];
@@ -111,133 +112,147 @@ public class Room implements Serializable {
         this.price = data[4];
         this.date = data[5];
         this.custId = data[6];
-        log.exiting("Room", "Room");
+        logger.exiting("Room", "Room");
     }
 
     /**
+     * Returns the hotel name
      * @return the hotelName
      */
     public String getHotelName() {
-        log.entering("Room", "getHotelName");
-        log.exiting("Room", "getHotelName", this.hotelName);
+        logger.entering("Room", "getHotelName");
+        logger.exiting("Room", "getHotelName", this.hotelName);
         return hotelName;
     }
 
     /**
+     * Sets the hotel name
      * @param hotelName the hotelName to set
      */
     public void setHotelName(String hotelName) {
-        log.entering("Room", "setHotelName", hotelName);
+        logger.entering("Room", "setHotelName", hotelName);
         this.hotelName = hotelName;
-        log.exiting("Room", "setHotelName", this.hotelName);
+        logger.exiting("Room", "setHotelName", this.hotelName);
     }
 
     /**
+     * Returns the city
      * @return the city
      */
     public String getCity() {
-        log.entering("Room", "getCity");
-        log.exiting("Room", "getCity", this.city);
+        logger.entering("Room", "getCity");
+        logger.exiting("Room", "getCity", this.city);
         return city;
     }
 
     /**
+     * Sets the city
      * @param city the city to set
      */
     public void setCity(String city) {
-        log.entering("Room", "setCity", city);
+        logger.entering("Room", "setCity", city);
         this.city = city;
-        log.entering("Room", "setCity", this.city);
+        logger.entering("Room", "setCity", this.city);
     }
 
     /**
+     * Returns the maximum occupancy
      * @return the maxOccupancy
      */
     public String getMaxOccupancy() {
-        log.entering("Room", "getMaxOccupancy");
-        log.exiting("Room", "getMaxOccupancy", this.maxOccupancy);
+        logger.entering("Room", "getMaxOccupancy");
+        logger.exiting("Room", "getMaxOccupancy", this.maxOccupancy);
         return maxOccupancy;
     }
 
     /**
+     * Sets the maximum occupancy
      * @param maxOccupancy the maxOccupancy to set
      */
     public void setMaxOccupancy(String maxOccupancy) {
-        log.entering("Room", "setMaxOccupancy", maxOccupancy);
+        logger.entering("Room", "setMaxOccupancy", maxOccupancy);
         this.maxOccupancy = maxOccupancy;
-        log.entering("Room", "setMaxOccupancy", this.maxOccupancy);
+        logger.entering("Room", "setMaxOccupancy", this.maxOccupancy);
     }
 
     /**
+     * Returns the smoking value
      * @return the smoking
      */
     public String getSmoking() {
-        log.entering("Room", "getSmoking");
-        log.exiting("Room", "getSmoking", this.smoking);
+        logger.entering("Room", "getSmoking");
+        logger.exiting("Room", "getSmoking", this.smoking);
         return smoking;
     }
 
     /**
+     * Sets the smoking value
      * @param smoking the smoking to set
      */
     public void setSmoking(String smoking) {
-        log.entering("Room", "setSmoking", smoking);
+        logger.entering("Room", "setSmoking", smoking);
         this.smoking = smoking;
-        log.entering("Room", "setSmoking", this.smoking);
+        logger.entering("Room", "setSmoking", this.smoking);
     }
 
     /**
+     * Returns the price
      * @return the price
      */
     public String getPrice() {
-        log.entering("Room", "getPrice");
-        log.exiting("Room", "getPrice", this.price);
+        logger.entering("Room", "getPrice");
+        logger.exiting("Room", "getPrice", this.price);
         return price;
     }
 
     /**
+     * Sets the price
      * @param price the price to set
      */
     public void setPrice(String price) {
-        log.entering("Room", "setPrice", price);
+        logger.entering("Room", "setPrice", price);
         this.price = price;
-        log.entering("Room", "setPrice", this.price);
+        logger.entering("Room", "setPrice", this.price);
     }
 
     /**
+     * Returns the date
      * @return the date
      */
     public String getDate() {
-        log.entering("Room", "getDate");
-        log.exiting("Room", "getDate", this.date);
+        logger.entering("Room", "getDate");
+        logger.exiting("Room", "getDate", this.date);
         return date;
     }
 
     /**
+     * Sets the date
      * @param date the date to set
      */
     public void setDate(String date) {
-        log.entering("Room", "setDate", date);
+        logger.entering("Room", "setDate", date);
         this.date = date;
-        log.entering("Room", "setDate", this.date);
+        logger.entering("Room", "setDate", this.date);
     }
 
     /**
+     * Returns the customer id
      * @return the custId
      */
     public String getCustId() {
-        log.entering("Room", "getCustId");
-        log.exiting("Room", "getCustId", this.custId);
+        logger.entering("Room", "getCustId");
+        logger.exiting("Room", "getCustId", this.custId);
         return custId;
     }
 
     /**
+     * Sets the customer id
      * @param custId the custId to set
      */
     public void setCustId(String custId) {
-        log.entering("Room", "setCustId", custId);
+        logger.entering("Room", "setCustId", custId);
         this.custId = custId;
-        log.exiting("Room", "setCustId", this.custId);
+        logger.exiting("Room", "setCustId", this.custId);
     }
     
     /**
