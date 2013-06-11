@@ -111,7 +111,10 @@ public class HotelFrame extends JFrame {
      * <code>ConfigurationFrame</code> dialog.
      */
     private String dbLocation;
-    
+    /**
+     * Configuration dialog instance
+     */
+    ConfigurationDialog configurationFrame = null;
     
     
     /**
@@ -135,15 +138,32 @@ public class HotelFrame extends JFrame {
             applicationMode = ApplicationMode.ALONE;
         }
         
-        ConfigurationDialog configurationFrame = new ConfigurationDialog(applicationMode);
-        configurationFrame.setVisible(true);
+        switch (applicationMode) {
+            case ALONE:
+                configurationFrame = new ConfigurationDialog(applicationMode);
+                configurationFrame.setVisible(true);
         
-        String dbPath = configurationFrame.getDatabaseLocation();
-        logger.log(Level.INFO, "Database location is: " + dbPath);
-        System.out.println("Database location is: " + dbPath);
+            String dbPath = configurationFrame.getDatabaseLocation();
+            logger.log(Level.INFO, "Database location is: " + dbPath);
+            System.out.println("Database location is: " + dbPath);
+
+            controller = new HotelFrameController(applicationMode, dbPath 
+                     ,configurationFrame.getRMIPort());
+            break;
+                
+            case NETWORK:
+                configurationFrame = new ConfigurationDialog(applicationMode);
+                configurationFrame.setVisible(true);
         
-        controller = new HotelFrameController(applicationMode, dbPath 
+                String rmiHost = configurationFrame.getRMIHost();
+                logger.log(Level.INFO, "Database location is: " + rmiHost);
+                System.out.println("Database location is: " + rmiHost);
+        
+                controller = new HotelFrameController(applicationMode, rmiHost 
                  ,configurationFrame.getRMIPort());
+                break;
+        }               
+        
         JMenu fileMenu = new JMenu("File");
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(new QuitApplication());

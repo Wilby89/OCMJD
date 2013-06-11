@@ -24,13 +24,13 @@ public class RoomRMIStarter {
     /**
      * The implementation class instance on the server side
      */
-    private static RoomDatabaseRemote roomDBRemoteImpl;
+    private static RoomDBRemoteFactory roomDBRemoteFactoryImpl;
     
     private RoomRMIStarter() {}
     
     /**
-     * Binds the server instance Data object to the name "rmi://+host+port+Impl 
-     * class for the RMI naming service
+     * Binds the server instance Data object to the name "rmi://+host+port
+     * +FactoryImpl class for the RMI naming service
      */
     public static void start() {
         final PropertyManager propManager = PropertyManager.getInstance();
@@ -38,10 +38,10 @@ public class RoomRMIStarter {
         final String port = propManager.getProperty("rmiPort");
         final String dbPath = propManager.getProperty("dbPath");
         try {
-            roomDBRemoteImpl = new RoomDBRemoteImpl(dbPath);
+            roomDBRemoteFactoryImpl = new RoomDBRemoteFactoryImpl(dbPath);
             LocateRegistry.createRegistry(Integer.parseInt(port));
-            Naming.rebind("rmi://" + hostName 
-                    + ":" + port + "/RoomDBRemoteImpl", roomDBRemoteImpl);
+            Naming.rebind("rmi://" + dbPath 
+                    + ":" + port + "/RoomBroker", roomDBRemoteFactoryImpl);
             logger.log(Level.INFO, "RMI Server started at " 
                     + hostName + ":" + port);
         } catch (RemoteException rex) {

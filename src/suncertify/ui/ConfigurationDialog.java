@@ -245,12 +245,16 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         rmiHost = properties.getProperty("rmiHost");
         switch (appMode) {
             case ALONE :
-                dbField.setText(dbPath);
+                if (!dbPath.isEmpty()) {
+                    dbField.setText(dbPath);
+                }
                 portField.setEnabled(false);
                 hostField.setEnabled(false);
                 break;
             case SERVER :
-                dbField.setText(dbPath);
+                if (!dbPath.isEmpty()) {
+                    dbField.setText(dbPath);
+                }
                 portField.setText(rmiPort);
                 hostField.setEnabled(false);
                 break;
