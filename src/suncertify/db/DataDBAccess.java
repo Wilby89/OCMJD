@@ -168,7 +168,7 @@ public class DataDBAccess {
     /**
      * Helper method to parse the record string retrieved from the database.
      * @param record
-     * @return 
+     * @return a String array containing the record values
      */
     private String[] parseRecord(String record) {
         int startIndex = 1;
@@ -234,7 +234,7 @@ public class DataDBAccess {
     /**
      * Helper method used to convert the String array into a byte array
      * @param data
-     * @return 
+     * @return a byte array containing the data that was in the string array
      */
     private byte[] getDataAsByteArray (String[] data) {
         final StringBuilder stringBuilder = new StringBuilder();

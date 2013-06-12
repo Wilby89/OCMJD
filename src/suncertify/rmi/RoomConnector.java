@@ -26,7 +26,7 @@ public class RoomConnector {
      * @param hostName
      * @param port
      * @return interface to the database
-     * @throws RemoteException
+     * @throws RemoteException 
      */
     public static DBMain getRemoteConnection(String hostName, String port) 
             throws RemoteException {

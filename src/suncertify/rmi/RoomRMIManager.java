@@ -15,7 +15,7 @@ import suncertify.util.PropertyManager;
  * This class is used to start the RMI registry and register the 
  * <code>RoomDBRemoteImpl</code> for the RMI naming service
  */
-public class RoomRMIStarter {
+public class RoomRMIManager {
     
     /**
      * Logger to pass logging messages through
@@ -25,8 +25,23 @@ public class RoomRMIStarter {
      * The implementation class instance on the server side
      */
     private static RoomDBRemoteFactory roomDBRemoteFactoryImpl;
+    /**
+     * Enum to know if the server is running
+     */
+    private enum RunningStatus {
+        /**
+         * Server started and running
+         */
+        RUNNING,
+        /**
+         * Server stopped
+         */
+        STOPPED
+    }
     
-    private RoomRMIStarter() {}
+    private static RunningStatus status = RunningStatus.STOPPED;
+    
+    private RoomRMIManager() {}
     
     /**
      * Binds the server instance Data object to the name "rmi://+host+port
@@ -44,6 +59,7 @@ public class RoomRMIStarter {
                     + ":" + port + "/RoomBroker", roomDBRemoteFactoryImpl);
             logger.log(Level.INFO, "RMI Server started at " 
                     + hostName + ":" + port);
+            status = RunningStatus.RUNNING;
         } catch (RemoteException rex) {
             System.err.println("Remote Exception found trying to start server"
                     + rex.getMessage());
@@ -53,5 +69,16 @@ public class RoomRMIStarter {
                     + muex.getMessage());
             logger.log(Level.SEVERE, muex.getMessage(), muex);
         }
+    }
+    
+    public static void stop() {
+        status = RunningStatus.STOPPED;
+    }
+    
+    public static boolean isServerStarted() {
+        if (status.equals(RunningStatus.RUNNING)) {
+            return true;
+        }
+        return false;
     }
 }
