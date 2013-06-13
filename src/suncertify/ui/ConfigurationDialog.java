@@ -203,7 +203,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         portLabel = new JLabel("Enter an RMI port");
         rmiPanel.add(portLabel);
         //Manually set size of JTextField
-        portField = new JTextField("5005", 10);
+        portField = new JTextField(10);
         rmiPanel.add(portField);
         hostLabel = new JLabel("Enter an RMI hostname");
         rmiPanel.add(hostLabel);
@@ -326,7 +326,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 hostFlag = true;
                 if (!dbField.getText().equals("")) {
                     File file = new File(dbPath);
-                    if (file.exists() && file.isFile()) {
+                    if (file.exists() && file.canRead()) {
                         dbFlag = true;
                         dbPath = dbField.getText();
                         logger.log(Level.INFO, "Database location is: " + dbPath);
@@ -345,7 +345,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 hostFlag = true;
                 if (!dbField.getText().equals("")) {
                     File file = new File(dbPath);
-                    if (file.exists() && file.isFile()) {
+                    if (file.exists() && file.canRead()) {
                         dbFlag = true;
                         dbPath = dbField.getText();
                         logger.log(Level.INFO, "Database location is: " + dbPath);
