@@ -156,8 +156,8 @@ public class HotelFrame extends JFrame {
                 configurationFrame.setVisible(true);
         
                 String rmiHost = configurationFrame.getRMIHost();
-                logger.log(Level.INFO, "Database location is: " + rmiHost);
-                System.out.println("Database location is: " + rmiHost);
+                logger.log(Level.INFO, "RMI hostname is: " + rmiHost);
+                System.out.println("RMI hostname is: " + rmiHost);
         
                 controller = new HotelFrameController(applicationMode, rmiHost 
                  ,configurationFrame.getRMIPort());

@@ -92,7 +92,6 @@ public class HotelServerFrame extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(bottomPanel, BorderLayout.SOUTH);
         initComponents();
-        startServer();
     }
 
     private JPanel loadStatusPanel() {

@@ -49,23 +49,23 @@ public class RoomRMIManager {
      */
     public static void start() {
         final PropertyManager propManager = PropertyManager.getInstance();
-        final String hostName = propManager.getProperty("rmiHost");
-        final String port = propManager.getProperty("rmiPort");
+        final String rmiHost = propManager.getProperty("rmiHost");
+        final String rmiPort = propManager.getProperty("rmiPort");
         final String dbPath = propManager.getProperty("dbPath");
         try {
             roomDBRemoteFactoryImpl = new RoomDBRemoteFactoryImpl(dbPath);
-            LocateRegistry.createRegistry(Integer.parseInt(port));
-            Naming.rebind("rmi://" + dbPath 
-                    + ":" + port + "/RoomBroker", roomDBRemoteFactoryImpl);
+            LocateRegistry.createRegistry(Integer.parseInt(rmiPort));
+            Naming.rebind("rmi://" + rmiHost 
+                    + ":" + rmiPort + "/RoomBroker", roomDBRemoteFactoryImpl);
             logger.log(Level.INFO, "RMI Server started at " 
-                    + hostName + ":" + port);
+                    + rmiHost + ":" + rmiPort);
             status = RunningStatus.RUNNING;
         } catch (RemoteException rex) {
-            System.err.println("Remote Exception found trying to start server"
+            System.err.println("Remote Exception found trying to start server "
                     + rex.getMessage());
             logger.log(Level.SEVERE, rex.getMessage(), rex);
         } catch (MalformedURLException muex) {
-            System.err.println("Invalid URL when trying to start server"
+            System.err.println("Invalid URL when trying to start server "
                     + muex.getMessage());
             logger.log(Level.SEVERE, muex.getMessage(), muex);
         }
