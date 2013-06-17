@@ -2,8 +2,8 @@ package suncertify.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import suncertify.db.DBMain;
 import suncertify.db.Data;
-import suncertify.db.DatabaseException;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class RoomDBConnector {
      * @param dbLocation the location of the local database
      * @return A <code>Data</code> instance
      */
-    public static Data getLocalConnection(String dbLocation) throws FileNotFoundException, IOException {
+    public static DBMain getLocalConnection(String dbLocation) throws FileNotFoundException, IOException {
         return new Data(dbLocation);
     }
 }

@@ -18,7 +18,7 @@ public class LockManager {
     private Logger logger = Logger.getLogger("suncertify.db");
     
     /**
-     * {@link}Map containing record locks
+     * Map containing record locks
      */
     private static Map<Integer,Long> bookingsMap = new HashMap<Integer,Long>();
     

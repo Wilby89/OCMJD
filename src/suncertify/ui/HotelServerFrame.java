@@ -1,7 +1,7 @@
 package suncertify.ui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -89,14 +89,17 @@ public class HotelServerFrame extends JFrame {
         this.setJMenuBar(menuBar);
         topPanel = loadStatusPanel();
         bottomPanel = loadServerControlPanel();
-        add(topPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
         initComponents();
     }
 
     private JPanel loadStatusPanel() {
         JPanel statusPanel = new JPanel();
-        statusPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //This sets a new layout with as many rows as necessary, 2 columns,
+        //no horizontal gap and a vertical gap of 5
+        GridLayout gridLayout = new GridLayout(0,2,0,5);
+        statusPanel.setLayout(gridLayout);
         dbLabel = new JLabel("Database Location");
         statusPanel.add(dbLabel);
         dbField = new JTextField(30);
@@ -105,7 +108,7 @@ public class HotelServerFrame extends JFrame {
         statusPanel.add(hostLabel);
         hostField = new JTextField(30);
         statusPanel.add(hostField);
-        portLabel = new JLabel("Hostname");
+        portLabel = new JLabel("Port Number");
         statusPanel.add(portLabel);
         portField = new JTextField(30);
         statusPanel.add(portField);
@@ -145,7 +148,7 @@ public class HotelServerFrame extends JFrame {
             portField.setText(rmiPort);
         }
         if (!rmiHost.isEmpty()) {
-            portField.setText(rmiHost);
+            hostField.setText(rmiHost);
         }
         
         dbField.setEditable(false);
