@@ -7,6 +7,7 @@ import suncertify.db.DBMain;
 import suncertify.db.RecordNotFoundException;
 import suncertify.db.Room;
 import suncertify.rmi.RoomConnector;
+import suncertify.rmi.RoomDBRemote;
 import suncertify.util.ApplicationMode;
 import suncertify.util.RoomDBConnector;
 
@@ -20,13 +21,21 @@ import suncertify.util.RoomDBConnector;
 public class HotelFrameController {
     
     /**
-     * Create instance of Data using the DBMain Interface
+     * Create instance of Data using the DBMain Interface for local connections
      */
-    private DBMain connection;
+    private DBMain localConnection;
+    /**
+     * Create instance of Data using the DBMain Interface for remote connections
+     */
+    private RoomDBRemote remoteConnection;
     /*
      * Adding a logger instance for logging and debugging purposes.
      */
     private Logger logger = Logger.getLogger("suncertify.ui");
+    /**
+     * Application mode 
+     */
+    ApplicationMode appMode;
     
     /**
      * Constructor which creates the connection to the database. Connection can
@@ -40,12 +49,13 @@ public class HotelFrameController {
      * @param port 
      */
     public HotelFrameController(ApplicationMode appMode, String dbLocation, String port) {
+        this.appMode = appMode;
         try {
             if (appMode == ApplicationMode.ALONE ) {
-                connection = RoomDBConnector.getLocalConnection(dbLocation);
+                localConnection = RoomDBConnector.getLocalConnection(dbLocation);
             }
             else {
-                connection = RoomConnector.getRemoteConnection(dbLocation, port);
+                remoteConnection = RoomConnector.getRemoteConnection(dbLocation, port);
             }
         } catch (IOException ex) {
             logger.log(Level.SEVERE, "Caught IOException: " + ex.getMessage(), ex);
@@ -73,12 +83,21 @@ public class HotelFrameController {
         RoomTableModel criteriaRoomsModel = new RoomTableModel();
         String[] criteriaRoomsData = {hotelName, location};
         int[] recordNumbers;
-        try {
-            recordNumbers = connection.find(criteriaRoomsData);
-            for (int recordNum:recordNumbers) {
-                String[] tempRoomData = connection.read(recordNum);
-                criteriaRoomsModel.addRoomRecord(tempRoomData);
+        try {    
+            if (appMode == ApplicationMode.ALONE ) {
+                recordNumbers = localConnection.find(criteriaRoomsData);
+                for (int recordNum:recordNumbers) {
+                    String[] tempRoomData = localConnection.read(recordNum);
+                    criteriaRoomsModel.addRoomRecord(tempRoomData);
+                }
             }
+            else {
+                recordNumbers = remoteConnection.find(criteriaRoomsData);
+                for (int recordNum:recordNumbers) {
+                    String[] tempRoomData = remoteConnection.read(recordNum);
+                    criteriaRoomsModel.addRoomRecord(tempRoomData);
+                }
+            }            
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             System.err.println("Error finding records with criteria : " 
@@ -99,7 +118,12 @@ public class HotelFrameController {
                 "Record number to be reserved: " + recordNumber);
         String[] data = null;
         try {
-            data = connection.read(recordNumber);
+            if (appMode == ApplicationMode.ALONE ) {
+                data = localConnection.read(recordNumber);
+            }
+            else {
+                data = remoteConnection.read(recordNumber);
+            }
         } catch (RecordNotFoundException rex) {
             logger.log(Level.SEVERE, rex.getMessage(), rex);
             System.err.println("Error reading record at position : " 
@@ -108,9 +132,16 @@ public class HotelFrameController {
         Room room = new Room(data);
         room.setCustId(CSRNumber);
         try {
-            connection.lock(recordNumber);
-            connection.update(recordNumber, room.toStringArray());
-            connection.unlock(recordNumber);
+            if (appMode == ApplicationMode.ALONE ) {
+                localConnection.lock(recordNumber);
+                localConnection.update(recordNumber, room.toStringArray());
+                localConnection.unlock(recordNumber);
+            }
+            else {
+                remoteConnection.lock(recordNumber);
+                remoteConnection.update(recordNumber, room.toStringArray());
+                remoteConnection.unlock(recordNumber);
+            }
         } catch (RecordNotFoundException rex) {
             logger.log(Level.SEVERE, rex.getMessage(), rex);
             System.err.println("Error attempting to update : " 

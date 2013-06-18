@@ -6,7 +6,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import suncertify.db.DBMain;
 
 /**
  *
@@ -31,6 +30,7 @@ public class RoomConnector {
     public static RoomDBRemote getRemoteConnection(String hostName, String port) 
             throws RemoteException {
         String url = "rmi://" + hostName + ":" + port + "/RoomBroker";
+        System.out.println("URL is: " + url);
         try {
             RoomDBRemoteFactory factory = (RoomDBRemoteFactory) Naming.lookup(url);
             return (RoomDBRemote) factory.getClient();

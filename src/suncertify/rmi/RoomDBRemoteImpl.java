@@ -21,7 +21,7 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDBRemot
      */
     private Logger logger = Logger.getLogger("suncertify.rmi");
     /**
-     * Create instance of Data using the DBMain Interface
+     * Remote interface for RMI client access
      */
     private RemoteDBMain database = null;
     
