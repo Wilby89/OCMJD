@@ -38,7 +38,7 @@ public class RoomDBRemoteFactoryImpl extends UnicastRemoteObject implements Room
      * @throws RemoteException 
      */
     @Override
-    public RoomDatabaseRemote getClient() throws RemoteException {
+    public RoomDBRemote getClient() throws RemoteException {
         return new RoomDBRemoteImpl(dbPath);
     }
 }

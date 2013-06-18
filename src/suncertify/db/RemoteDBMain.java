@@ -1,17 +1,12 @@
-package suncertify.rmi;
+package suncertify.db;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import suncertify.db.DBMain;
-import suncertify.db.DuplicateKeyException;
-import suncertify.db.RecordNotFoundException;
 
 /**
- * Remote interface for network GUI client
  *
  * @author William Brosnan
  */
-public interface RoomDatabaseRemote extends Remote {
+public interface RemoteDBMain {
     
     // Reads a record from the file. Returns an array where each
   // element is a record value.
@@ -58,4 +53,5 @@ public interface RoomDatabaseRemote extends Remote {
   // record is locked, false otherwise.
   public boolean isLocked(int recNo)
     throws RecordNotFoundException, RemoteException;
+    
 }

@@ -28,12 +28,12 @@ public class RoomConnector {
      * @return interface to the database
      * @throws RemoteException 
      */
-    public static DBMain getRemoteConnection(String hostName, String port) 
+    public static RoomDBRemote getRemoteConnection(String hostName, String port) 
             throws RemoteException {
         String url = "rmi://" + hostName + ":" + port + "/RoomBroker";
         try {
             RoomDBRemoteFactory factory = (RoomDBRemoteFactory) Naming.lookup(url);
-            return (DBMain) factory.getClient();
+            return (RoomDBRemote) factory.getClient();
         } catch (NotBoundException nbex) {
             System.err.println("No associated binding found for broker at " + url
                     + " " + nbex.getMessage());

@@ -1,21 +1,20 @@
 package suncertify.rmi;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import suncertify.db.DBMain;
-import suncertify.db.Data;
 import suncertify.db.DuplicateKeyException;
 import suncertify.db.RecordNotFoundException;
+import suncertify.db.RemoteDBMain;
+import suncertify.db.RemoteDBMainImpl;
 
 /**
  * This class implements the remote interface
  * @author William Brosnan
  */
-public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabaseRemote {
+public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDBRemote {
     
     /**
      * Logger instance to pass messages through
@@ -24,14 +23,11 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
     /**
      * Create instance of Data using the DBMain Interface
      */
-    private DBMain database = null;
+    private RemoteDBMain database = null;
     
     public RoomDBRemoteImpl (String dbLocation) throws RemoteException {
         try {
-            database = new Data(dbLocation);
-        } catch (FileNotFoundException fex) {
-            logger.log(Level.SEVERE, "File not found at: " + dbLocation + 
-                    "Exception is: " + fex.getMessage());
+            database = new RemoteDBMainImpl(dbLocation);
         } catch (IOException iex) {
             logger.log(Level.SEVERE, "I/O problem with file at: " + 
                     dbLocation + "Exception is: " + iex.getMessage());
@@ -46,8 +42,14 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      * @throws RecordNotFoundException 
      */
     @Override
-    public String[] read(int recNo) throws RecordNotFoundException {
-        return database.read(recNo);
+    public String[] read(final int recNo) throws RecordNotFoundException {
+        try {
+            return database.read(recNo);
+        } catch (RemoteException rex) {            
+            logger.log(Level.SEVERE,
+                    "I/O problem on read, Exception is: " + rex.getMessage());
+            return new String[0];
+        }
     }
 
     /**
@@ -59,7 +61,12 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public void update(int recNo, String[] data) throws RecordNotFoundException {
-        database.update(recNo, data);
+        try {
+            database.update(recNo, data);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on update, Exception is: " + rex.getMessage());
+        }
     }
 
     /**
@@ -70,7 +77,12 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public void delete(int recNo) throws RecordNotFoundException {
-        database.delete(recNo);
+        try {
+            database.delete(recNo);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on delete, Exception is: " + rex.getMessage());
+        }
     }
 
     /**
@@ -87,7 +99,13 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public int[] find(String[] criteria) throws RecordNotFoundException {
-        return database.find(criteria);
+        try {
+            return database.find(criteria);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on find, Exception is: " + rex.getMessage());
+            return new int[0];
+        }
     }
 
     /**
@@ -100,7 +118,13 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public int create(String[] data) throws DuplicateKeyException {
-        return database.create(data);
+        try {
+            return database.create(data);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on create, Exception is: " + rex.getMessage());
+            return 0;
+        }
     }
 
     /**
@@ -112,7 +136,12 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public void lock(int recNo) throws RecordNotFoundException {
-        database.lock(recNo);
+        try {
+            database.lock(recNo);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on lock, Exception is: " + rex.getMessage());
+        }
     }
 
     /**
@@ -122,7 +151,12 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public void unlock(int recNo) throws RecordNotFoundException {
-        database.unlock(recNo);
+        try {
+            database.unlock(recNo);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on unlock, Exception is: " + rex.getMessage());
+        }
     }
 
     /**
@@ -134,6 +168,12 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDatabas
      */
     @Override
     public boolean isLocked(int recNo) throws RecordNotFoundException {
-        return database.isLocked(recNo);
+        try {
+            return database.isLocked(recNo);
+        } catch (RemoteException rex) {
+            logger.log(Level.SEVERE,
+                    "I/O problem on create, Exception is: " + rex.getMessage());
+            return true;
+        }
     }
 }

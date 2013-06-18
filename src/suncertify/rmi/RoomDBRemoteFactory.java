@@ -18,5 +18,5 @@ public interface RoomDBRemoteFactory extends Remote {
      * @return <code>RoomDatabaseRemote</code>
      * @throws RemoteException 
      */
-    public RoomDatabaseRemote getClient() throws RemoteException;
+    public RoomDBRemote getClient() throws RemoteException;
 }
