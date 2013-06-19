@@ -1,6 +1,7 @@
 package suncertify.ui;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import suncertify.db.DBMain;
@@ -121,13 +122,17 @@ public class HotelFrameController {
             if (appMode == ApplicationMode.ALONE ) {
                 data = localConnection.read(recordNumber);
             }
-            else {
-                data = remoteConnection.read(recordNumber);
+            else {                
+                    data = remoteConnection.read(recordNumber);                
             }
-        } catch (RecordNotFoundException rex) {
+        } catch (RemoteException rex) {
             logger.log(Level.SEVERE, rex.getMessage(), rex);
-            System.err.println("Error reading record at position : " 
+            System.err.println("Problem with remote connection : " 
                     + rex.getMessage());
+        } catch (RecordNotFoundException rnfex) {
+            logger.log(Level.SEVERE, rnfex.getMessage(), rnfex);
+            System.err.println("Error reading record at position : " 
+                    + rnfex.getMessage());
         }
         Room room = new Room(data);
         room.setCustId(CSRNumber);
@@ -142,10 +147,14 @@ public class HotelFrameController {
                 remoteConnection.update(recordNumber, room.toStringArray());
                 remoteConnection.unlock(recordNumber);
             }
-        } catch (RecordNotFoundException rex) {
+        } catch (RemoteException rex) {
             logger.log(Level.SEVERE, rex.getMessage(), rex);
-            System.err.println("Error attempting to update : " 
+            System.err.println("Problem with remote connection : " 
                     + rex.getMessage());
+        } catch (RecordNotFoundException rnfex) {
+            logger.log(Level.SEVERE, rnfex.getMessage(), rnfex);
+            System.err.println("Error attempting to update : " 
+                    + rnfex.getMessage());
         }
         logger.exiting("HotelFrameController", "reserveRoom");
     }    
