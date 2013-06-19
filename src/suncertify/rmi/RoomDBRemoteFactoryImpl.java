@@ -13,6 +13,10 @@ import java.util.logging.Logger;
 public class RoomDBRemoteFactoryImpl extends UnicastRemoteObject implements RoomDBRemoteFactory {
     
     /**
+     * A version number to support serialization and de-serialization.
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Logger instance to pass messages through
      */
     private Logger logger = Logger.getLogger("suncertify.rmi");

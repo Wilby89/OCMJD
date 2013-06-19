@@ -27,6 +27,10 @@ import suncertify.util.PropertyManager;
  */
 public class ConfigurationDialog extends JDialog implements ActionListener {
     
+    /**
+     * A version number to support serialization and de-serialization.
+     */
+    private static final long serialVersionUID = 1L;
     /*
      * Adding a logger instance for logging and debugging purposes.
      */

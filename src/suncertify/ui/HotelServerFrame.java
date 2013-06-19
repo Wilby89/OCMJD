@@ -28,6 +28,10 @@ import suncertify.util.PropertyManager;
 public class HotelServerFrame extends JFrame {
 
     /**
+     * A version number to support serialization and de-serialization.
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * The mode the application is running in.
      */
     private ApplicationMode applicationMode = ApplicationMode.SERVER;
