@@ -118,20 +118,17 @@ public class DataDBAccess {
             throw new DatabaseException("Magic cookie values do not match");
         }
         offset = MAGIC_COOKIE_LENGTH + NUMBER_OF_FIELDS_LENGTH;
-        System.out.println("Offset: " + offset);
         numOfFields = fileObject.readShort();
         fieldColumnNames = new String[numOfFields];
         fieldMap = new HashMap<String, Integer>();
         for(int i = 0; i < numOfFields; i++) {
             byte nameSize = fileObject.readByte();
-            System.out.println("Name Size: " + nameSize);
             byte[] fieldName = new byte[nameSize];
             fileObject.read(fieldName);
             fieldColumnNames[i] = new String(fieldName, ENCODING);
             int size = fileObject.readByte();
             fieldMap.put(fieldColumnNames[i], size);   
             offset += FIELD_NAME_LENGTH + ACTUAL_FIELD_LENGTH + nameSize;
-            System.out.println("Offset: " + offset);
         }
          logger.exiting("DataDBAccess", "DataDBAccess", locker);
     }
