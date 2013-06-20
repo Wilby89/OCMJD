@@ -124,7 +124,7 @@ public final class PropertyManager {
      */
     private Properties loadProperties() {
         Properties loadedProperties = null;
-        System.out.println("File is: " + propertiesFile.toString());
+        logger.log(Level.INFO, "File is: " + propertiesFile.toString());
         
         if (propertiesFile.exists() && propertiesFile.canRead()) {
             synchronized(propertiesFile) {

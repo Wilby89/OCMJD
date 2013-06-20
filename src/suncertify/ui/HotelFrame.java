@@ -149,7 +149,6 @@ public class HotelFrame extends JFrame {
         
             String dbPath = configurationFrame.getDatabaseLocation();
             logger.log(Level.INFO, "Database location is: " + dbPath);
-            System.out.println("Database location is: " + dbPath);
 
             controller = new HotelFrameController(applicationMode, dbPath 
                      ,configurationFrame.getRMIPort());
@@ -161,7 +160,6 @@ public class HotelFrame extends JFrame {
         
                 String rmiHost = configurationFrame.getRMIHost();
                 logger.log(Level.INFO, "RMI hostname is: " + rmiHost);
-                System.out.println("RMI hostname is: " + rmiHost);
         
                 controller = new HotelFrameController(applicationMode, rmiHost 
                  ,configurationFrame.getRMIPort());

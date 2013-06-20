@@ -243,7 +243,6 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         dbFlag = false;
         portFlag = false;
         hostFlag = false;
-        System.out.println(properties.getProperty("dbPath"));
         dbPath = properties.getProperty("dbPath");
         rmiPort = properties.getProperty("rmiPort");
         rmiHost = properties.getProperty("rmiHost");
