@@ -170,9 +170,7 @@ public class HotelFrame extends JFrame {
         JMenuItem quitMenuItem = new JMenuItem("Quit");
         quitMenuItem.addActionListener(new QuitApplication());
         fileMenu.add(quitMenuItem);
-        JMenu helpMenu = new JMenu("Help");
         menuBar.add(fileMenu);
-        menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
         topPanel = loadSearchPanel();
         tablePanel = loadTablePanel();

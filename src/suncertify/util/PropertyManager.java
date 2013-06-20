@@ -36,7 +36,7 @@ public final class PropertyManager {
      */
     private static final String DATABASE_PATH = "dbPath";
     /**
-     * Constant representing the RMI hostname
+     * Constant representing the RMI host name
      */
     private static final String RMI_HOST = "rmiHost";
     /**

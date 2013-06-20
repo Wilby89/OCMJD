@@ -248,14 +248,14 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
         rmiHost = properties.getProperty("rmiHost");
         switch (appMode) {
             case ALONE :
-                if (!dbPath.isEmpty()) {
+                if (!dbPath.equals("")) {
                     dbField.setText(dbPath);
                 }
                 portField.setEnabled(false);
                 hostField.setEnabled(false);
                 break;
             case SERVER :
-                if (!dbPath.isEmpty()) {
+                if (!dbPath.equals("")) {
                     dbField.setText(dbPath);
                 }
                 portField.setText(rmiPort);
@@ -328,6 +328,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 portFlag = true;
                 hostFlag = true;
                 if (!dbField.getText().equals("")) {
+                    dbPath = dbField.getText();
                     File file = new File(dbPath);
                     if (file.exists() && file.canRead()) {
                         dbFlag = true;
@@ -347,6 +348,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
             case SERVER:
                 hostFlag = true;
                 if (!dbField.getText().equals("")) {
+                    dbPath = dbField.getText();
                     File file = new File(dbPath);
                     if (file.exists() && file.canRead()) {
                         dbFlag = true;
