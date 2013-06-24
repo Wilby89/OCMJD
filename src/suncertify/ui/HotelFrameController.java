@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import suncertify.db.DBMain;
 import suncertify.db.RecordNotFoundException;
 import suncertify.db.Room;
@@ -58,9 +59,9 @@ public class HotelFrameController {
             else {
                 remoteConnection = RoomConnector.getRemoteConnection(dbLocation, port);
             }
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Caught IOException: " + ex.getMessage(), ex);
-            System.err.println("Caught IOException: " + ex.getMessage());
+        } catch (IOException ioex) {
+            logger.log(Level.SEVERE, "Unable to connect: " + ioex.getMessage(), ioex);                 
+            throw new RuntimeException (ioex);
         }
     }
     

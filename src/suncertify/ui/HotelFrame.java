@@ -162,9 +162,18 @@ public class HotelFrame extends JFrame {
                 String rmiHost = configurationFrame.getRMIHost();
                 logger.log(Level.INFO, "RMI hostname is: " + rmiHost);
         
+                try {
                 controller = new HotelFrameController(applicationMode, rmiHost 
                  ,configurationFrame.getRMIPort());
-                break;
+                } catch (RuntimeException ruex) {
+                    JOptionPane.showMessageDialog(this, "No viable "
+                    + "connection could be established", "Connection Error",
+                    JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Application will be"
+                            + " shut down", "Connection Error",
+                    JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
         }               
         
         JMenu fileMenu = new JMenu("File");

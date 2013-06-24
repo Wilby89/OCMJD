@@ -29,7 +29,7 @@ public class RoomConnector {
      */
     public static RoomDBRemote getRemoteConnection(String hostName, String port) 
             throws RemoteException {
-        String url = "rmi://" + hostName + ":" + port + "/RoomBroker";
+        final String url = "rmi://" + hostName + ":" + port + "/RoomBroker";
         logger.log(Level.INFO, "URL is: " + url);
         try {
             RoomDBRemoteFactory factory = (RoomDBRemoteFactory) Naming.lookup(url);
