@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import suncertify.util.ApplicationMode;
+import suncertify.util.HotelUtils;
 import suncertify.util.PropertyManager;
 
 /**
@@ -327,9 +328,8 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
             case ALONE:
                 portFlag = true;
                 hostFlag = true;
-                if (!dbField.getText().equals("")) {
-                    dbPath = dbField.getText();
-                    File file = new File(dbPath);
+                if (!dbField.getText().equals("")) {                    
+                    File file = new File(dbField.getText());
                     if (file.exists() && file.canRead()) {
                         dbFlag = true;
                         dbPath = dbField.getText();
@@ -347,9 +347,8 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 break;
             case SERVER:
                 hostFlag = true;
-                if (!dbField.getText().equals("")) {
-                    dbPath = dbField.getText();
-                    File file = new File(dbPath);
+                if (!dbField.getText().equals("")) { 
+                    File file = new File(dbField.getText());
                     if (file.exists() && file.canRead()) {
                         dbFlag = true;
                         dbPath = dbField.getText();
@@ -365,7 +364,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 }
                 
                 if (!portField.getText().equals("")) {
-                    if (isNumeric(portField.getText())) {
+                    if (HotelUtils.isNumeric(portField.getText())) {
                         if (isInRange(portField.getText())) {
                             portFlag = true;
                             rmiPort = portField.getText();
@@ -394,7 +393,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
             case NETWORK:
                 dbFlag = true;
                 if (!portField.getText().equals("")) {
-                    if (isNumeric(portField.getText())) {
+                    if (HotelUtils.isNumeric(portField.getText())) {
                         if (isInRange(portField.getText())) {
                             portFlag = true;
                             rmiPort = portField.getText();
@@ -432,22 +431,6 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 throw new UnsupportedOperationException
                         ("Invalid application startup mode");                                           
         }
-    }
-    
-    /**
-     * Helper method to verify if the port number entered is a recognized number
-     * @param possibleNumeric - The contents of the portField <code>JTextField</code>
-     * entered by the user.
-     * @return a boolean signifying if value is a valid number
-     */
-    private boolean isNumeric(String possibleNumeric) {
-        try {
-            double dub = Double.parseDouble(possibleNumeric);
-        }
-        catch(NumberFormatException nfex) {
-            return false;
-        }
-        return true;
     }
     
     /**

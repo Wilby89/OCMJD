@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import suncertify.db.DataDBAccess;
 import suncertify.util.ApplicationMode;
+import suncertify.util.HotelUtils;
 import suncertify.util.PropertyManager;
 
 /**
@@ -312,23 +313,43 @@ public class HotelFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             int recordRow = hotelTable.getSelectedRow();
             String csrNumber = "";
+            boolean csrFlag = false;
             if (recordRow < 0) {
                 JOptionPane.showMessageDialog(bottomPanel, "Please select a row");
+                csrFlag = false;
             }
             else {
-                do {
                 csrNumber = (String) JOptionPane.showInputDialog
-                        (bottomPanel, "Enter CSR number of 8 digits");
-                } while (csrNumber.length() != 8);
-            }
-            try {
-                controller.reserveRoom(recordRow, csrNumber);
-                tableModel = controller.getAllRooms();
-                refreshTable();
-            } catch(Exception ex) {
-                logger.log(Level.SEVERE, ex.getMessage(), ex);
-                System.err.println("Reserve room problem found: " + ex.getMessage());
-            }
+                    (bottomPanel, "Enter CSR number of 8 digits");
+                if (csrNumber == null) {
+                    csrFlag = false;
+                }
+                else if (csrNumber.length() != 8) {
+                    JOptionPane.showMessageDialog(bottomPanel, 
+                        "CSR length must be 8 digits, you have entered " 
+                            + csrNumber.length() + " characters.");                                
+                    csrFlag = false;
+                }
+                else if (!HotelUtils.isNumeric(csrNumber)) {
+                    JOptionPane.showMessageDialog(bottomPanel, 
+                        "CSR length must be all digits");                                
+                    csrFlag = false;
+                }
+                else {
+                    csrFlag = true;
+                }
+            } 
+            
+            if (csrFlag == true) {
+                try {
+                    controller.reserveRoom(recordRow, csrNumber);
+                    tableModel = controller.getAllRooms();
+                    refreshTable();
+                } catch(Exception ex) {
+                    logger.log(Level.SEVERE, ex.getMessage(), ex);
+                    System.err.println("Reserve room problem found: " + ex.getMessage());
+                }
+            }            
         }
     }    
 }
