@@ -93,7 +93,7 @@
                  version="true">
             <arg value="-J-Dhttp.proxyHost=${proxy.host}" />
             <arg value="-J-Dhttp.proxyPort=${proxy.port}" />
-            <link href="http://docs.oracle.com/javase/6/docs/api//" />
+            <link href="http://docs.oracle.com/javase/6/docs/api/" />
         </javadoc>
     </target>
 

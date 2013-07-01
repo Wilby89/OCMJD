@@ -130,7 +130,7 @@ public class HotelFrame extends JFrame {
      */
     public HotelFrame(String[] args) {
         setTitle("URLyBird Hotel User Interface");
-        setSize(1000,800);
+        setSize(1000,630);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
