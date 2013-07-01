@@ -50,7 +50,7 @@ public class HotelServerFrame extends JFrame {
     /**
      * Button to stop the server
      */
-    private JButton stopButton;
+    private JButton exitButton;
     /**
      * JMenuBar to hold the file menu to quit and the help menu
      */
@@ -124,9 +124,9 @@ public class HotelServerFrame extends JFrame {
         startButton = new JButton("Start Server");
         startButton.addActionListener(new StartServer());
         controlPanel.add(startButton);
-        stopButton = new JButton("Stop Server");
-        //stopButton.addActionListener();
-        controlPanel.add(stopButton);
+        exitButton = new JButton("Exit");
+        exitButton.addActionListener(new QuitApplication());
+        controlPanel.add(exitButton);
         return controlPanel;
     }
 
@@ -160,7 +160,7 @@ public class HotelServerFrame extends JFrame {
         hostField.setEditable(false);
                        
         startButton.setEnabled(true);
-        stopButton.setEnabled(false);                                       
+        exitButton.setEnabled(false);                                       
     }
     
     private class StartServer implements ActionListener {

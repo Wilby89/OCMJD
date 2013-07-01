@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -416,7 +418,19 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 }
                 
                 if (!hostField.getText().equals("")) {
-                    hostFlag = true;
+                    rmiHost = hostField.getText();
+                    try {
+                        InetAddress.getByName(rmiHost);
+                        hostFlag = true;
+                        properties.setProperty("rmiHost", rmiHost);
+                    } catch (UnknownHostException uhex) {
+                        logger.log(Level.SEVERE, 
+                                "Hostname supplied is invalid: " + rmiHost, uhex);
+                        hostFlag = false;
+                        JOptionPane.showMessageDialog(confirmationPanel,
+                                "Host name supplied is not a recognised host");
+                        hostField.setText("");
+                    }                    
                 }
                 else {
                     JOptionPane.showMessageDialog(confirmationPanel,
@@ -424,9 +438,8 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 }
                 if (dbFlag && portFlag && hostFlag) {
                     this.setVisible(false);
-                    break;
                 }
-                
+                break;
             default:
                 throw new UnsupportedOperationException
                         ("Invalid application startup mode");                                           
