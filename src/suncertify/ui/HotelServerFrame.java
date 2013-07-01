@@ -1,7 +1,9 @@
 package suncertify.ui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -100,21 +102,34 @@ public class HotelServerFrame extends JFrame {
 
     private JPanel loadStatusPanel() {
         JPanel statusPanel = new JPanel();
-        //This sets a new layout with as many rows as necessary, 2 columns,
-        //no horizontal gap and a vertical gap of 5
-        GridLayout gridLayout = new GridLayout(0,2,0,5);
-        statusPanel.setLayout(gridLayout);
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        statusPanel.setLayout(gridBagLayout);
+        gridBagConstraints.insets = new Insets(2, 2, 2, 2);
+        
         dbLabel = new JLabel("Database Location");
+        gridBagLayout.setConstraints(dbLabel, gridBagConstraints);
         statusPanel.add(dbLabel);
+        gridBagConstraints.gridwidth = gridBagConstraints.RELATIVE;
+        
         dbField = new JTextField(30);
+        gridBagLayout.setConstraints(dbField, gridBagConstraints);
         statusPanel.add(dbField);
+        
         hostLabel = new JLabel("Hostname");
+        gridBagLayout.setConstraints(hostLabel, gridBagConstraints);
         statusPanel.add(hostLabel);
+        
         hostField = new JTextField(30);
+        gridBagLayout.setConstraints(hostField, gridBagConstraints);
         statusPanel.add(hostField);
+        
         portLabel = new JLabel("Port Number");
+        gridBagLayout.setConstraints(portLabel, gridBagConstraints);
         statusPanel.add(portLabel);
+        
         portField = new JTextField(30);
+        gridBagLayout.setConstraints(portField, gridBagConstraints);
         statusPanel.add(portField);
         return statusPanel;
     }
@@ -159,8 +174,7 @@ public class HotelServerFrame extends JFrame {
         portField.setEditable(false);
         hostField.setEditable(false);
                        
-        startButton.setEnabled(true);
-        exitButton.setEnabled(false);                                       
+        startButton.setEnabled(true);                                   
     }
     
     private class StartServer implements ActionListener {
