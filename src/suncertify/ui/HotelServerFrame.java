@@ -81,7 +81,7 @@ public class HotelServerFrame extends JFrame {
 
     public HotelServerFrame() {
         setTitle("URLyBird Hotel Server Interface");
-        setSize(600, 500);
+        setSize(600, 300);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -105,32 +105,37 @@ public class HotelServerFrame extends JFrame {
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         statusPanel.setLayout(gridBagLayout);
-        gridBagConstraints.insets = new Insets(2, 2, 2, 2);
+        gridBagConstraints.insets = new Insets(10, 2, 2, 10);
         
         dbLabel = new JLabel("Database Location");
-        gridBagLayout.setConstraints(dbLabel, gridBagConstraints);
-        statusPanel.add(dbLabel);
-        gridBagConstraints.gridwidth = gridBagConstraints.RELATIVE;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        statusPanel.add(dbLabel, gridBagConstraints);
         
-        dbField = new JTextField(30);
-        gridBagLayout.setConstraints(dbField, gridBagConstraints);
-        statusPanel.add(dbField);
+        dbField = new JTextField(40);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        statusPanel.add(dbField, gridBagConstraints);
         
         hostLabel = new JLabel("Hostname");
-        gridBagLayout.setConstraints(hostLabel, gridBagConstraints);
-        statusPanel.add(hostLabel);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        statusPanel.add(hostLabel, gridBagConstraints);
         
-        hostField = new JTextField(30);
-        gridBagLayout.setConstraints(hostField, gridBagConstraints);
-        statusPanel.add(hostField);
+        hostField = new JTextField(40);        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        statusPanel.add(hostField, gridBagConstraints);
         
         portLabel = new JLabel("Port Number");
-        gridBagLayout.setConstraints(portLabel, gridBagConstraints);
-        statusPanel.add(portLabel);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        statusPanel.add(portLabel, gridBagConstraints);
         
-        portField = new JTextField(30);
-        gridBagLayout.setConstraints(portField, gridBagConstraints);
-        statusPanel.add(portField);
+        portField = new JTextField(40);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        statusPanel.add(portField, gridBagConstraints);
         return statusPanel;
     }
 
