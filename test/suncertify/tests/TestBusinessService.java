@@ -4,7 +4,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.JFrame;
+import suncertify.rmi.RoomRMIManager;
 import suncertify.ui.HotelFrameController;
+import suncertify.ui.HotelServerFrame;
 import suncertify.util.ApplicationMode;
 
 public class TestBusinessService {  
@@ -12,7 +15,8 @@ public class TestBusinessService {
     private static final String DB_PATH = "db-1x3_test.db";  
   
     public static void main(final String[] args) {  
-        // start your RMI-server  
+        // start your RMI-server
+        RoomRMIManager.start(DB_PATH, "localhost", "1099");
         new TestBusinessService().startTests();  
     }  
   
@@ -54,11 +58,11 @@ public class TestBusinessService {
   
         @Override  
         public void run() {  
-            int recNo = 0;  
+            int recNo = 1;  
             int number = 11111111;
             while (!endRun) {  
                // try {  
-                    HotelFrameController service = new HotelFrameController(ApplicationMode.ALONE, DB_PATH, "1099");
+                    HotelFrameController service = new HotelFrameController(ApplicationMode.NETWORK, "localhost", "1099");
                     service.reserveRoom(recNo, Integer.toString(number));  
                     endRun = true;  
                 /*} catch (RemoteException e) {  
