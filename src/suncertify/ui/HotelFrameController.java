@@ -122,9 +122,19 @@ public class HotelFrameController {
         try {
             if (appMode == ApplicationMode.ALONE ) {
                 data = localConnection.read(recordNumber);
+                if (data[6] != null && data[6].trim().length() > 0) {
+                    JOptionPane.showMessageDialog(null, "You cannot reserve a room "
+                            + "that has been reserved by someone else ");
+                    return;
+                }
             }
             else {                
-                    data = remoteConnection.read(recordNumber);                
+                    data = remoteConnection.read(recordNumber);   
+                    if (data[6] != null && data[6].trim().length() > 0) {
+                    JOptionPane.showMessageDialog(null, "You cannot reserve a room "
+                            + "that has been reserved by someone else ");
+                    return;
+                }
             }
         } catch (RemoteException rex) {
             logger.log(Level.SEVERE, rex.getMessage(), rex);

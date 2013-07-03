@@ -145,6 +145,10 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
      * String to hold dbHost
      */
     private String rmiHost = null;
+    /**
+     * String to hold file extension retrieved from user input
+     */
+    private String extension = null;
     
     /**
      * Constructor for class, set parameters for the JFrame on startup
@@ -330,35 +334,53 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
             case ALONE:
                 portFlag = true;
                 hostFlag = true;
-                if (!dbField.getText().equals("")) {                    
-                    File file = new File(dbField.getText());
-                    if (file.exists() && file.canRead()) {
-                        dbFlag = true;
-                        dbPath = dbField.getText();
-                        logger.log(Level.INFO, "Database location is: " + dbPath);
-                        properties.setProperty("dbPath", dbPath);
-                        this.setVisible(false);
-                    } else {
+                String extension;
+                if (!dbField.getText().equals("")) {   
+                    dbPath = dbField.getText();
+                    extension = dbPath.substring(dbPath.lastIndexOf(".") + 1, dbPath.length());
+                    if (extension.equals("db")) {                        
+                        File file = new File(dbPath);
+                        if (file.exists() && file.canRead()) {
+                            dbFlag = true;
+                            logger.log(Level.INFO, "Database location is: " + dbPath);
+                            properties.setProperty("dbPath", dbPath);
+                        } else {
+                            JOptionPane.showMessageDialog(confirmationPanel,
+                                    "Path entered is invalid");
+                        }
+                    }
+                    else {
                         JOptionPane.showMessageDialog(confirmationPanel,
-                                "Path entered is invalid");
+                                    "Path entered is not a db file");
                     }
                 } else {
                     JOptionPane.showMessageDialog(confirmationPanel,
                             "Please enter a path to the local database");
                 }
+                
+                if (dbFlag && portFlag && hostFlag) {
+                    this.setVisible(false);                    
+                }
                 break;
             case SERVER:
                 hostFlag = true;
-                if (!dbField.getText().equals("")) { 
-                    File file = new File(dbField.getText());
-                    if (file.exists() && file.canRead()) {
-                        dbFlag = true;
-                        dbPath = dbField.getText();
-                        logger.log(Level.INFO, "Database location is: " + dbPath);
-                        properties.setProperty("dbPath", dbPath);
-                    } else {
+                if (!dbField.getText().equals("")) {   
+                    dbPath = dbField.getText();
+                    extension = dbPath.substring(dbPath.lastIndexOf(".") + 1, dbPath.length());
+                    if (extension.equals("db")) {                        
+                        File file = new File(dbPath);
+                        if (file.exists() && file.canRead()) {
+                            dbFlag = true;
+                            logger.log(Level.INFO, "Database location is: " + dbPath);
+                            properties.setProperty("dbPath", dbPath);
+                        } else {
+                            JOptionPane.showMessageDialog(confirmationPanel,
+                                    "Path entered is invalid");
+                        }
+                    }
+                    else {
                         JOptionPane.showMessageDialog(confirmationPanel,
-                                "Path entered is invalid");
+                                    "Path entered is not a db file");
                     }
                 } else {
                     JOptionPane.showMessageDialog(confirmationPanel,
@@ -389,9 +411,9 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 }
                 
                 if (dbFlag && portFlag && hostFlag) {
-                    this.setVisible(false);
-                    break;
+                    this.setVisible(false);                    
                 }
+                break;
             case NETWORK:
                 dbFlag = true;
                 if (!portField.getText().equals("")) {
