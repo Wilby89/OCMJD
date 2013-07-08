@@ -35,6 +35,11 @@ public class StartUp {
         StartUp startUp = new StartUp(args);             
     }
     
+    /**
+     * This method receives the args and will open the correct user interface
+     * class depending on the application mode.
+     * @param args 
+     */
     public StartUp(String[] args) {        
         if (args.length == 0 || ApplicationMode.ALONE.name().equalsIgnoreCase(args[0])) {
             JFrame hotelFrame = new HotelFrame(args);

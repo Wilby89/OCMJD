@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import suncertify.db.DataDBAccess;
 import suncertify.util.ApplicationMode;
 import suncertify.util.HotelUtils;
 import suncertify.util.PropertyManager;

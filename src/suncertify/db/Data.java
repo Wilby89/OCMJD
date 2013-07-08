@@ -9,9 +9,8 @@ import java.util.logging.Logger;
  * 
  * @author William Brosnan
  * 
- * This class implements the interface set out in the exam in the instructions.html page.
- * The interface will not be touched or edited by me, any additional methods I need can be added as part of
- * a facade pattern.
+ * This class implements the DBMain interface supplied as part of the instructions.
+ * 
  */
 public class Data implements DBMain {
     
@@ -42,7 +41,7 @@ public class Data implements DBMain {
      * This constructor takes in the database location as a parameter
      * @param dbLocation
      * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
     public Data(String dbLocation) throws FileNotFoundException, IOException {
         try {

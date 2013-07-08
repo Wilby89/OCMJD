@@ -1,0 +1,5 @@
+==================== URLyBird application design choices ====================
+
+
+I chose to use constants since the values of the constant shouldn't change.
+Could have read these values from the properties file but would have been outside scope/unnecessary work

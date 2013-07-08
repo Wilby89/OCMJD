@@ -24,7 +24,7 @@ public class TestBusinessService {
         List<Thread> threads = new ArrayList<Thread>();  
         try {  
             // create book-threads  
-            for (int i = 0; i < 35; i++) {  
+            for (int i = 0; i < 100; i++) {  
                 threads.add(new Thread(new BookThread(i * 100), String.valueOf(i * 100)));  
             }  
             // random order  
@@ -58,7 +58,7 @@ public class TestBusinessService {
   
         @Override  
         public void run() {  
-            int recNo = 1;  
+            int recNo = 0;  
             int number = 11111111;
             while (!endRun) {  
                // try {  

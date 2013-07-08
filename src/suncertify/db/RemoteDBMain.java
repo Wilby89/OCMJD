@@ -3,12 +3,14 @@ package suncertify.db;
 import java.rmi.RemoteException;
 
 /**
+ * Interface used to match the DBMain interface but the methods here can throw
+ * remote exception since I cannot modify the original interface.
  *
  * @author William Brosnan
  */
 public interface RemoteDBMain {
     
-    // Reads a record from the file. Returns an array where each
+  // Reads a record from the file. Returns an array where each
   // element is a record value.
   public String [] read(int recNo) throws RecordNotFoundException, RemoteException;
 
@@ -49,7 +51,7 @@ public interface RemoteDBMain {
   public void unlock(int recNo) throws RecordNotFoundException, RemoteException;
 
 
-  // Determines if a record is currenly locked. Returns true if the
+  // Determines if a record is currently locked. Returns true if the
   // record is locked, false otherwise.
   public boolean isLocked(int recNo)
     throws RecordNotFoundException, RemoteException;

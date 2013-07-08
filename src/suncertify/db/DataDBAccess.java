@@ -52,7 +52,7 @@ public class DataDBAccess {
      */
     public static final String DATABASE_NAME = "db-1x3.db";
     /**
-     * Database reader instance
+     * Database reader/writer instance
      */
     private final RandomAccessFile fileObject;
     /**
@@ -86,14 +86,10 @@ public class DataDBAccess {
     
     /**
      * Constant to signify whether a record is valid in the database or if it has been deleted.
-     * I chose to use constants since the values of the constant shouldn't change.
-     * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
     private static final byte DELETED = (byte) 0xFF;
     /**
      * Constant to signify whether a record is valid in the database or if it has been deleted.
-     * I chose to use constants since the values of the constant shouldn't change.
-     * Could have read these values from the properties file but would have been outside scope/unnecessary work
      */
     private static final byte VALID = 00;
     /**
@@ -228,9 +224,9 @@ public class DataDBAccess {
     }
     
     /**
-     * Helper method used to convert the String array into a byte array
+     * Helper method used to convert the String array into a byte array.
      * @param data
-     * @return a byte array containing the data that was in the string array
+     * @return a byte array containing the data that was in the string array.
      */
     private byte[] getDataAsByteArray (String[] data) {
         final StringBuilder stringBuilder = new StringBuilder();
@@ -376,7 +372,11 @@ public class DataDBAccess {
         }
     }
     
-    public int getPositionToInsert() {
+    /**
+     * Returns the integer position in the file where the insert should start.
+     * @return an int for start position of insert
+     */
+    private int getPositionToInsert() {
         int insertPosition = 0;
         try {
             this.fileObject.seek(offset);
