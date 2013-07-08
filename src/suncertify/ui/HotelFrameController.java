@@ -110,8 +110,6 @@ public class HotelFrameController {
     
     /**
      * Reserve a room in the database
-     * I chose to use a conversion method in my room object to get CSR, set CSR 
-     * and then return a String[] containing to existing record with a new CSR
      * @param recordNumber
      * @param CSRNumber 
      */

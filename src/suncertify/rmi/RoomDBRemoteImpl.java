@@ -25,6 +25,11 @@ public class RoomDBRemoteImpl extends UnicastRemoteObject implements RoomDBRemot
      */
     private RemoteDBMain database = null;
     
+    /**
+     * Constructor passes location of database to a new instance of RemoteDBMainImpl
+     * @param dbLocation
+     * @throws RemoteException 
+     */
     public RoomDBRemoteImpl (String dbLocation) throws RemoteException {
         try {
             database = new RemoteDBMainImpl(dbLocation);

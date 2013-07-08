@@ -39,8 +39,14 @@ public class RoomRMIManager {
         STOPPED
     }
     
+    /**
+     * Variable to hold the current running status
+     */
     private static RunningStatus status = RunningStatus.STOPPED;
     
+    /**
+     * Empty constructor
+     */
     private RoomRMIManager() {}
     
     /**

@@ -37,13 +37,37 @@ public class HotelServerFrame extends JFrame {
      * The mode the application is running in.
      */
     private ApplicationMode applicationMode = ApplicationMode.SERVER;
+    /**
+     * Database label
+     */
     private JLabel dbLabel;
+    /**
+     * Database path field displays the path that the server is using
+     */
     private JTextField dbField;
+    /**
+     * Host name label
+     */
     private JLabel hostLabel;
+    /**
+     * Host name field displays the host name that the server is using
+     */
     private JTextField hostField;
+    /**
+     * RMI port label
+     */
     private JLabel portLabel;
+    /**
+     * RMI port field displays the port number that the server is using
+     */
     private JTextField portField;
+    /**
+     * Panel to hold components
+     */
     private JPanel topPanel;
+    /**
+     * Panel to hold components
+     */
     private JPanel bottomPanel;
     /**
      * Button to start the server
@@ -79,6 +103,10 @@ public class HotelServerFrame extends JFrame {
      */
     private String rmiHost = null;
 
+    /**
+     * Constructor sets GUI parameters like size and location and loads the
+     * panels containing the individual swing components
+     */
     public HotelServerFrame() {
         setTitle("URLyBird Hotel Server Interface");
         setSize(600, 300);
@@ -100,6 +128,11 @@ public class HotelServerFrame extends JFrame {
         initComponents();
     }
 
+    /**
+     * Status panel holds components that allow the user to see what options 
+     * the server will attempt to run with
+     * @return 
+     */
     private JPanel loadStatusPanel() {
         JPanel statusPanel = new JPanel();
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -139,6 +172,10 @@ public class HotelServerFrame extends JFrame {
         return statusPanel;
     }
 
+    /**
+     * This panel holds the start button for the server and an exit button
+     * @return 
+     */
     private JPanel loadServerControlPanel() {
         JPanel controlPanel = new JPanel();
         startButton = new JButton("Start Server");
@@ -150,6 +187,9 @@ public class HotelServerFrame extends JFrame {
         return controlPanel;
     }
 
+    /**
+     * Used to try and start the server with the user entered options
+     */
     private void startServer() {
         RoomRMIManager.start();
         if (RoomRMIManager.isServerStarted()) {
@@ -182,6 +222,9 @@ public class HotelServerFrame extends JFrame {
         startButton.setEnabled(true);                                   
     }
     
+    /**
+     * Listener that fires when the "Start Server" button is pressed
+     */
     private class StartServer implements ActionListener {
     
         @Override

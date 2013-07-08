@@ -25,7 +25,13 @@ import suncertify.util.HotelUtils;
 import suncertify.util.PropertyManager;
 
 /**
- *
+ * This class displays the configuration details GUI to the user, the GUI is 
+ *  common to the three different application modes that the application can 
+ *  be run in, server, stand-alone client and network client.
+ * However some options will be un-editable depending on how the application
+ *  is being run.
+ * If the user enters valid options they are persisted in the properties file.
+ * 
  * @author William Brosnan
  */
 public class ConfigurationDialog extends JDialog implements ActionListener {

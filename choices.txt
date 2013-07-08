@@ -3,3 +3,6 @@
 
 I chose to use constants since the values of the constant shouldn't change.
 Could have read these values from the properties file but would have been outside scope/unnecessary work
+
+I chose to use a conversion method in my room object to get CSR, set CSR 
+     * and then return a String[] containing existing record with a new CSR

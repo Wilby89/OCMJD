@@ -1,7 +1,6 @@
 package suncertify.rmi;
 
 import java.rmi.Remote;
-import suncertify.db.DBMain;
 import suncertify.db.RemoteDBMain;
 
 /**
@@ -9,6 +8,6 @@ import suncertify.db.RemoteDBMain;
  *
  * @author William Brosnan
  */
-public interface RoomDBRemote extends Remote, RemoteDBMain{
+public interface RoomDBRemote extends Remote, RemoteDBMain {
     
 }

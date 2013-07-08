@@ -5,7 +5,9 @@ import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import suncertify.db.Room;
 /**
- *
+ * The custom table model used to display the information gathered from the 
+ * database in the main GUIs JTable
+ * 
  * @author William Brosnan
  */
 public class RoomTableModel extends AbstractTableModel {
@@ -41,7 +43,6 @@ public class RoomTableModel extends AbstractTableModel {
 
     /**
      * This method is used to add a room record into the roomRecords arrayList to populate the JTable.
-     * It should only be called from the other addRoomRecord method in this class
      * @param roomArray a String array representing room values
      */
     public void addRoomRecord(String[] roomArray) {              

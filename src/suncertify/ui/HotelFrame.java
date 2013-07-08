@@ -250,14 +250,17 @@ public class HotelFrame extends JFrame {
         this.hotelTable.setModel(this.tableModel);       
     }
     
+    /**
+     * Used to separate the GUI construction code out into manageable functions
+     * instead of having all the code in the constructor.
+     * @return the JPanel that contains the booking label and buttons.
+     */
     private JPanel loadBookingPanel() {
         JPanel bookingPanel = new JPanel();
         bookingPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         custIDLabel = new JLabel("Select a record and press Reserve Room button "
                 + "to reserve");
         bookingPanel.add(custIDLabel);
-        //custIDField = new JTextField(30);
-        //bookingPanel.add(custIDField);
         reserveButton = new JButton("Reserve Room");
         reserveButton.addActionListener(new ReserveRoom());
         bookingPanel.add(reserveButton);
