@@ -20,7 +20,7 @@ public class LockManager {
     /**
      * Map containing record locks
      */
-    private static Map<Integer,Long> bookingsMap = new HashMap<Integer,Long>();
+    private final Map<Integer,Long> bookingsMap = new HashMap<Integer,Long>();
     
     /**
      * Locks a record so that it can only be updated or deleted by this client.
@@ -29,20 +29,18 @@ public class LockManager {
      * @param recNo
      * @throws RecordNotFoundException 
      */
-    public void lock(int recNo) throws RecordNotFoundException {
+    public synchronized void lock(int recNo) throws RecordNotFoundException {
         logger.entering("LockManager", "lock", recNo);
-        synchronized (bookingsMap) {
-            final long ownerCookieValue = Thread.currentThread().getId();
-            try {
-                while (isLocked(recNo)) {
-                    bookingsMap.wait();
-                }
-            } catch (InterruptedException inex) {
-                throw new RecordNotFoundException("Problem found when attempting"
-                        + " to lock record: " + inex.getMessage());
+        final long ownerCookieValue = Thread.currentThread().getId();
+        try {
+            while (isLocked(recNo)) {
+                wait();
             }
-            bookingsMap.put(recNo, ownerCookieValue);
+        } catch (InterruptedException inex) {
+        throw new RecordNotFoundException("Problem found when attempting"
+            + " to lock record: " + inex.getMessage());
         }
+        bookingsMap.put(recNo, ownerCookieValue);
         logger.exiting("LockManager", "lock");
     }
     
@@ -51,29 +49,27 @@ public class LockManager {
      * @param recNo
      * @throws RecordNotFoundException 
      */
-    public void unlock(int recNo) throws RecordNotFoundException {
-        logger.entering("LockManager", "unlock", recNo);
-        synchronized (bookingsMap) {
-            final long ownerCookieValue = Thread.currentThread().getId();
-            try {
-                if (bookingsMap.get(recNo) == null) {
-                    throw new RecordNotFoundException
-                            ("Record not locked: " + recNo);
-                }
-                else if (bookingsMap.get(recNo) != ownerCookieValue) {
-                    throw new RecordNotFoundException
-                            ("Record locked by another user: " + recNo);
-                }
-                else if (bookingsMap.containsKey(recNo)) {
-                    bookingsMap.remove(recNo);
-                    bookingsMap.notifyAll();
-                }
+    public synchronized void unlock(int recNo) throws RecordNotFoundException {
+        logger.entering("LockManager", "unlock", recNo);        
+        final long ownerCookieValue = Thread.currentThread().getId();
+        try {
+            if (bookingsMap.get(recNo) == null) {
+                throw new RecordNotFoundException
+                    ("Record not locked: " + recNo);
+            }
+            else if (bookingsMap.get(recNo) != ownerCookieValue) {
+                throw new RecordNotFoundException
+                    ("Record locked by another user: " + recNo);
+            }
+            else if (bookingsMap.containsKey(recNo)) {
+                bookingsMap.remove(recNo);
+                notifyAll();
+            }
             } catch (Exception ex) {
                 throw new RecordNotFoundException("Problem found when attempting"
                         + " to unlock record: " + ex.getMessage());
             }
-        logger.exiting("LockManager", "unlock");
-        }
+        logger.exiting("LockManager", "unlock");        
     }
     
     /**
@@ -83,9 +79,10 @@ public class LockManager {
      * @return boolean signifying record lock status
      * @throws RecordNotFoundException
      */
-    public boolean isLocked(int recNo) throws RecordNotFoundException {
+    public synchronized boolean isLocked(int recNo) throws RecordNotFoundException {
         logger.entering("LockManager", "isLocked", recNo);
-        if (bookingsMap.containsKey(recNo)) {
+        final long ownerCookieValue = Thread.currentThread().getId();
+        if (bookingsMap.containsKey(recNo) && bookingsMap.get(recNo)!=ownerCookieValue) {
             logger.exiting("LockManager", "isLocked");
             return true;
         }

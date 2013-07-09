@@ -78,7 +78,7 @@ public class Data implements DBMain {
             database.update(recNo, data);
         } catch (DatabaseException dex) {
             logger.log(Level.SEVERE, dex.getMessage(), dex);
-            System.err.println("Locking problem found when atempting update "
+            System.err.println("Locking problem found when attempting update "
                      + dex.getMessage());
         }
     }

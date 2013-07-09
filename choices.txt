@@ -1,8 +1,43 @@
 ==================== URLyBird application design choices ====================
 
+====== Table of Contents ======
+1. Code style
+2. Networking decisions
+3. Database decisions
+4. Property file decisions
+5. Concurrency and locking decisions
+6. GUI and usability decisions
+7. General decision and considerations
 
-I chose to use constants since the values of the constant shouldn't change.
-Could have read these values from the properties file but would have been outside scope/unnecessary work
+
+
+======= 1. Code style =======
+
+
+
+======= 2. Networking decisions =======
+
+Facade pattern
+
+======= 3. Database decisions =======
 
 I chose to use a conversion method in my room object to get CSR, set CSR 
-     * and then return a String[] containing existing record with a new CSR
+and then return a String[] containing existing record with a new CSR
+
+Delegation pattern
+
+======= 4. Property file decisions =======
+
+
+
+======= 5. Concurrency and locking decisions =======
+
+
+
+======= 6. GUI and usability decisions =======
+
+
+
+======= 7. General decision and considerations =======
+
+48-hour rule

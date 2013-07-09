@@ -149,12 +149,11 @@ public class HotelFrameController {
             if (appMode == ApplicationMode.ALONE ) {
                 localConnection.lock(recordNumber);
                 localConnection.update(recordNumber, room.toStringArray());
-                localConnection.unlock(recordNumber);
             }
             else {
                 remoteConnection.lock(recordNumber);
                 remoteConnection.update(recordNumber, room.toStringArray());
-                remoteConnection.unlock(recordNumber);
+                
             }
         } catch (RemoteException rex) {
             logger.log(Level.SEVERE, rex.getMessage(), rex);
@@ -164,6 +163,23 @@ public class HotelFrameController {
             logger.log(Level.SEVERE, rnfex.getMessage(), rnfex);
             System.err.println("Error attempting to update : " 
                     + rnfex.getMessage());
+        } finally {
+            if (appMode == ApplicationMode.ALONE ) {
+                try {
+                    localConnection.unlock(recordNumber);
+                } catch (RecordNotFoundException rnfex) {
+                    logger.log(Level.SEVERE, rnfex.getMessage(), rnfex);
+                }
+            }
+            else {
+                try {
+                    remoteConnection.unlock(recordNumber);
+                } catch (RecordNotFoundException rnfex) {
+                    logger.log(Level.SEVERE, rnfex.getMessage(), rnfex);
+                } catch (RemoteException rex) {
+                    logger.log(Level.SEVERE, rex.getMessage(), rex);
+                }
+            }
         }
         logger.exiting("HotelFrameController", "reserveRoom");
     }    
