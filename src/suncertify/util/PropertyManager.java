@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class is used to provide read/write access to the suncertify.properties
+ * This singleton class is used to provide read/write access to the suncertify.properties
  * file for user configuration
  * 
  * @author William Brosnan

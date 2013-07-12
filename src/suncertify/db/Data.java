@@ -26,7 +26,7 @@ public class Data implements DBMain {
      * This class will take care of locking/unlocking the database to prevent
      * data corruption
      */
-    private final LockManager lockManager = new LockManager();
+    private LockManager lockManager = LockManager.getInstance();
     /**
      * Location of database
      */
@@ -45,7 +45,7 @@ public class Data implements DBMain {
      */
     public Data(String dbLocation) throws FileNotFoundException, IOException {
         try {
-            database = new DataDBAccess(dbLocation, lockManager);
+            database = new DataDBAccess(dbLocation);
         } catch (DatabaseException dex) {
             logger.log(Level.SEVERE, dex.getMessage(), dex);
             System.err.println("Exception encountered when attempting to "

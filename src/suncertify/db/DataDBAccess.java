@@ -95,7 +95,7 @@ public class DataDBAccess {
     /**
      * LockManager instance
      */
-    private LockManager locker;
+    private LockManager locker = LockManager.getInstance();
     /**
      * Constructor that reads the header information in the database and
      * sets the offset to the start of the first record
@@ -104,10 +104,9 @@ public class DataDBAccess {
      * @throws IOException
      * @throws DatabaseException 
      */    
-    public DataDBAccess(String dbLocation, LockManager locker) 
+    public DataDBAccess(String dbLocation) 
             throws FileNotFoundException, IOException, DatabaseException {
         logger.entering("DataDBAccess", "DataDBAccess", dbLocation);
-        this.locker = locker;
         fileObject = new RandomAccessFile(new File(dbLocation),"rw");
         final int magicCookie = fileObject.readInt();
         if (magicCookie != MAGIC_COOKIE_VALUE) {

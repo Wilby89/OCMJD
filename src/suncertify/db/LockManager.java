@@ -15,12 +15,28 @@ public class LockManager {
     /**
      * Logger instance to pass messages through
      */
-    private Logger logger = Logger.getLogger("suncertify.db");
-    
+    private Logger logger = Logger.getLogger("suncertify.db");    
     /**
      * Map containing record locks
      */
     private final Map<Integer,Long> bookingsMap = new HashMap<Integer,Long>();
+    /**
+     * Create singleton instance of this <code>LockManager</code>.
+     */
+    private static final LockManager instance = new LockManager();
+    
+    /**
+     * Return the singleton instance
+     * @return 
+     */
+    public static LockManager getInstance() {
+        return instance;
+    }
+    
+    /**
+     * Private constructor for the singleton
+     */
+    private LockManager() {}
     
     /**
      * Locks a record so that it can only be updated or deleted by this client.
