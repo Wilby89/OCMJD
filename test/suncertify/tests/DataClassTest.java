@@ -72,7 +72,7 @@ public class DataClassTest {
              * time, but if you want, you can increase the controller variable, 
              * so it is executed as many times as you want 
              */  
-            for (int i = 0; i < 20; i++) {  
+            for (int i = 0; i < 1000; i++) {  
                 Thread updatingRandom = new UpdatingRandomRecordThread();  
                 updatingRandom.start();  
                 Thread updatingRecord1 = new UpdatingRecord1Thread();  
@@ -131,11 +131,11 @@ public class DataClassTest {
                  * locked forever. In this case, I created a class called 
                  * RoomRetriever, which transforms from Room to String array, 
                  * and vice-versa, but it could also be done this way: 
-                 * 
-                 * data.update(recNo, new String[] {"Palace", "Smallville", "2", 
-                 * "Y", "$150.00", "2005/07/27", null}); 
-                 */  
-                data.update(recNo, room.toStringArray());  
+                 */ 
+                 data.update(recNo, new String[] {"Palace", "Smallville", "2", 
+                 "Y", "$150.00", "2005/07/27", "54120584"}); 
+                   
+                //data.update(recNo, room.toStringArray());  
                 System.out.println(Thread.currentThread().getId()  
                         + " trying to unlock record #" + recNo  
                         + " on UpdatingRandomRecordThread");  
@@ -166,8 +166,10 @@ public class DataClassTest {
                 data.lock(1);  
                 System.out.println(Thread.currentThread().getId()  
                         + " trying to update record #1 on"  
-                        + " UpdatingRecord1Thread");  
-                data.update(1, room.toStringArray());  
+                        + " UpdatingRecord1Thread"); 
+                data.update(1, new String[] {"Castle", "Digitopolis", "2", 
+                 "N", "$90.00", "2005/04/01", "88006644"});
+                //data.update(1, room.toStringArray());  
                 System.out.println(Thread.currentThread().getId()  
                         + " trying to unlock record #1 on"  
                         + "UpdatingRecord1Thread");  
@@ -199,7 +201,8 @@ public class DataClassTest {
             try {  
                 System.out.println(Thread.currentThread().getId()  
                         + " trying to create a record");  
-                data.create(room.toStringArray());  
+                data.create(new String[] {"Elephant Inn", "EmeraldCity", "6", 
+                 "N", "$120.00", "2005/02/03"});  
             } catch (Exception e) {  
                 System.out.println(e);  
             }  

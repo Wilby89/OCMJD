@@ -16,7 +16,7 @@ public class TestBusinessService {
   
     public static void main(final String[] args) {  
         // start your RMI-server
-        RoomRMIManager.start(DB_PATH, "localhost", "1099");
+        //RoomRMIManager.start(DB_PATH, "localhost", "1099");
         new TestBusinessService().startTests();  
     }  
   
@@ -57,12 +57,12 @@ public class TestBusinessService {
         }  
   
         @Override  
-        public void run() {
+        public void run() {  
             int recNo = 0;  
             int number = 11111111;
             while (!endRun) {  
                // try {  
-                    HotelFrameController service = new HotelFrameController(ApplicationMode.NETWORK, "localhost", "1099");
+                    HotelFrameController service = new HotelFrameController(ApplicationMode.ALONE, DB_PATH, "1099");
                     service.reserveRoom(recNo, Integer.toString(number));  
                     endRun = true;  
                 /*} catch (RemoteException e) {  

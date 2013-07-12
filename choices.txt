@@ -26,6 +26,8 @@ and then return a String[] containing existing record with a new CSR
 
 Delegation pattern
 
+DuplicateKeyException
+
 ======= 4. Property file decisions =======
 
 

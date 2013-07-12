@@ -1,5 +1,7 @@
 package suncertify.db;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -135,7 +137,7 @@ public class DataDBAccess {
      * @return a <code>String[]</code> holding the field values of a record
      * @throws RecordNotFoundException 
      */
-    public String[] read(int recNo) throws RecordNotFoundException {
+    public synchronized String[] read(int recNo) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "read", recNo);
         try {
             fileObject.seek(offset + recNo * maxRecord);
@@ -227,19 +229,36 @@ public class DataDBAccess {
      * @param data
      * @return a byte array containing the data that was in the string array.
      */
-    private byte[] getDataAsByteArray (String[] data) {
-        final StringBuilder stringBuilder = new StringBuilder();
-        byte[] byteArray = new byte[7];
-        for (String str: data) {
-            stringBuilder.append(str);
-        }
-        try {
-            byteArray = stringBuilder.toString().getBytes(ENCODING);
-        } catch (UnsupportedEncodingException ueex) {
-            logger.severe("Unsupported character set: " 
-                    + ENCODING + " " + ueex.getMessage());
-        }
-        return byteArray;
+    private byte[] getDataAsByteArray (String[] data) throws IOException {
+        //final StringBuilder stringBuilder = new StringBuilder();
+        //byte[] byteArray = new byte[7];
+        ByteArrayOutputStream bOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dOutputStream = new DataOutputStream(bOutputStream);
+        for (int i = 0; i < fieldColumnNames.length; i++) {
+            String str = data[i];
+            short fieldLength = (fieldMap.get(fieldColumnNames[i])).shortValue();
+            byte[] byteArray = new byte[fieldLength];
+            int j = 0;
+            for (byte b : str.getBytes()) {
+                byteArray[j++] = b;
+            }
+            for (int k = 0; k < fieldLength; k++) {
+                dOutputStream.write(byteArray[k]);
+                }
+            }
+            dOutputStream.flush();
+            dOutputStream.close();
+            byte[] returnArray = bOutputStream.toByteArray();
+            return returnArray;
+        //for (String str: data) {
+        //    stringBuilder.append(str);
+        //}
+        //try {
+            //byteArray = stringBuilder.toString().getBytes(ENCODING);
+        //} catch (UnsupportedEncodingException ueex) {
+        //    logger.severe("Unsupported character set: " 
+        //            + ENCODING + " " + ueex.getMessage());
+        //}        
     }
     
     /**
@@ -298,7 +317,7 @@ public class DataDBAccess {
      * the records in the database
      * @throws RecordNotFoundException 
      */
-    public int[] find(String[] criteria) throws RecordNotFoundException {
+    public synchronized int[] find(String[] criteria) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "find", criteria);
         ArrayList<Integer> foundArray = new ArrayList<Integer>();
         String[] recordData;
@@ -345,19 +364,19 @@ public class DataDBAccess {
      * number of the new record.
      * @param data
      * @return the record number of the newly created record
-     * @throws DuplicateKeyException 
+     * @throws DuplicateKeyException
+              if a duplicate key is detected when creating record.
      * @throws RecordNotFoundException
      */
     public synchronized int create(String[] data) throws DuplicateKeyException, RecordNotFoundException {
         logger.entering("DataDBAccess", "create", data);
         if (data == null) {
-            throw new IllegalArgumentException("Record not found for record"
-                    + " number");
+            throw new IllegalArgumentException("Corrupt or invalid data");
         }
-        int[] existingRecords = find(data);
-        if (existingRecords != null || existingRecords.length > 0) {
-            throw new DuplicateKeyException("Record already exists");
-        }
+        //Method does not throw a DuplicateKeyException as there is no set criteria
+        //on what makes a record unique, two records with the exact same information in the
+        //database could possibly be two seperate rooms in the same hotel with the same record
+        //data, it's unlikely but possible, see choices.txt for my rationale
         try {            
             int position = getPositionToInsert();  
             fileObject.seek(offset + position * maxRecord);
