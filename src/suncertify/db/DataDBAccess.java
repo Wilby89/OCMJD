@@ -229,9 +229,7 @@ public class DataDBAccess {
      * @param data
      * @return a byte array containing the data that was in the string array.
      */
-    private byte[] getDataAsByteArray (String[] data) throws IOException {
-        //final StringBuilder stringBuilder = new StringBuilder();
-        //byte[] byteArray = new byte[7];
+    private byte[] getDataAsByteArray (String[] data) throws IOException {        
         ByteArrayOutputStream bOutputStream = new ByteArrayOutputStream();
         DataOutputStream dOutputStream = new DataOutputStream(bOutputStream);
         for (int i = 0; i < fieldColumnNames.length; i++) {
@@ -249,16 +247,7 @@ public class DataDBAccess {
             dOutputStream.flush();
             dOutputStream.close();
             byte[] returnArray = bOutputStream.toByteArray();
-            return returnArray;
-        //for (String str: data) {
-        //    stringBuilder.append(str);
-        //}
-        //try {
-            //byteArray = stringBuilder.toString().getBytes(ENCODING);
-        //} catch (UnsupportedEncodingException ueex) {
-        //    logger.severe("Unsupported character set: " 
-        //            + ENCODING + " " + ueex.getMessage());
-        //}        
+            return returnArray;                
     }
     
     /**
@@ -423,11 +412,21 @@ public class DataDBAccess {
         int recNum = 0;
         ArrayList<Integer> recNumArray = new ArrayList<Integer>();
         try {
-        for (int i = this.offset; i < this.fileObject.length();
-                i += this.maxRecord) {
-            recNumArray.add(recNum);
-            recNum++;
-        }
+            fileObject.seek(offset);
+            byte[] byteArray = new byte[maxRecord];
+            while (fileObject.read(byteArray) == maxRecord) {
+                if (byteArray[0] == DELETED) {
+                    recNum++;
+                    continue;
+                }
+                recNumArray.add(recNum);
+                recNum++;
+            }
+            //for (int i = this.offset; i < this.fileObject.length();
+            //    i += this.maxRecord) {
+            //    recNumArray.add(recNum);
+            //    recNum++;
+            //}
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
             System.err.println("I/O problem found when attempting to load all"

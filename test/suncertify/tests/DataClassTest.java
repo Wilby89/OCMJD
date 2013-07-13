@@ -79,8 +79,8 @@ public class DataClassTest {
                 updatingRecord1.start();  
                 //Thread creatingRecord = new CreatingRecordThread();  
                 //creatingRecord.start();  
-                //Thread deletingRecord = new DeletingRecord1Thread();  
-                //deletingRecord.start();  
+                Thread deletingRecord = new DeletingRecord1Thread();  
+                deletingRecord.start();  
                 Thread findingRecords = new FindingRecordsThread();  
                 findingRecords.start();  
             }  

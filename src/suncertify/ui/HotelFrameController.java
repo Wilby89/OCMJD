@@ -88,15 +88,15 @@ public class HotelFrameController {
         try {    
             if (appMode == ApplicationMode.ALONE ) {
                 recordNumbers = localConnection.find(criteriaRoomsData);
-                for (int recordNum:recordNumbers) {
-                    String[] tempRoomData = localConnection.read(recordNum);
+                for (int i = 0; i < recordNumbers.length;i++) {
+                    String[] tempRoomData = localConnection.read(recordNumbers[i]);
                     criteriaRoomsModel.addRoomRecord(tempRoomData);
                 }
             }
             else {
                 recordNumbers = remoteConnection.find(criteriaRoomsData);
-                for (int recordNum:recordNumbers) {
-                    String[] tempRoomData = remoteConnection.read(recordNum);
+                for (int i = 0; i < recordNumbers.length;i++) {
+                    String[] tempRoomData = remoteConnection.read(recordNumbers[i]);
                     criteriaRoomsModel.addRoomRecord(tempRoomData);
                 }
             }            
