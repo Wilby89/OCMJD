@@ -17,9 +17,11 @@ Javadoc
     I have added javadoc to every class and all methods, regardless of access modifier. 
 This is partly to avoid having to use single line comments within private methods. See below on Single line comments.
 
+
 Class/Method naming
     I have tried to use intuitive and expressive names for classes and methods so
 it is immediately obvious what the role of a class/method's role is.
+
 
 Single line comments
     I tried to avoid single line comments, the code is meant to be understood by
@@ -38,27 +40,33 @@ RMI also uses less code than sockets.
 Conversely sockets gives the developer more low level control than RMI, RMI does not give the
 developer control over threads being created.
 
+
 Factory pattern
     I used the factory pattern for creating RMI objects. The factory is put in the
 naming service and a client attempting to get a connection retrieves a connection
 client from the factory.
 
-Facade pattern
-    I used the facade pattern
+Extra interface
+    I had to create an extra interface between the controller and the Data class in order
+to allow me to throw a RemoteException on the methods in the DBMain interface.
+In an ideal situation I could have merely added the RemoteException throw to the method
+declaration for each method but I had to leave the DBMain interface I received as is.
 
 
--
+
 ======= 3. Database decisions =======
 
 Object class
     In the spirit of Object Oriented programming I created a Room POJO for record representation
 to handle get and set attributes on a record. I also added a toStringArray method which returns
-the record as a String array
+the record as a String array.
+
 
 Delegation pattern
     I used the delegation pattern to delegate the responsibility of the Data class to
 the DataDBAccess class, keeping Data clean and small, if I put all the functionality in the Data
 class it would balloon to over 500 lines.
+
 
 DuplicateKeyException
     I chose not to throw the DuplicateKeyException as I saw an issue with how it could be implemented.
@@ -73,12 +81,21 @@ To avoid getting off the point: Without a unique identifier like room number, I 
 feel comfortable implementing the DuplicateKeyException.
 Also it was not a 'must' requirement.
 
+
 RandomAccessFile
     I used RandomAccessFile to read/write to the database file. This was my first time 
 using RandomAccessFile but I found it easy to use and efficient. I did research on RandomAccessFile
 vs FileInputStream/FileOutputStream which I had used before. RandomAccessFile can use one instance to 
 both read and write and the seek() method is noticeably faster than FileInputStream's skip() method when
 reading the file.
+
+
+Record Cache
+    I decided against implementing a record cache and adding an extra layer of complexity.
+I felt that the cache was unnecessary and so just read from the database instead of keeping 
+the records in memory. While the extra I/O would have an adverse effect on speed in 
+a larger application with a bigger database, in an application of this size the impact
+on speed is basically unnoticeable.
 
 
 
@@ -89,12 +106,15 @@ PropertyManager
 The property manager deals with saving and loading of persistent properties and creates
 a suncertify.properties file if the application can not find an existing one.
 
+
+
 ======= 5. Concurrency and locking decisions =======
 
 I chose to avoid using the built in lock packages in Java in the package java.util.concurrent.
 This is because I was unfamiliar with the classes and I was more comfortable with
 synchronization. Also, I thought using synchronization would be simpler for a junior 
 programmer to understand.
+
 
 Locking map
     I utilized a singleton LockManager class with a HashMap, the HashMap is populated
@@ -124,6 +144,7 @@ In server mode -
     The RMI port number and database location have to be entered, host name is set to
 localhost by default.
 
+
 HotelFrame GUI
     I chose not to limit the visibility of records to the user, so all records are displayed in the JTable, rather than
 only displaying bookable records e.g records violating 48 hour rule or records already booked
@@ -132,6 +153,7 @@ I chose to load all records in the database on application start up, this was a 
 aesthetic decision on my part.
 When the user attempts to book a room I implemented validation to make sure that a record has been
 selected, then a JDialog user input is verified as being 8 characters long and all digits.
+
 
 Server GUI
     I decided that rather than having a simple start server button that I would display the 
@@ -151,6 +173,7 @@ However since I validate the magic cookie in the database file the application i
 to the specific database I received which has all old dates.
 It was also not a 'must' requirement.
 
+
 Packaging structure
     I divided the application structure into five packages, the application is 
 started from the StartUp.java class which I placed into the suncertify.init package
@@ -158,6 +181,7 @@ on it's own.
 The suncertify.util package is used to contain classes that can be used to 
 provide common functionality across the application.
 The other packages are self-explanatory.
+
 
 Model View Controller architecture pattern
     I used a passive implementation model view controller pattern because it was a good fit for what I needed
@@ -173,8 +197,9 @@ The controller also calls the lock/update/unlock/find/read methods in the data l
 controller methods.
 The view is represented by the HotelFrame class, it constructs the Swing GUI components and displays the data in the model.
 
+
 Logging
     I used extensive logging in the application, logging as Level.SEVERE for caught exceptions and
-    as Level.INFO for informative messages in the application flow
+    as Level.INFO for informative messages in the application flow.
 
 
