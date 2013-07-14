@@ -97,6 +97,15 @@ the records in memory. While the extra I/O would have an adverse effect on speed
 a larger application with a bigger database, in an application of this size the impact
 on speed is basically unnoticeable.
 
+Limitation
+    Creating a new record has a limitation where an empty custId must be passed in 
+in the data String array like so: data.create(new String[] {"Elephant Inn", "Emerald City", "6", 
+"N", "$120.00", "2005/02/03",""}); 
+This because the implementation of the create method works on the premise that all 
+data criteria are in the String[], the data for the custId can be populated or empty but
+like the other data fields it will be expanded out to the max field size in bytes before 
+being written to the database.
+
 
 
 ======= 4. Property file decisions =======
@@ -127,6 +136,11 @@ is in the locking HashMap.
 The next call is to update, which checks the current thread id is the owner of the lock of the record.
 The final call unlocks the record, this is in the finally block of a try-catch to
 ensure the call is made to unlock even if an exception is caught.
+
+Client responsibility
+    The call to lock/update/unlock the record is made from the HotelFrameController.
+It is the responsibility of the client to call lock, then update, then finally unlock.
+If the unlock is not called by the client then deadlock will occur.
 
 
 
@@ -201,5 +215,13 @@ The view is represented by the HotelFrame class, it constructs the Swing GUI com
 Logging
     I used extensive logging in the application, logging as Level.SEVERE for caught exceptions and
     as Level.INFO for informative messages in the application flow.
+
+Rebooking of records
+    I do not allow re-booking of records or unbooking. It was not a must requirement
+and I believe it is a security risk. If the CSR makes a mistake when entering the number
+carelessly then they cannot unbook the record. How would the application know whether it is the same
+CSR attempting to unbook the record or another unscrupulous CSR unbooking to make a record available for that CSR's
+clients? It would have needed additional implementation and I did not feel it added value to
+the application.
 
 

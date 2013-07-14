@@ -6,9 +6,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -98,6 +99,12 @@ public class DataDBAccess {
      * LockManager instance
      */
     private LockManager locker = LockManager.getInstance();
+    
+    /**
+     * Explicit lock for creating records
+     */
+    private static ReadWriteLock createLock
+            = new ReentrantReadWriteLock();
     /**
      * Constructor that reads the header information in the database and
      * sets the offset to the start of the first record
@@ -359,6 +366,7 @@ public class DataDBAccess {
      */
     public synchronized int create(String[] data) throws DuplicateKeyException, RecordNotFoundException {
         logger.entering("DataDBAccess", "create", data);
+        int position = 0;
         if (data == null) {
             throw new IllegalArgumentException("Corrupt or invalid data");
         }
@@ -366,11 +374,23 @@ public class DataDBAccess {
         //on what makes a record unique, two records with the exact same information in the
         //database could possibly be two seperate rooms in the same hotel with the same record
         //data, it's unlikely but possible, see choices.txt for my rationale
-        try {            
-            int position = getPositionToInsert();  
-            fileObject.seek(offset + position * maxRecord);
+        try {           
+            try {
+            createLock.readLock().lock();
+            position = getPositionToInsert();  
+            fileObject.seek(offset + position * maxRecord);            
+            } finally {
+                createLock.readLock().unlock();
+            }
+            
+            try {
+            createLock.writeLock().lock();
             fileObject.writeByte(VALID);
-            fileObject.write(getDataAsByteArray(data));
+            fileObject.write(getDataAsByteArray(data));            
+            } finally {
+                createLock.writeLock().unlock();
+            }
+            
             logger.exiting("DataDBAccess", "create",
                     "Created at position: " + position);
             return position;
@@ -403,7 +423,7 @@ public class DataDBAccess {
     }
     
     /**
-     * Helper method to display all records, this method is called by default on
+     * Helper method to display all valid records, this method is called by default on
      * GUI startup by the <code>HotelFrameController</code>.
      * @return an <code>int[]</code> that holds all record numbers that correspond
      * to records in the database
@@ -422,11 +442,6 @@ public class DataDBAccess {
                 recNumArray.add(recNum);
                 recNum++;
             }
-            //for (int i = this.offset; i < this.fileObject.length();
-            //    i += this.maxRecord) {
-            //    recNumArray.add(recNum);
-            //    recNum++;
-            //}
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
             System.err.println("I/O problem found when attempting to load all"

@@ -4,9 +4,9 @@
     <import file="nbproject/build-impl.xml"/> 
     <property name="your.name" value="William Brosnan" description="your name" />
     <!-- computer settings -->
-    <property name="proxy.host" value="http.proxy www-proxy.ericsson.se" 
+    <property name="proxy.host" value="" 
         description="the host name of the proxy server (if applicable)" />
-    <property name="proxy.port" value="8080" 
+    <property name="proxy.port" value="" 
         description="the port number of the proxy server (default value = 80) (if applicable)" />
     <!-- build settings -->
     <property name="dir.output" value="output" 

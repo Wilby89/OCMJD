@@ -72,17 +72,17 @@ public class DataClassTest {
              * time, but if you want, you can increase the controller variable, 
              * so it is executed as many times as you want 
              */  
-            for (int i = 0; i < 1000; i++) {  
-                Thread updatingRandom = new UpdatingRandomRecordThread();  
-                updatingRandom.start();  
-                Thread updatingRecord1 = new UpdatingRecord1Thread();  
-                updatingRecord1.start();  
-                //Thread creatingRecord = new CreatingRecordThread();  
-                //creatingRecord.start();  
-                Thread deletingRecord = new DeletingRecord1Thread();  
-                deletingRecord.start();  
-                Thread findingRecords = new FindingRecordsThread();  
-                findingRecords.start();  
+            for (int i = 0; i < 10; i++) {  
+                //Thread updatingRandom = new UpdatingRandomRecordThread();  
+                //updatingRandom.start();  
+                //Thread updatingRecord1 = new UpdatingRecord1Thread();  
+                //updatingRecord1.start();  
+                Thread creatingRecord = new CreatingRecordThread();  
+                creatingRecord.start();  
+                //Thread deletingRecord = new DeletingRecord1Thread();  
+                //deletingRecord.start();  
+                //Thread findingRecords = new FindingRecordsThread();  
+                //findingRecords.start();  
             }  
         } catch (Exception e) {  
             System.out.println(e.getMessage());  
@@ -201,8 +201,8 @@ public class DataClassTest {
             try {  
                 System.out.println(Thread.currentThread().getId()  
                         + " trying to create a record");  
-                data.create(new String[] {"Elephant Inn", "EmeraldCity", "6", 
-                 "N", "$120.00", "2005/02/03"});  
+                data.create(new String[] {"Elephant Inn", "Emerald City", "6", 
+                 "N", "$120.00", "2005/02/03",""});  
             } catch (Exception e) {  
                 System.out.println(e);  
             }  
