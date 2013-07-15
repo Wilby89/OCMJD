@@ -151,9 +151,14 @@ public class Data implements DBMain {
             throw new RecordNotFoundException("Record not found for record"
                     + "number: " + recNo);
         }
-        //read(recNo);
-        //if the read is unsuccessful a RecordNotFoundException will be thrown
-        //and this line will not be reached
+        try {
+        read(recNo);
+        } catch (Exception ex) {
+            //The problem will be that the record has been deleted, we do not want
+            //to lock in this case.
+            logger.log(Level.SEVERE, "Problem found: " + ex.getMessage(), ex);
+            throw new RecordNotFoundException(ex.getMessage());
+        }
         lockManager.lock(recNo);
     }
 
@@ -168,10 +173,18 @@ public class Data implements DBMain {
             throw new RecordNotFoundException("Record not found for record"
                     + "number: " + recNo);
         }
-        //read(recNo);
-        //if the read is unsuccessful a RecordNotFoundException will be thrown
-        //and this line will not be reached
-        lockManager.unlock(recNo);
+        try {
+        read(recNo);
+        } catch (Exception ex) {
+            //The problem will be that the record has been deleted or the record number does not exist,
+            //we do not want to lock in this case.
+            logger.log(Level.SEVERE, "Problem found: " + ex.getMessage(), ex);
+            throw new RecordNotFoundException(ex.getMessage());
+        } finally {
+            //if the record has been deleted we still want to unlock the record
+            //in case a create wants to overwrite the deleted record
+            lockManager.unlock(recNo);
+        }
     }
 
     /**
