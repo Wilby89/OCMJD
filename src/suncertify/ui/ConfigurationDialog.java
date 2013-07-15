@@ -370,6 +370,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
                 break;
             case SERVER:
                 hostFlag = true;
+                properties.setProperty("rmiHost", "localhost");
                 if (!dbField.getText().equals("")) {   
                     dbPath = dbField.getText();
                     extension = dbPath.substring(dbPath.lastIndexOf(".") + 1, dbPath.length());
