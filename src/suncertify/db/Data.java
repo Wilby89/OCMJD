@@ -6,10 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * This class implements the DBMain interface supplied as part of the instructions.
  * 
  * @author William Brosnan
- * 
- * This class implements the DBMain interface supplied as part of the instructions.
  * 
  */
 public class Data implements DBMain {

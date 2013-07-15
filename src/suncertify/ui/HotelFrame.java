@@ -22,10 +22,9 @@ import suncertify.util.HotelUtils;
 import suncertify.util.PropertyManager;
 
 /**
- *
- * @author William Brosnan
- * 
  * This class holds the code for creating the main GUI
+ * 
+ * @author William Brosnan
  */
 public class HotelFrame extends JFrame {
     

@@ -6,11 +6,10 @@ import suncertify.db.DBMain;
 import suncertify.db.Data;
 
 /**
- * 
- * @author William Brosnan
- * 
  * This class will be used to create a connection to the database when run in
  * standalone mode, using this class will result in a direct connection to the database
+ * 
+ * @author William Brosnan
  */
 public class RoomDBConnector {
     

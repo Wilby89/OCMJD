@@ -4,10 +4,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- *
- * @author William Brosnan
- * 
  * Interface for factory implementation design pattern.
+ * 
+ * @author William Brosnan
  */
 public interface RoomDBRemoteFactory extends Remote {
     

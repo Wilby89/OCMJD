@@ -8,10 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author William Brosnan
- * 
  * This class is used to allow a client to make an RMI connection
+ * 
+ * @author William Brosnan
  */
 public class RoomConnector {
     

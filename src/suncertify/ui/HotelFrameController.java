@@ -14,11 +14,10 @@ import suncertify.util.ApplicationMode;
 import suncertify.util.RoomDBConnector;
 
 /**
- *
- * @author William Brosnan
- * 
  * Controller for the <code>HotelFrame</code> GUI class, used as a broker between
  * the GUI and the database code.
+ * 
+ * @author William Brosnan
  */
 public class HotelFrameController {
     

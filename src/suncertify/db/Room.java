@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
- *
- * @author William Brosnan
- * 
  * Object class used as a representation of a Room in the database.
+ * 
+ * @author William Brosnan
  */
 public class Room implements Serializable {
 

@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,12 +19,11 @@ import suncertify.util.ApplicationMode;
 import suncertify.util.PropertyManager;
 
 /**
- *
- * @author William Brosnan
- *
  * This class is used to display the configuration options to the user and to
  * give starting and stopping functionality to the server. This user interface
  * is seen when the application is started in server mode.
+ * 
+ * @author William Brosnan
  */
 public class HotelServerFrame extends JFrame {
 

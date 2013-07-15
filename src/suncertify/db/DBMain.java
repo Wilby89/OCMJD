@@ -1,6 +1,10 @@
 package suncertify.db;
 
-
+/**
+ * Main interface to the Data Facade
+ * 
+ * @author William Brosnan
+ */
 public interface DBMain {
   // Reads a record from the file. Returns an array where each
   // element is a record value.

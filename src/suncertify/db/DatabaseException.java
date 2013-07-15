@@ -1,11 +1,10 @@
 package suncertify.db;
 
 /**
- *
- * @author William Brosnan
- * 
  * This is the Exception class used when an exception is caught when failing to find a record.
  * It is extended by both DuplicateKeyException and RecordNotFoundException
+ * 
+ * @author William Brosnan
  */
 public class DatabaseException extends Exception {
     /**

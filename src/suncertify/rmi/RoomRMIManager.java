@@ -9,11 +9,10 @@ import java.util.logging.Logger;
 import suncertify.util.PropertyManager;
 
 /**
- * 
- * @author William Brosnan
- * 
  * This class is used to start the RMI registry and register the 
  * <code>RoomDBRemoteImpl</code> for the RMI naming service
+ * 
+ * @author William Brosnan
  */
 public class RoomRMIManager {
     

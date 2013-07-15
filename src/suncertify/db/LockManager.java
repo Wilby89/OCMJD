@@ -5,10 +5,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- *
- * @author William Brosnan
+ *This class takes care of locking and unlocking the records in the database.
  * 
- * This class takes care of locking and unlocking the records in the database
+ * @author William Brosnan
  */
 public class LockManager {
     

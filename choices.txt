@@ -115,6 +115,12 @@ PropertyManager
 The property manager deals with saving and loading of persistent properties and creates
 a suncertify.properties file if the application can not find an existing one.
 
+Server host name
+    I decided to make the server name localhost by default and not to allow the user
+to enter a hostname when starting the server, the server will always start on localhost
+and clients can enter a hostname to connect to, it will be localhost on the same machine and
+whatever the ip address of the machine is when running from another machine.
+
 
 
 ======= 5. Concurrency and locking decisions =======
@@ -137,11 +143,23 @@ The next call is to update, which checks the current thread id is the owner of t
 The final call unlocks the record, this is in the finally block of a try-catch to
 ensure the call is made to unlock even if an exception is caught.
 
+
 Client responsibility
     The call to lock/update/unlock the record is made from the HotelFrameController.
 It is the responsibility of the client to call lock, then update, then finally unlock.
 If the unlock is not called by the client then deadlock will occur.
 
+
+Locking/Unlocking
+    When attempting to lock the lock method in the data Facade will attempt to read
+the record number, if the read is not successful the record number will not be locked.
+A RecordNotFoundException will be thrown in accordance with the instructions.
+This is to prevent random record numbers that do not have corresponding records in the database
+from being added into the locking map.
+    When attempting to unlock the unlock method in the data Facade will attempt to read as well.
+If the read is not successful (for reasons like record has just been deleted) the unlock will still
+remove the record number entry from the locking map, keeping the locking map clean.
+A RecordNotFoundException will be thrown in accordance with the instructions.
 
 
 

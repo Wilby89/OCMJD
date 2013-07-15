@@ -5,10 +5,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Logger;
 
 /**
- *
- * @author William Brosnan
- * 
  * Implementation class of the <code>RoomDBRemoteFactory</code> interface
+ * 
+ * @author William Brosnan
  */
 public class RoomDBRemoteFactoryImpl extends UnicastRemoteObject implements RoomDBRemoteFactory {
     
