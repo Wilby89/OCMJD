@@ -151,7 +151,7 @@ public class Data implements DBMain {
             throw new RecordNotFoundException("Record not found for record"
                     + "number: " + recNo);
         }
-        read(recNo);
+        //read(recNo);
         //if the read is unsuccessful a RecordNotFoundException will be thrown
         //and this line will not be reached
         lockManager.lock(recNo);
@@ -168,7 +168,7 @@ public class Data implements DBMain {
             throw new RecordNotFoundException("Record not found for record"
                     + "number: " + recNo);
         }
-        read(recNo);
+        //read(recNo);
         //if the read is unsuccessful a RecordNotFoundException will be thrown
         //and this line will not be reached
         lockManager.unlock(recNo);

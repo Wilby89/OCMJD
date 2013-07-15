@@ -99,12 +99,11 @@ public class DataDBAccess {
      * LockManager instance
      */
     private LockManager locker = LockManager.getInstance();
-    
     /**
-     * Explicit lock for creating records
+     * A static object to synchronize on
      */
-    private static ReadWriteLock createLock
-            = new ReentrantReadWriteLock();
+    private final static String mutex = new String("MUTEX");
+    
     /**
      * Constructor that reads the header information in the database and
      * sets the offset to the start of the first record
@@ -144,24 +143,26 @@ public class DataDBAccess {
      * @return a <code>String[]</code> holding the field values of a record
      * @throws RecordNotFoundException 
      */
-    public synchronized String[] read(int recNo) throws RecordNotFoundException {
+    public String[] read(int recNo) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "read", recNo);
-        try {
-            fileObject.seek(offset + recNo * maxRecord);
-            byte[] record = new byte[maxRecord];
-            int tempRecordLength = fileObject.read(record);
-            if (tempRecordLength != maxRecord) {
-                throw new RecordNotFoundException("Record not found or record size does not match");
+        synchronized (mutex) {
+            try {
+                fileObject.seek(offset + recNo * maxRecord);
+                byte[] record = new byte[maxRecord];
+                int tempRecordLength = fileObject.read(record);
+                if (tempRecordLength != maxRecord) {
+                    throw new RecordNotFoundException("Record not found or record size does not match");
+                }
+                if (record[0] == DELETED) {
+                    throw new RecordNotFoundException("The record " + recNo + " has been deleted" );
+                }
+                logger.exiting("DataDBAccess", "read");
+                return parseRecord(new String(record, ENCODING));
+
+            } catch (Exception e) {
+                throw new RecordNotFoundException("The record: " + recNo 
+                        + " was not found, " + e.getMessage());
             }
-            if (record[0] == DELETED) {
-                throw new RecordNotFoundException("The record " + recNo + " has been deleted" );
-            }
-            logger.exiting("DataDBAccess", "read");
-            return parseRecord(new String(record, ENCODING));
-            
-        } catch (Exception e) {
-            throw new RecordNotFoundException("The record: " + recNo 
-                    + " was not found, " + e.getMessage());
         }
     }
     
@@ -173,13 +174,14 @@ public class DataDBAccess {
     private String[] parseRecord(String record) {
         int startIndex = 1;
         String[] recordValue = new String[fieldColumnNames.length];
-        
-        for (int i = 0; i < fieldColumnNames.length; i++ ) {
-            int fieldLength = fieldMap.get(fieldColumnNames[i]).intValue();
-            recordValue[i] = record.substring(startIndex, startIndex + fieldLength);
-            startIndex += fieldLength;
+        synchronized (mutex) {
+            for (int i = 0; i < fieldColumnNames.length; i++ ) {
+                int fieldLength = fieldMap.get(fieldColumnNames[i]).intValue();
+                recordValue[i] = record.substring(startIndex, startIndex + fieldLength);
+                startIndex += fieldLength;
+            }
+            return recordValue;
         }
-        return recordValue;
     }
     
     /**
@@ -190,43 +192,45 @@ public class DataDBAccess {
      * @throws RecordNotFoundException
      * @throws DatabaseException
      */
-    public synchronized void update(int recNo, String[] data) 
+    public void update(int recNo, String[] data) 
             throws RecordNotFoundException, DatabaseException {
         logger.entering("DataDBAccess", "update", recNo);
-        final Long lockCookie = Thread.currentThread().getId();
-        Long ownerCookieValue = locker.getOwner(recNo);
-        
-        if (recNo < 0) {
-            throw new RecordNotFoundException("Record not found for record"
-                    + " number: " + recNo);
-        }
-        
-        if (ownerCookieValue == null) {
-            throw new DatabaseException("Record is not locked: " + recNo);
-        }
-        
-        if (ownerCookieValue.equals(lockCookie)) {
-            try {
-                fileObject.seek(offset + recNo * maxRecord);
-                byte[] record = new byte[maxRecord];
-                int tempRecordLength = fileObject.read(record);
-                if (tempRecordLength != maxRecord) {
-                    throw new RecordNotFoundException("Record not found or record size does not match");
-                }
-                if (record[0] == DELETED) {
-                    throw new RecordNotFoundException("The record " + recNo + " has been deleted" );
-                }
-                fileObject.seek(offset + recNo * maxRecord);
-                fileObject.writeByte(VALID);
-                fileObject.write(getDataAsByteArray(data));
-            } catch (Exception e) {
-                throw new RecordNotFoundException("The record: " + recNo 
-                    + " was not found, " + e.getMessage());
+        synchronized (mutex) {
+            final Long lockCookie = Thread.currentThread().getId();
+            Long ownerCookieValue = locker.getOwner(recNo);
+
+            if (recNo < 0) {
+                throw new RecordNotFoundException("Record not found for record"
+                        + " number: " + recNo);
             }
-        }
-        else {
-            throw new DatabaseException("Record already locked by another"
-                    + " client: " + recNo);
+
+            if (ownerCookieValue == null) {
+                throw new DatabaseException("Record is not locked: " + recNo);
+            }
+
+            if (ownerCookieValue.equals(lockCookie)) {
+                try {
+                    fileObject.seek(offset + recNo * maxRecord);
+                    byte[] record = new byte[maxRecord];
+                    int tempRecordLength = fileObject.read(record);
+                    if (tempRecordLength != maxRecord) {
+                        throw new RecordNotFoundException("Record not found or record size does not match");
+                    }
+                    if (record[0] == DELETED) {
+                        throw new RecordNotFoundException("The record " + recNo + " has been deleted" );
+                    }
+                    fileObject.seek(offset + recNo * maxRecord);
+                    fileObject.writeByte(VALID);
+                    fileObject.write(getDataAsByteArray(data));
+                } catch (Exception e) {
+                    throw new RecordNotFoundException("The record: " + recNo 
+                        + " was not found, " + e.getMessage());
+                }
+            }
+            else {
+                throw new DatabaseException("Record already locked by another"
+                        + " client: " + recNo);
+            }
         }
         logger.exiting("DataDBAccess", "update", data);
     }
@@ -263,40 +267,42 @@ public class DataDBAccess {
      * @param recNo
      * @throws RecordNotFoundException 
      */
-    public synchronized void delete(int recNo) throws RecordNotFoundException, DatabaseException {
+    public void delete(int recNo) throws RecordNotFoundException, DatabaseException {
         logger.entering("DataDBAccess", "delete", recNo);
-        final Long lockCookie = Thread.currentThread().getId();
-        Long ownerCookieValue = locker.getOwner(recNo);
-        if (recNo < 0) {
-            throw new RecordNotFoundException("Record not found for record"
-                    + " number: " + recNo);
-        }
-        if (ownerCookieValue == null) {
-            throw new DatabaseException("Record is not locked: " + recNo);
-        }
-        
-        if (ownerCookieValue.equals(lockCookie)) {
-            try {
-                fileObject.seek(offset + recNo * maxRecord);
-                byte[] record = new byte[maxRecord];
-                int tempRecordLength = fileObject.read(record);
-                if (tempRecordLength != maxRecord) {
-                    throw new RecordNotFoundException("Record not found or record size does not match");
-                }
-                if (record[0] == DELETED) {
-                    throw new RecordNotFoundException
-                            ("The record " + recNo + " has already been deleted" );
-                }
-                fileObject.seek(offset + recNo * maxRecord);
-                fileObject.writeByte(DELETED);
-            } catch (Exception e) {
-                throw new RecordNotFoundException("The record: " + recNo 
-                    + " was not found, " + e.getMessage());
+        synchronized (mutex) {
+            final Long lockCookie = Thread.currentThread().getId();
+            Long ownerCookieValue = locker.getOwner(recNo);
+            if (recNo < 0) {
+                throw new RecordNotFoundException("Record not found for record"
+                        + " number: " + recNo);
             }
-        }
-        else {
-            throw new DatabaseException("Record already locked by another"
-                    + " client: " + recNo);
+            if (ownerCookieValue == null) {
+                throw new DatabaseException("Record is not locked: " + recNo);
+            }
+
+            if (ownerCookieValue.equals(lockCookie)) {
+                try {
+                    fileObject.seek(offset + recNo * maxRecord);
+                    byte[] record = new byte[maxRecord];
+                    int tempRecordLength = fileObject.read(record);
+                    if (tempRecordLength != maxRecord) {
+                        throw new RecordNotFoundException("Record not found or record size does not match");
+                    }
+                    if (record[0] == DELETED) {
+                        throw new RecordNotFoundException
+                                ("The record " + recNo + " has already been deleted" );
+                    }
+                    fileObject.seek(offset + recNo * maxRecord);
+                    fileObject.writeByte(DELETED);
+                } catch (Exception e) {
+                    throw new RecordNotFoundException("The record: " + recNo 
+                        + " was not found, " + e.getMessage());
+                }
+            }
+            else {
+                throw new DatabaseException("Record already locked by another"
+                        + " client: " + recNo);
+            }
         }
         logger.exiting("DataDBAccess", "delete");
     }
@@ -313,45 +319,47 @@ public class DataDBAccess {
      * the records in the database
      * @throws RecordNotFoundException 
      */
-    public synchronized int[] find(String[] criteria) throws RecordNotFoundException {
+    public int[] find(String[] criteria) throws RecordNotFoundException {
         logger.entering("DataDBAccess", "find", criteria);
-        ArrayList<Integer> foundArray = new ArrayList<Integer>();
-        String[] recordData;
-        int[] results;
-        if (criteria[0] == null && criteria[1] == null) {
-            return findAllRecords();
-        }
-        else if (!criteria[0].equals("") && criteria[1].equals("")) {
-            results = findAllRecords();
-            for (int i = 0; i < results.length; i++) {
-                recordData = this.read(i);            
-                if (recordData[0].startsWith(criteria[0])) {
-                    foundArray.add(i);
-                }
+        synchronized (mutex) {
+            ArrayList<Integer> foundArray = new ArrayList<Integer>();
+            String[] recordData;
+            int[] results;
+            if (criteria[0] == null && criteria[1] == null) {
+                return findAllRecords();
             }
-            return intArrayConvert(foundArray);
-        }
-        else if (criteria[0].equals("") && !criteria[1].equals("")) {
-            results = findAllRecords();
-            for (int i = 0; i < results.length; i++) {
-                recordData = this.read(i);            
-                if (recordData[1].startsWith(criteria[1])) {
-                    foundArray.add(i);
+            else if (!criteria[0].equals("") && criteria[1].equals("")) {
+                results = findAllRecords();
+                for (int i = 0; i < results.length; i++) {
+                    recordData = this.read(i);            
+                    if (recordData[0].startsWith(criteria[0])) {
+                        foundArray.add(i);
+                    }
                 }
+                return intArrayConvert(foundArray);
             }
-            return intArrayConvert(foundArray);
-        }
-        else {
-            results = findAllRecords();
-            for (int i = 0; i < results.length; i++) {
-                recordData = this.read(i);            
-                if (recordData[0].startsWith(criteria[0]) && recordData[1].startsWith(criteria[1])) {
-                    foundArray.add(i);
+            else if (criteria[0].equals("") && !criteria[1].equals("")) {
+                results = findAllRecords();
+                for (int i = 0; i < results.length; i++) {
+                    recordData = this.read(i);            
+                    if (recordData[1].startsWith(criteria[1])) {
+                        foundArray.add(i);
+                    }
                 }
+                return intArrayConvert(foundArray);
             }
-            logger.exiting("DataDBAccess", "find");
-            return intArrayConvert(foundArray);
-        }        
+            else {
+                results = findAllRecords();
+                for (int i = 0; i < results.length; i++) {
+                    recordData = this.read(i);            
+                    if (recordData[0].startsWith(criteria[0]) && recordData[1].startsWith(criteria[1])) {
+                        foundArray.add(i);
+                    }
+                }
+                logger.exiting("DataDBAccess", "find");
+                return intArrayConvert(foundArray);
+            }   
+        }
     }
     
     /**
@@ -364,38 +372,29 @@ public class DataDBAccess {
               if a duplicate key is detected when creating record.
      * @throws RecordNotFoundException
      */
-    public synchronized int create(String[] data) throws DuplicateKeyException, RecordNotFoundException {
+    public int create(String[] data) throws DuplicateKeyException, RecordNotFoundException {
         logger.entering("DataDBAccess", "create", data);
-        int position = 0;
-        if (data == null) {
-            throw new IllegalArgumentException("Corrupt or invalid data");
-        }
-        //Method does not throw a DuplicateKeyException as there is no set criteria
-        //on what makes a record unique, two records with the exact same information in the
-        //database could possibly be two seperate rooms in the same hotel with the same record
-        //data, it's unlikely but possible, see choices.txt for my rationale
-        try {           
-            try {
-            createLock.readLock().lock();
-            position = getPositionToInsert();  
-            fileObject.seek(offset + position * maxRecord);            
-            } finally {
-                createLock.readLock().unlock();
+        synchronized (mutex) {
+            int position = 0;
+            if (data == null) {
+                throw new IllegalArgumentException("Corrupt or invalid data");
             }
-            
-            try {
-            createLock.writeLock().lock();
-            fileObject.writeByte(VALID);
-            fileObject.write(getDataAsByteArray(data));            
-            } finally {
-                createLock.writeLock().unlock();
+            //Method does not throw a DuplicateKeyException as there is no set criteria
+            //on what makes a record unique, two records with the exact same information in the
+            //database could possibly be two seperate rooms in the same hotel with the same record
+            //data, it's unlikely but possible, see choices.txt for my rationale
+            try {                      
+                position = getPositionToInsert();  
+                fileObject.seek(offset + position * maxRecord);                                              
+                fileObject.writeByte(VALID);
+                fileObject.write(getDataAsByteArray(data));                        
+
+                logger.exiting("DataDBAccess", "create",
+                        "Created at position: " + position);
+                return position;
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
-            
-            logger.exiting("DataDBAccess", "create",
-                    "Created at position: " + position);
-            return position;
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
         }
     }
     
