@@ -27,7 +27,7 @@ public class LockManager {
     
     /**
      * Return the singleton instance
-     * @return 
+     * @return the instance to the calling class
      */
     public static LockManager getInstance() {
         return instance;

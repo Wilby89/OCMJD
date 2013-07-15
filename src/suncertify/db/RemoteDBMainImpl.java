@@ -45,7 +45,7 @@ public class RemoteDBMainImpl implements RemoteDBMain {
      * Reads a record from the file. Returns an array where each
      * element is a record value.
      * @param recNo
-     * @return
+     * @return A string array containing the records
      * @throws RecordNotFoundException
      * @throws RemoteException 
      */
@@ -87,7 +87,8 @@ public class RemoteDBMainImpl implements RemoteDBMain {
      * value that begins with criteria[n]. (For example, "Fred"
      * matches "Fred" or "Freddy".)
      * @param criteria
-     * @return
+     * @return 
+           An integer array containing the record numbers matching the search criteria
      * @throws RecordNotFoundException
      * @throws RemoteException 
      */
@@ -101,7 +102,7 @@ public class RemoteDBMainImpl implements RemoteDBMain {
      * deleted entry). Inserts the given data, and returns the record
      * number of the new record.
      * @param data
-     * @return
+     * @return an integer signifying the record number of the newly created record
      * @throws DuplicateKeyException
      * @throws RemoteException 
      */
@@ -138,7 +139,7 @@ public class RemoteDBMainImpl implements RemoteDBMain {
      * Determines if a record is currently locked. Returns true if the
      * record is locked, false otherwise.
      * @param recNo
-     * @return
+     * @return a boolean signifying if the record is locked or not
      * @throws RecordNotFoundException
      * @throws RemoteException 
      */

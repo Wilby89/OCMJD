@@ -131,7 +131,7 @@ public class HotelServerFrame extends JFrame {
     /**
      * Status panel holds components that allow the user to see what options 
      * the server will attempt to run with
-     * @return 
+     * @return The JPanel holding the components
      */
     private JPanel loadStatusPanel() {
         JPanel statusPanel = new JPanel();
@@ -174,7 +174,7 @@ public class HotelServerFrame extends JFrame {
 
     /**
      * This panel holds the start button for the server and an exit button
-     * @return 
+     * @return The JPanel holding the components
      */
     private JPanel loadServerControlPanel() {
         JPanel controlPanel = new JPanel();

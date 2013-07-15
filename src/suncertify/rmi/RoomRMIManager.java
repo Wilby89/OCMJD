@@ -79,7 +79,7 @@ public class RoomRMIManager {
     
     /**
      * Returns the running state of the server
-     * @return 
+     * @return a boolean signifying if the server has been started
      */
     public static boolean isServerStarted() {
         if (status.equals(RunningStatus.RUNNING)) {
